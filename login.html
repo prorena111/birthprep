@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>출산펭귄 로그인</title>
+<!--
+  Supabase Auth의 Site URL. 로그인이 성공하면 앱의 딥링크
+  (kr.birthprep.allinone://login-callback)로 가므로 이 페이지는 안 보인다.
+  동의 화면을 오래 두어 state가 만료되거나, 사용자가 취소했을 때처럼
+  로그인이 중간에 끊기면 Supabase가 ?error=…를 붙여 여기로 보낸다.
+  GitHub Pages: https://prorena111.github.io/birthprep/login.html
+-->
+<style>
+  :root { --ink: #1a1a1a; --soft: #666; --bg: #fffdf2; --yellow: #ffe500; --red: #e8412c; --line: #1a1a1a; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif; line-height: 1.7; }
+  header { background: var(--yellow); border-bottom: 2.5px solid var(--line); padding: 20px 16px; }
+  header h1 { margin: 0 auto; max-width: 640px; font-size: 22px; }
+  main { max-width: 640px; margin: 0 auto; padding: 16px; }
+  section { background: #fff; border: 2px solid var(--line); border-radius: 8px; padding: 14px 16px; margin: 14px 0; }
+  .btn { display: inline-block; background: var(--red); color: #fff; font-weight: 700; text-decoration: none; border: 2px solid var(--line); border-radius: 8px; padding: 10px 16px; }
+  .soft { color: var(--soft); font-size: 14px; }
+  a { color: #0b57d0; }
+</style>
+</head>
+<body>
+<header><h1>출산펭귄 — 로그인</h1></header>
+<main>
+  <section>
+    <h2 id="title" style="font-size:18px;margin:0 0 8px">로그인이 끝나지 않았어요</h2>
+    <p id="why">로그인 화면에서 시간이 오래 지났거나 취소하면 이 화면이 보여요.
+    앱으로 돌아가 <b>로그인 버튼을 다시 눌러 주세요.</b> 기록은 그대로 있어요.</p>
+    <p><a class="btn" href="kr.birthprep.allinone://login-callback">출산펭귄 앱 열기</a></p>
+    <p class="soft">버튼이 안 되면 이 창을 닫고 휴대폰에서 출산펭귄 앱을 직접 열어 주세요.</p>
+  </section>
+  <p class="soft"><a href="./">출산펭귄 홈</a> · <a href="privacy.html">개인정보처리방침</a></p>
+</main>
+<script>
+  // 오류 없이 이 주소로 왔다면(드문 경우) 제목만 부드럽게 바꾼다.
+  var q = location.search + location.hash;
+  if (q.indexOf('error') === -1) {
+    document.getElementById('title').textContent = '앱으로 돌아가 주세요';
+    document.getElementById('why').textContent = '로그인은 출산펭귄 앱 안에서 이어집니다. 아래 버튼으로 앱을 열어 주세요.';
+  }
+</script>
+</body>
+</html>
