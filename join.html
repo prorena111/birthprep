@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>출산펭귄 함께 쓰기 초대</title>
+<meta property="og:title" content="출산펭귄 — 같이 준비해요">
+<meta property="og:description" content="누르면 출산펭귄 앱에서 배우자와 함께 쓰기로 연결돼요.">
+<!--
+  배우자 초대 링크(앱의 inviteMessage). 카카오톡은 https:// 주소만 누를 수 있게
+  만들어서, 앱 딥링크(kr.birthprep.allinone://join?c=…)를 이 페이지의 버튼이 대신
+  연다. 안드로이드 크롬·카카오톡 브라우저는 intent:// 주소를 쓰면 앱이 없을 때
+  플레이 스토어로 넘어간다.
+  GitHub Pages: https://prorena111.github.io/birthprep/join.html?c=ABCD2345
+  원본은 앱 저장소 docs/pages/join.html.
+-->
+<style>
+  :root { --ink: #1a1a1a; --soft: #666; --bg: #fffdf2; --yellow: #ffe500; --red: #e8412c; --line: #1a1a1a; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif; line-height: 1.7; }
+  header { background: var(--yellow); border-bottom: 2.5px solid var(--line); padding: 20px 16px; }
+  header h1 { margin: 0 auto; max-width: 640px; font-size: 22px; }
+  main { max-width: 640px; margin: 0 auto; padding: 16px; }
+  section { background: #fff; border: 2px solid var(--line); border-radius: 8px; padding: 16px; margin: 14px 0; }
+  .btn { display: block; text-align: center; background: var(--red); color: #fff; font-weight: 800; font-size: 18px; text-decoration: none; border: 2px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .btn.sub { background: #fff; color: var(--ink); font-size: 15px; padding: 10px 14px; margin-top: 10px; }
+  .code { font-size: 32px; font-weight: 900; letter-spacing: 4px; text-align: center; background: var(--yellow); border: 2px solid var(--line); border-radius: 8px; padding: 8px; margin: 8px 0; }
+  .soft { color: var(--soft); font-size: 14px; }
+  ol { padding-left: 20px; }
+  a { color: #0b57d0; }
+</style>
+</head>
+<body>
+<header><h1>출산펭귄 — 같이 준비해요</h1></header>
+<main>
+  <section>
+    <p style="margin-top:0"><b>배우자가 출산펭귄 「함께 쓰기」에 초대했어요.</b>
+    아래 버튼을 누르면 앱이 열리고 코드가 채워져 있어요. 「함께 쓰기 시작」만 누르면 연결돼요.</p>
+    <a id="open" class="btn" href="#">출산펭귄 앱에서 열기</a>
+    <a id="store" class="btn sub" href="https://play.google.com/store/apps/details?id=kr.birthprep.allinone">앱이 없어요 — Google Play에서 받기</a>
+  </section>
+
+  <section id="manual">
+    <p style="margin-top:0"><b>버튼이 안 되면</b> 이 코드를 넣어 주세요.</p>
+    <div id="code" class="code">—</div>
+    <ol class="soft">
+      <li>출산펭귄 앱 → 아래 <b>내 준비</b> 탭</li>
+      <li><b>백업 · 배우자와 함께 쓰기</b> → <b>배우자에게 받은 코드 넣기</b></li>
+      <li>위 여덟 글자를 넣고 <b>함께 쓰기 시작</b></li>
+    </ol>
+    <p class="soft">코드는 만든 뒤 3일 동안, 한 번만 쓸 수 있어요. 지났다면 배우자에게 다시 보내 달라고 해 주세요.</p>
+  </section>
+
+  <p class="soft">로그인하지 않아도 함께 쓸 수 있어요. 출산예정일 같은 건강 정보는 서버로 보내지 않아요.
+  <a href="privacy.html">개인정보처리방침</a> · <a href="./">출산펭귄 홈</a></p>
+</main>
+<script>
+  // 코드는 서버가 헷갈리는 글자(0·O·1·I)를 빼고 뽑는다. 모양이 다르면 쓰지 않는다.
+  var raw = (new URLSearchParams(location.search).get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  var ok = /^[A-HJ-NP-Z2-9]{8}$/.test(raw);
+  var store = 'https://play.google.com/store/apps/details?id=kr.birthprep.allinone';
+  var open = document.getElementById('open');
+  if (ok) {
+    document.getElementById('code').textContent = raw.slice(0, 4) + '-' + raw.slice(4);
+    var deep = 'kr.birthprep.allinone://join?c=' + raw;
+    var android = /android/i.test(navigator.userAgent);
+    // 안드로이드는 intent:// — 앱이 없으면 브라우저가 플레이 스토어로 보낸다.
+    open.href = android
+      ? 'intent://join?c=' + raw + '#Intent;scheme=kr.birthprep.allinone;package=kr.birthprep.allinone;S.browser_fallback_url=' + encodeURIComponent(store) + ';end'
+      : deep;
+  } else {
+    document.getElementById('code').textContent = '코드 없음';
+    open.href = store;
+    open.textContent = '출산펭귄 받기';
+  }
+</script>
+</body>
+</html>
