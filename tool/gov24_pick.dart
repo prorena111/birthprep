@@ -42,11 +42,45 @@ const sidoNames = [
 bool isLocalOrg(String org) =>
     sidoNames.any((s) => org == s || org.startsWith('$s '));
 
-/// 나라(중앙부처·공공기관) 기관인지 — 시·도 이름으로 시작하지 않는 기관.
+/// 나라 기관인지 — 중앙행정기관(○○부·○○처·○○청·○○위원회)과 나라
+/// 공공기관(국민·국립·한국·대한·근로복지…로 시작).
 ///
-/// 시·도 이름에 붙여 쓴 공단·의료원·교육청([isLocalOrg]가 뺀 것)은
-/// 나라도 아니다 — 둘 다에서 빠진다.
-bool isNationOrg(String org) => !sidoNames.any(org.startsWith);
+/// 처음(2026-09-26)에는 「시·도 이름으로 시작하지 않으면 나라」로 봤더니
+/// 「용산구시설관리공단」·「구리도시공사」·「재단법인목포인재육성재단」 같은 지역
+/// 공단·재단이 나라 칸에 섞였다. 그래서 나라인 것만 이름 꼴로 고른다.
+/// 「인천국제공항공사」처럼 도시 이름으로 시작하는 나라 공기업은 빠지지만,
+/// 지역 것이 나라로 보이는 것보다 낫다. 교육(지원)청은 지역이다.
+///
+/// **앱의 `isNationOrg`(lib/data/catalog/local_supports.dart)와 같은 규칙이다** —
+/// 검사가 대조한다.
+bool isNationOrg(String org) {
+  final t = org.trim();
+  if (sidoNames.any(t.startsWith)) return false;
+  if (t.endsWith('교육청') || t.endsWith('교육지원청')) return false;
+  return nationOrgSuffixes.any(t.endsWith) ||
+      nationOrgPrefixes.any(t.startsWith);
+}
+
+/// 중앙행정기관 이름 끝 — 보건복지부·인사혁신처·질병관리청·금융위원회.
+const nationOrgSuffixes = ['부', '처', '청', '위원회'];
+
+/// 나라 공공기관 이름 머리 — 국민건강보험공단·국립중앙의료원·한국전력공사·
+/// 대한법률구조공단·근로복지공단.
+const nationOrgPrefixes = ['국민', '국립', '한국', '대한', '근로복지'];
+
+/// 나라 것이 임신·출산·육아 이야기인지 — **이름**으로만 본다.
+///
+/// 목적 요약까지 보면 「상병급여」·「체불임금 소송대리」·「공무원 응시수수료
+/// 면제」처럼 요약에 임산부가 한 번 나오는 나라 서비스가 걸렸다(2026-09-26 첫
+/// 실행). 나라 것은 제도 이름이 곧 무엇인지 말해 준다. 입양·선천성 검사·
+/// 해산급여·모자보건·보육료도 이 앱 사람들이 받는 것이라 더한다.
+bool isNationAboutBirth(String name) {
+  if (_notBirthWords.any(name.contains)) return false;
+  final n = _falseFriends(name);
+  return _birthWords.any(n.contains) || _nationNameWords.any(n.contains);
+}
+
+const _nationNameWords = ['입양', '선천성', '해산', '모자', '보육', '맘편한'];
 
 /// 임신·출산·육아 이야기인지 — 서비스 이름과 목적 요약으로 본다.
 ///
@@ -57,10 +91,14 @@ bool isAboutBirth(String name, String? summary) {
   // 「가정위탁 양육보조금」·「장수수당(1922년 이전 출생)」·「유기동물 입양」은
   // 낱말이 겹쳐도 이 앱 이야기가 아니다.
   if (_notBirthWords.any(name.contains)) return false;
-  // 「아이디어」의 「아이」는 아기가 아니다.
-  final text = '$name ${summary ?? ''}'.replaceAll('아이디어', '');
+  final text = _falseFriends('$name ${summary ?? ''}');
   return _birthWords.any(text.contains);
 }
+
+/// 낱말 속에 우연히 든 것을 걷는다 — 「아이디어」의 「아이」, 「체불임금」의
+/// 「불임」(체불임금 소송 지원이 난임으로 걸렸다, 2026-09-26).
+String _falseFriends(String text) =>
+    text.replaceAll('아이디어', '').replaceAll('체불임금', '');
 
 const _birthWords = [
   '임신', '임산부', '임부', '출산', '산모', '산후', '산전', '분만', '산부인과',
@@ -94,6 +132,7 @@ class CuratedProgram {
     this.id, {
     required this.serviceIds,
     required this.names,
+    this.watched = true,
   });
 
   /// 앱의 제도 번호(S01…).
@@ -105,6 +144,11 @@ class CuratedProgram {
   /// 서비스 이름에 들어 있는 말(띄어쓰기·가운뎃점은 무시하고 본다).
   final List<String> names;
 
+  /// 정부24 글을 매달 지켜보는지. 정부24 공공서비스 목록에 나라 쪽 글이 없는
+  /// 제도는 못 지켜본다 — 사람의 1년 대조(tool/support_update.md)로 챙긴다.
+  /// 이름([names])은 그래도 「그 밖에」 목록에서 빼는 데 쓴다.
+  final bool watched;
+
   /// 나라 기관의 이 서비스가 이 제도인지.
   bool matches(String serviceId, String name) {
     if (serviceIds.contains(serviceId)) return true;
@@ -113,17 +157,19 @@ class CuratedProgram {
   }
 }
 
-/// 서비스ID는 2026-09-26 정부24 원문에서 확인했다. 부모급여·도시가스는
-/// 못 찾아 이름으로 찾는다(첫 실행이 찾은 번호를 central_watch.json에 적는다).
+/// 서비스ID는 2026-09-26 정부24 원문과 첫 자동 실행으로 확인했다.
+/// **부모급여는 정부24 공공서비스 목록에 나라 쪽 글이 없다**(지역판 「충청북도
+/// 보은군 부모급여 지원」 하나뿐) — 지켜보지 않는다. 도시가스는 첫 실행이 이름으로
+/// 찾은 「사회적 배려대상자 도시가스요금 경감」(한국가스공사).
 const curatedPrograms = [
   CuratedProgram('S01', serviceIds: ['SD0000007672'], names: ['임신·출산 진료비']),
   CuratedProgram('S02', serviceIds: ['135200005015'], names: ['첫만남이용권']),
-  CuratedProgram('S03', serviceIds: [], names: ['부모급여']),
+  CuratedProgram('S03', serviceIds: [], names: ['부모급여'], watched: false),
   CuratedProgram('S04', serviceIds: ['135200000120'], names: ['아동수당']),
   CuratedProgram('S05', serviceIds: ['B41000200003'], names: ['전기 요금 복지할인']),
   CuratedProgram('S06', serviceIds: ['PTR000050390'], names: ['산모·신생아 건강관리']),
   CuratedProgram('S07', serviceIds: ['999000000008'], names: ['육아휴직급여']),
-  CuratedProgram('S08', serviceIds: [], names: ['도시가스']),
+  CuratedProgram('S08', serviceIds: ['B55121000003'], names: ['도시가스']),
 ];
 
 /// 띄어쓰기·가운뎃점을 걷은 이름 — 「임신ㆍ출산 진료비」와 「임신·출산진료비」를
@@ -172,7 +218,11 @@ Gov24Pick pickSupports(List<Map<String, Object?>> services) {
     if (!local && !isNationOrg(org)) continue;
     final field = cleanText(row['서비스분야']) ?? '';
     final summary = cleanText(row['서비스목적요약']);
-    if (!isAboutBirth(name, summary) && !field.contains('임신')) continue;
+    // 지자체는 이름·목적으로, 나라는 이름으로 본다([isNationAboutBirth]).
+    final aboutBirth = local
+        ? isAboutBirth(name, summary)
+        : isNationAboutBirth(name);
+    if (!aboutBirth && !field.contains('임신')) continue;
     if (!isForPeople(row['사용자구분'])) continue;
     if (!local && curatedPrograms.any((p) => p.matches(id, name))) {
       curated++;

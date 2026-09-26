@@ -42,7 +42,11 @@ enum WatchStatus {
   notFound('못 찾음'),
 
   /// 이름으로 찾았는데 여럿이다 — 사람이 번호를 골라 적는다.
-  ambiguous('여럿이 걸림');
+  ambiguous('여럿이 걸림'),
+
+  /// 정부24 목록에 나라 쪽 글이 없어 지켜보지 않는다(부모급여). 확인 시점은
+  /// 사람의 1년 대조로만 오른다.
+  skipped('지켜보지 않음');
 
   const WatchStatus(this.label);
 
@@ -115,23 +119,24 @@ bool _sameText(Object? a, Object? b) {
 ///
 /// [baseline]은 central_watch.json(없으면 빈 것), [services]는 정부24
 /// serviceList 전체, [accept]는 사람이 받아들인 제도(`all`이면 전부).
+/// [programs]는 검사에서만 바꾼다.
 WatchReport watchCentral({
   required Map<String, Object?> baseline,
   required List<Map<String, Object?>> services,
   Set<String> accept = const {},
+  List<CuratedProgram> programs = curatedPrograms,
 }) {
   final byId = <String, Map<String, Object?>>{
-    for (final row in services)
-      ?cleanText(row['서비스ID']): row,
+    for (final row in services) ?cleanText(row['서비스ID']): row,
   };
   final oldPrograms = baseline['programs'] is Map
       ? (baseline['programs'] as Map).cast<String, Object?>()
       : <String, Object?>{};
-  final programs = <String, Object?>{};
+  final nextPrograms = <String, Object?>{};
   final status = <String, WatchStatus>{};
   final notes = <WatchNote>[];
 
-  for (final p in curatedPrograms) {
+  for (final p in programs) {
     final old = oldPrograms[p.id] is Map
         ? (oldPrograms[p.id] as Map).cast<String, Object?>()
         : <String, Object?>{};
@@ -142,6 +147,11 @@ WatchReport watchCentral({
         ? (old['pending'] as Map).cast<String, Object?>()
         : <String, Object?>{};
     final accepting = accept.contains('all') || accept.contains(p.id);
+
+    if (!p.watched) {
+      status[p.id] = WatchStatus.skipped;
+      continue;
+    }
 
     // 지켜볼 서비스 번호 — 적어 둔 것 → 코드에 적은 것 → 이름으로 찾기.
     var ids = known.keys.toList();
@@ -168,7 +178,7 @@ WatchReport watchCentral({
             '맞는 번호를 `gov24_pick.dart`의 `curatedPrograms`에 적어 주세요.',
           ]),
         );
-        programs[p.id] = old;
+        nextPrograms[p.id] = old;
         continue;
       }
       ids = ['${found.single['서비스ID']}'];
@@ -220,7 +230,7 @@ WatchReport watchCentral({
     if (result.needsHuman || result == WatchStatus.added) {
       notes.add(WatchNote(p.id, result, lines));
     }
-    programs[p.id] = {
+    nextPrograms[p.id] = {
       'services': nextKnown,
       if (nextPending.isNotEmpty) 'pending': nextPending,
     };
@@ -234,7 +244,7 @@ WatchReport watchCentral({
       'about':
           '정부24에서 나라 제도 여덟 가지의 글을 지켜본다. services는 사람이 확인한 '
           '글이고, pending은 그 뒤 바뀐 글(사람이 볼 때까지 확인 시점을 안 올린다).',
-      'programs': programs,
+      'programs': nextPrograms,
     },
   );
 }
