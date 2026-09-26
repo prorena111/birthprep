@@ -79,6 +79,8 @@ Future<MonthlyResult> runMonthly({
   ConvertLinks? convertLinks,
   Set<String> accept = const {},
   bool onlyCoupang = false,
+  bool allowShrink = false,
+  bool scheduled = false,
   String Function(Object)? hide,
 }) async {
   String safe(Object e) => hide == null ? '$e' : hide(e);
@@ -89,7 +91,31 @@ Future<MonthlyResult> runMonthly({
   final before = jsonEncode(data);
   final attention = <String>[];
   final summary = <String>['## 매달 데이터 갱신 ${dayOf(now)}', ''];
-  final status = <String, Object?>{'ran': _stamp(now)};
+  final previous = _readJson(file(statusPath));
+
+  // 예약 실행은 1·2·3일에 걸려 있다(GitHub가 예약을 빠뜨려도 다음 날 돌게).
+  // 이번 달에 정부24 목록을 이미 받아 올렸으면 조용히 끝낸다 — 사람이 볼
+  // 것(제도 글)이 있었어도 같은 메일을 사흘 내리 보내지 않는다. 받다가
+  // 멈췄거나 목록이 줄어 막혔으면 다음 날 다시 돈다.
+  if (scheduled && !onlyCoupang) {
+    final ran = previous?['ran'];
+    final supports = previous?['supports'];
+    final done =
+        ran is String &&
+        ran.startsWith(monthOf(now)) &&
+        supports is Map &&
+        supports['skipped'] != true;
+    if (done) {
+      return MonthlyResult(const [], [...summary, '이번 달은 이미 돌았습니다($ran).']);
+    }
+  }
+
+  // 쿠팡만 도는 실행(tsv를 올렸을 때)은 그달 목록·제도 결과를 지우지 않는다.
+  final status = onlyCoupang && previous != null
+      ? {...previous, 'coupangRan': _stamp(now)}
+      : <String, Object?>{'ran': _stamp(now)};
+  // 지원 목록은 data.json과 **같이** 쓴다 — 하나만 바뀌면 앱이 어긋난다.
+  Map<String, Object?>? supports;
 
   // ── 1·2) 정부24 ──────────────────────────────────────────────────
   if (!onlyCoupang) {
@@ -108,20 +134,26 @@ Future<MonthlyResult> runMonthly({
         final pick = pickSupports(services);
         final prev = _count(file(supportsPath));
         final n = pick.items.length;
-        final tooFew = prev != null ? n < prev * shrinkLimit : n < minSupports;
+        // 바닥(minSupports)은 늘 지킨다. 지난달보다 3할 넘게 줄면 막되,
+        // 사람이 확인하고 허락하면(Run workflow → allow_shrink) 올린다.
+        final belowFloor = n < minSupports;
+        final shrunk = prev != null && n < prev * shrinkLimit && !allowShrink;
+        final tooFew = belowFloor || shrunk;
         if (tooFew) {
           attention.add(
-            '지원 목록이 ${prev ?? '(처음)'}개 → $n개로 너무 적습니다. 정부24 쪽 '
-            '사고일 수 있어 이번에는 올리지 않았습니다.',
+            belowFloor
+                ? '지원 목록이 $n개뿐입니다(바닥 $minSupports개). 정부24 쪽 사고일 수 '
+                      '있어 이번에는 올리지 않았습니다.'
+                : '지원 목록이 $prev개 → $n개로 3할 넘게 줄었습니다. 정부24 쪽 사고일 '
+                      '수 있어 올리지 않았습니다. 정말 줄어든 것이면 Actions → Run '
+                      'workflow에서 allow_shrink를 켜고 돌려 주세요.',
           );
         } else {
           final checked = dayOf(now);
-          _writeJson(
-            file(supportsPath),
-            supportsFile(items: pick.items, checked: checked),
-          );
+          supports = supportsFile(items: pick.items, checked: checked);
           data['local'] = {
             'checked': checked,
+            'rev': supports['rev'],
             'count': n,
             'nation': pick.nation,
           };
@@ -131,6 +163,7 @@ Future<MonthlyResult> runMonthly({
           );
         }
         status['supports'] = {
+          'fetched': services.length,
           'count': n,
           'nation': pick.nation,
           'perSido': pick.perSido,
@@ -163,8 +196,8 @@ Future<MonthlyResult> runMonthly({
         file(changesPath).writeAsStringSync(_changes(report, now));
         if (report.needsHuman) {
           attention.add(
-            '나라 제도의 정부24 글이 바뀌었거나 찾지 못했습니다 — '
-            '$changesPath를 보고 앱·data.json을 고친 뒤 받아들여 주세요.',
+            '나라 제도의 정부24 글을 사람이 확인해야 합니다(글이 바뀜·새 기준 글·'
+            '못 찾음) — $changesPath를 보고 앱·data.json을 맞춘 뒤 받아들여 주세요.',
           );
         }
       } on Gov24KeyRejected catch (e) {
@@ -212,11 +245,37 @@ Future<MonthlyResult> runMonthly({
     };
   }
 
-  if (jsonEncode(data) != before) {
-    data['updated'] = dayOf(now);
-    _writeJson(dataFile, data);
+  // 확인 시점이 5개월을 넘긴 제도 — 6개월이면 앱이 금액을 숨긴다. 자동으로
+  // 못 지켜보는 제도(부모급여)나 글이 바뀐 채 멈춘 제도가 여기서 걸린다.
+  if (!onlyCoupang) {
+    for (final (id, checked, age) in staleChecks(data, now)) {
+      attention.add(
+        '$id 확인 시점이 $checked($age개월 전)입니다 — 6개월이 되면 앱이 금액을 '
+        '숨깁니다. 원문과 대조해 앱·data.json을 고치고 확인 시점을 올려 주세요.',
+      );
+    }
   }
-  status['attention'] = attention;
+
+  final changed = jsonEncode(data) != before || supports != null;
+  if (changed) {
+    data['updated'] = dayOf(now);
+    // **올리기 전에 앱과 같은 규칙으로 본다.** 한 칸만 틀려도 앱은 그 묶음을
+    // 통째로 버린다 — 틀린 파일을 모든 폰에 뿌리지 않게.
+    final problems = validateRemoteData(data, now);
+    if (problems.isEmpty) {
+      if (supports != null) _writeJson(file(supportsPath), supports);
+      _writeJson(dataFile, data);
+    } else {
+      attention.add(
+        'data.json이 앱 검사에 걸려 올리지 않았습니다: ${problems.take(5).join(' / ')}',
+      );
+    }
+  }
+  if (onlyCoupang) {
+    status['coupangAttention'] = attention;
+  } else {
+    status['attention'] = attention;
+  }
   _writeJson(file(statusPath), status);
 
   if (attention.isNotEmpty) {
@@ -240,19 +299,38 @@ List<String> acceptPending({
   final baseline =
       jsonDecode(watchFile.readAsStringSync()) as Map<String, Object?>;
   final all = (baseline['programs'] as Map?) ?? const {};
+  final wanted = {for (final p in programs) p.trim().toUpperCase()};
   final accepted = <String>[];
   for (final e in all.entries) {
     final id = e.key as String;
-    if (!programs.contains('all') && !programs.contains(id)) continue;
+    if (!wanted.contains('ALL') && !wanted.contains(id)) continue;
     final p = e.value as Map;
+    final services = (p['services'] ??= <String, Object?>{}) as Map;
+    var touched = false;
+    // 사람이 본 대기 글이 새 기준이 된다.
     final pending = p.remove('pending');
     if (pending is Map && pending.isNotEmpty) {
-      ((p['services'] ??= <String, Object?>{}) as Map).addAll(pending);
-      accepted.add(id);
+      for (final s in pending.entries) {
+        services[s.key] = {...(s.value as Map), 'reviewed': true};
+      }
+      touched = true;
     }
+    // 처음 적어 두고 아직 확인 안 된 기준 글도 받아들인다.
+    for (final s in services.entries) {
+      final v = s.value;
+      if (v is Map && v['reviewed'] == false) {
+        v['reviewed'] = true;
+        touched = true;
+      }
+    }
+    if (touched) accepted.add(id);
   }
   if (accepted.isEmpty) return accepted;
   _writeJson(watchFile, baseline);
+  File('${root.path}/$changesPath').writeAsStringSync(
+    '# 나라 제도 — 정부24 글 확인 (${dayOf(now)})\n\n'
+    '받아들였습니다: ${accepted.join(', ')}. 다음 실행 때 다시 견줍니다.\n',
+  );
   final data = jsonDecode(dataFile.readAsStringSync()) as Map<String, Object?>;
   if (bumpChecked(data, accepted, monthOf(now)).isNotEmpty) {
     data['updated'] = dayOf(now);
@@ -323,6 +401,15 @@ Future<void> main(List<String> args) async {
   final access = env['COUPANG_ACCESS_KEY']?.trim() ?? '';
   final secret = env['COUPANG_SECRET_KEY']?.trim() ?? '';
   final gov = key.isEmpty ? null : Gov24Client(key);
+  // 오류 글에서 키를 모두 가린다(정부24·쿠팡).
+  String hideAll(Object e) {
+    var text = gov?.hide(e) ?? '$e';
+    for (final k in [access, secret]) {
+      if (k.isNotEmpty) text = text.replaceAll(k, '***');
+    }
+    return text;
+  }
+
   try {
     final result = await runMonthly(
       root: root,
@@ -339,7 +426,9 @@ Future<void> main(List<String> args) async {
       accept: _ids(opts['accept'] ?? env['ACCEPT'] ?? ''),
       onlyCoupang:
           opts.containsKey('only-coupang') || env['ONLY_COUPANG'] == 'true',
-      hide: gov?.hide,
+      allowShrink: env['ALLOW_SHRINK'] == 'true',
+      scheduled: env['SCHEDULED'] == 'true',
+      hide: hideAll,
     );
     final text = result.summary.join('\n');
     stdout.writeln(text);
@@ -354,6 +443,147 @@ Future<void> main(List<String> args) async {
     }
   } finally {
     gov?.close();
+  }
+}
+
+/// 확인 시점이 [warnAfter]개월 이상 지난 제도 — (id, checked, 개월).
+List<(String, String, int)> staleChecks(
+  Map<String, Object?> data,
+  DateTime now, {
+  int warnAfter = 5,
+}) {
+  final programs = (data['support'] as Map?)?['programs'];
+  if (programs is! Map) return const [];
+  final out = <(String, String, int)>[];
+  for (final e in programs.entries) {
+    final checked = (e.value as Map?)?['checked'];
+    if (checked is! String) continue;
+    final m = RegExp(r'^(\d{4})-(\d{2})$').firstMatch(checked);
+    if (m == null) continue;
+    final age =
+        now.year * 12 +
+        now.month -
+        (int.parse(m.group(1)!) * 12 + int.parse(m.group(2)!));
+    if (age >= warnAfter) out.add(('${e.key}', checked, age));
+  }
+  return out;
+}
+
+/// 앱(`RemoteData.parse`)과 같은 규칙으로 data.json을 본다. 문제가 없으면 빈 목록.
+///
+/// 앱은 한 칸만 틀려도 그 묶음(지원금·쿠팡·시세·지역)을 통째로 버린다.
+List<String> validateRemoteData(Map<String, Object?> data, DateTime now) {
+  final problems = <String>[];
+  if (data['schema'] != 1) problems.add('schema');
+  if (utf8.encode(jsonEncode(data)).length > 512 * 1024) {
+    problems.add('512KB 초과');
+  }
+  final month = monthOf(now);
+  final programs = (data['support'] as Map?)?['programs'];
+  if (programs != null && programs is! Map) problems.add('support.programs');
+  if (programs is Map) {
+    for (final e in programs.entries) {
+      final id = e.key;
+      final v = e.value;
+      if (id is! String || id.isEmpty || v is! Map) {
+        problems.add('support $id');
+        continue;
+      }
+      final checked = v['checked'];
+      if (checked != null) {
+        final m = checked is String
+            ? RegExp(r'^(\d{4})-(\d{2})$').firstMatch(checked)
+            : null;
+        final year = m == null ? 0 : int.parse(m.group(1)!);
+        final mon = m == null ? 0 : int.parse(m.group(2)!);
+        if (m == null || year < 2020 || year > 2100 || mon < 1 || mon > 12) {
+          problems.add('$id checked 모양');
+        } else if ((checked as String).compareTo(month) > 0) {
+          problems.add('$id checked가 미래($checked)');
+        }
+      }
+      for (final k in ['suggested', 'suggestedSecond']) {
+        final w = v[k];
+        if (w != null && (w is! int || w < 0 || w > 100000000)) {
+          problems.add('$id $k');
+        }
+      }
+      for (final k in ['amount', 'deadline', 'note']) {
+        final t = v[k];
+        if (t != null && (t is! String || t.trim().isEmpty || t.length > 400)) {
+          problems.add('$id $k');
+        }
+      }
+    }
+  }
+  final subId = RegExp(r'^C\d{1,2}-\d{2}$');
+  final coupang = data['coupang'];
+  if (coupang != null && coupang is! Map) problems.add('coupang');
+  if (coupang is Map) {
+    for (final e in coupang.entries) {
+      if (e.key is! String || !subId.hasMatch(e.key as String)) {
+        problems.add('coupang id ${e.key}');
+      }
+      final url = e.value;
+      if (url is! String || !url.startsWith('https://link.coupang.com/')) {
+        problems.add('coupang ${e.key} 주소');
+      }
+    }
+  }
+  final prices = data['prices'];
+  if (prices != null && prices is! Map) problems.add('prices');
+  if (prices is Map) {
+    for (final e in prices.entries) {
+      final won = e.value;
+      if (e.key is! String || !subId.hasMatch(e.key as String)) {
+        problems.add('prices id ${e.key}');
+      } else if (won is! int || won <= 0 || won > 100000000) {
+        problems.add('prices ${e.key}');
+      }
+    }
+  }
+  final byRegion = (data['regions'] as Map?)?['byRegion'];
+  if (byRegion is Map) {
+    for (final e in byRegion.entries) {
+      final list = e.value;
+      if (!appRegionNames.contains(e.key)) problems.add('regions ${e.key}');
+      if (list is! List ||
+          list.isEmpty ||
+          list.any((d) => d is! String || d.trim().isEmpty)) {
+        problems.add('regions ${e.key} 목록');
+      }
+    }
+  }
+  final local = data['local'];
+  if (local != null) {
+    final checked = local is Map ? local['checked'] : null;
+    final rev = local is Map ? local['rev'] : null;
+    if (checked is! String ||
+        !RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(checked)) {
+      problems.add('local checked');
+    }
+    if (rev != null &&
+        (rev is! String || !RegExp(r'^[0-9a-f]{16}$').hasMatch(rev))) {
+      problems.add('local rev');
+    }
+  }
+  return problems;
+}
+
+/// 앱의 `Region.fromName`이 받는 시·도 이름 — 지금 이름 16개와 통합 전 이름 둘.
+/// (「강원도」·「전라북도」는 기관 이름에서만 받고 지역 목록 열쇠로는 안 받는다.)
+final appRegionNames = {
+  for (final s in sidoNames)
+    if (s != '강원도' && s != '전라북도') s,
+};
+
+Map<String, Object?>? _readJson(File f) {
+  if (!f.existsSync()) return null;
+  try {
+    final v = jsonDecode(f.readAsStringSync());
+    return v is Map<String, Object?> ? v : null;
+  } catch (_) {
+    return null;
   }
 }
 
@@ -407,12 +637,6 @@ String _changes(WatchReport report, DateTime now) {
       }
       out.writeln();
     }
-  }
-  final added = report.notes.where((n) => n.status == WatchStatus.added);
-  if (added.isNotEmpty) {
-    out
-      ..writeln()
-      ..writeln('처음 적은 기준: ${added.map((n) => n.program).join(', ')}');
   }
   return out.toString();
 }

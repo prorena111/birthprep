@@ -10,6 +10,18 @@
 import 'dart:convert';
 import 'dart:io';
 
+/// 목록을 다 받지 못했다 — 받은 수가 정부24가 말한 전체 수보다 적다.
+class Gov24Incomplete implements Exception {
+  Gov24Incomplete(this.op, this.got, this.total);
+
+  final String op;
+  final int got;
+  final int total;
+
+  @override
+  String toString() => '정부24 $op을 다 받지 못했습니다($got/$total)';
+}
+
 /// 키가 거절됐다(401·403).
 class Gov24KeyRejected implements Exception {
   Gov24KeyRejected(this.status, this.body);
@@ -47,10 +59,10 @@ class Gov24Client {
       .replaceAll(_key, '***')
       .replaceAll(Uri.encodeQueryComponent(_key), '***');
 
-  /// 한 오퍼레이션(`serviceList` 등)의 모든 쪽을 받는다.
-  Future<List<Map<String, Object?>>> all(String op) async {
-    final out = <Map<String, Object?>>[];
-    for (var page = 1; page <= 100; page++) {
+  /// 한 오퍼레이션(`serviceList` 등)의 모든 쪽을 받는다. 다 받지 못하면
+  /// [Gov24Incomplete]를 던진다 — 반쯤 빈 목록을 올리지 않게.
+  Future<List<Map<String, Object?>>> all(String op) {
+    return collectPages(op, (page) async {
       final uri = Uri.parse('$base/$op').replace(
         queryParameters: {
           'page': '$page',
@@ -58,18 +70,8 @@ class Gov24Client {
           'returnType': 'JSON',
         },
       );
-      final root = jsonDecode(await _get(uri));
-      if (root is! Map) throw const FormatException('답이 JSON 객체가 아닙니다');
-      final data = root['data'];
-      final rows = data is List ? data : const [];
-      for (final r in rows) {
-        if (r is Map) out.add(r.cast<String, Object?>());
-      }
-      final total = root['totalCount'] is int ? root['totalCount'] as int : 0;
-      _log('  $op $page쪽 — ${out.length}/$total');
-      if (rows.isEmpty || out.length >= total) break;
-    }
-    return out;
+      return jsonDecode(await _get(uri));
+    }, log: _log);
   }
 
   /// 받기. 키는 **머리글**로 먼저 보낸다 — 주소에 실으면 오류 글에 찍힐 수
@@ -88,7 +90,10 @@ class Gov24Client {
         }
         req.headers.set(HttpHeaders.acceptHeader, 'application/json');
         final res = await req.close().timeout(const Duration(seconds: 90));
-        final body = await res.transform(utf8.decoder).join();
+        final body = await res
+            .transform(utf8.decoder)
+            .join()
+            .timeout(const Duration(seconds: 90));
         if (res.statusCode == 401 || res.statusCode == 403) {
           if (!_keyInQuery) {
             _keyInQuery = true;
@@ -97,8 +102,9 @@ class Gov24Client {
           }
           throw Gov24KeyRejected(res.statusCode, body);
         }
+        // 응답 본문은 싣지 않는다 — 알림과 status.json은 공개다.
         if (res.statusCode != 200) {
-          throw HttpException('HTTP ${res.statusCode}: ${clip(body)}');
+          throw HttpException('정부24 HTTP ${res.statusCode}');
         }
         return body;
       } on Gov24KeyRejected {
@@ -112,6 +118,40 @@ class Gov24Client {
   }
 
   void close() => _client.close(force: true);
+}
+
+/// 쪽마다 받아 모은다. 전체 수(`totalCount`)를 처음 쪽에서 읽고, 빈 쪽이 오면
+/// 한 번 다시 받는다. 끝에 받은 수가 전체 수보다 적으면 [Gov24Incomplete].
+/// 검사에서 가짜 쪽을 넣으려고 따로 뺐다.
+Future<List<Map<String, Object?>>> collectPages(
+  String op,
+  Future<Object?> Function(int page) fetch, {
+  void Function(String)? log,
+  int maxPages = 100,
+}) async {
+  final out = <Map<String, Object?>>[];
+  int? total;
+  for (var page = 1; page <= maxPages; page++) {
+    var rows = const <Object?>[];
+    for (var attempt = 1; attempt <= 2; attempt++) {
+      final root = await fetch(page);
+      if (root is! Map) throw const FormatException('답이 JSON 객체가 아닙니다');
+      if (total == null && root['totalCount'] is int) {
+        total = root['totalCount'] as int;
+      }
+      final data = root['data'];
+      rows = data is List ? data : const [];
+      if (rows.isNotEmpty || total == null || out.length >= total) break;
+    }
+    for (final r in rows) {
+      if (r is Map) out.add(r.cast<String, Object?>());
+    }
+    log?.call('  $op $page쪽 — ${out.length}/${total ?? '?'}');
+    if (total == null) throw Gov24Incomplete(op, out.length, -1);
+    if (out.length >= total) return out;
+    if (rows.isEmpty) break;
+  }
+  throw Gov24Incomplete(op, out.length, total ?? -1);
 }
 
 /// 긴 글은 앞부분만.

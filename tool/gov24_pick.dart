@@ -7,8 +7,10 @@
 // **거르는 규칙은 여기만 고친다.** 둘이 다르게 거르면 앱에 든 목록과
 // 내려받은 목록이 어긋난다.
 //
-// 이 파일은 dart:core만 쓴다 — 공개 저장소(prorena111/birthprep)의 tool/에
-// 그대로 복사해 GitHub Actions에서 돌린다.
+// 이 파일은 dart 기본 라이브러리만 쓴다 — 공개 저장소(prorena111/birthprep)의
+// tool/에 그대로 복사해 GitHub Actions에서 돌린다.
+
+import 'dart:convert';
 
 /// 시·도 이름(옛 이름 포함). 소관기관명이 이것으로 시작해야 지자체로 본다.
 /// 앱의 `Region`·`placeOf`와 같은 목록이어야 한다 — 검사가 대조한다.
@@ -76,6 +78,7 @@ const nationOrgPrefixes = ['국민', '국립', '한국', '대한', '근로복지
 /// 해산급여·모자보건·보육료도 이 앱 사람들이 받는 것이라 더한다.
 bool isNationAboutBirth(String name) {
   if (_notBirthWords.any(name.contains)) return false;
+  if (isOffTopic(name, null)) return false;
   final n = _falseFriends(name);
   return _birthWords.any(n.contains) || _nationNameWords.any(n.contains);
 }
@@ -93,6 +96,7 @@ bool isAboutBirth(String name, String? summary) {
   // 「가정위탁 양육보조금」·「장수수당(1922년 이전 출생)」·「유기동물 입양」은
   // 낱말이 겹쳐도 이 앱 이야기가 아니다.
   if (_notBirthWords.any(name.contains)) return false;
+  if (isOffTopic(name, summary)) return false;
   final text = _falseFriends('$name ${summary ?? ''}');
   return _birthWords.any(text.contains);
 }
@@ -116,6 +120,53 @@ const _birthWords = [
 
 /// 이름에 이 낱말이 있으면 뺀다.
 const _notBirthWords = ['위탁', '장수수당', '어르신', '노인', '반려', '동물'];
+
+/// 가축·농사와 대학 학비 — 낱말이 겹쳐도 이 앱(임신부터 만 6세까지) 이야기가
+/// 아니다. 이름이나 목적에 있으면 뺀다.
+///
+/// 2026-09-27 점검에서 「한우 조기 임신 진단」·「가축살처분(임신 감정비)」·
+/// 「칡소 다산장려금(송아지 출산)」·「볍씨발아기」(「발아기」 속 「아기」)와
+/// 다자녀 대학 장학금(나라 칸 둘째 줄에 「최대 610만원」)이 목록에 있었다.
+/// 「장학」 홀로는 「현장학습비」에 걸려 쓰지 않는다.
+bool isOffTopic(String name, String? summary) {
+  final text = '$name ${summary ?? ''}';
+  return _offTopicWords.any(text.contains);
+}
+
+const _offTopicWords = [
+  '한우',
+  '가축',
+  '양돈',
+  '칡소',
+  '번식우',
+  '송아지',
+  '사육농가',
+  '사육 농가',
+  '볍씨',
+  '장학금',
+  '장학생',
+  '장학재단',
+  '장학회',
+  '등록금',
+  '학자금',
+  '대학생',
+];
+
+/// 지자체가 나라 제도를 제 이름으로 올린 것 — 「첫만남이용권」·「부모급여 지원」·
+/// 「고위험 임산부 의료비 지원」. 앱의 나라 카드와 같은 돈이라 「우리 구가 따로
+/// 주는 것」에 또 보이면 두 번 받는 것처럼 읽힌다(2026-09-27 점검).
+///
+/// 이름이 곧 제도 이름일 때만 뺀다 — 「첫만남이용권 추가 지원」처럼 덧붙인 말이
+/// 있으면 지자체가 더 주는 것이라 남긴다. 산모·신생아 건강관리는 지자체 것이
+/// 대부분 본인부담금 추가 지원이라 여기 넣지 않는다.
+bool isCuratedCopy(String name) {
+  final n = squash(name)
+      .replaceAll(RegExp(r'[\(\[][^\)\]]*[\)\]]'), '')
+      .replaceAll(RegExp(r'(지원|사업|신청)+$'), '');
+  return _copyNames.contains(n);
+}
+
+const _copyNames = {'임신출산진료비', '첫만남이용권', '부모급여', '아동수당', '고위험임산부의료비'};
 
 /// 사람(개인·가구)이 받는 것인지. 소상공인·법인·시설에 주는 지원은 뺀다.
 /// 칸이 비어 있으면 넣는다 — 모르는 것을 버리지 않는다.
@@ -210,6 +261,7 @@ class Gov24Pick {
 Gov24Pick pickSupports(List<Map<String, Object?>> services) {
   final items = <Map<String, String>>[];
   final perSido = <String, int>{};
+  final seen = <String>{};
   var nation = 0;
   var curated = 0;
   var noUrl = 0;
@@ -218,17 +270,23 @@ Gov24Pick pickSupports(List<Map<String, Object?>> services) {
     final org = cleanText(row['소관기관명']);
     final name = cleanText(row['서비스명']);
     if (id == null || org == null || name == null) continue;
+    // 쪽을 받는 사이에 목록이 바뀌면 같은 서비스가 두 번 올 수 있다.
+    if (!seen.add(id)) continue;
     final local = isLocalOrg(org);
     if (!local && !isNationOrg(org)) continue;
     final field = cleanText(row['서비스분야']) ?? '';
     final summary = cleanText(row['서비스목적요약']);
+    // 분야가 「임신·출산」이어도 가축·학비 이야기는 뺀다.
+    if (isOffTopic(name, local ? summary : null)) continue;
     // 지자체는 이름·목적으로, 나라는 이름으로 본다([isNationAboutBirth]).
     final aboutBirth = local
         ? isAboutBirth(name, summary)
         : isNationAboutBirth(name);
     if (!aboutBirth && !field.contains('임신')) continue;
     if (!isForPeople(row['사용자구분'])) continue;
-    if (!local && curatedPrograms.any((p) => p.matches(id, name))) {
+    if (local
+        ? isCuratedCopy(name)
+        : curatedPrograms.any((p) => p.matches(id, name))) {
       curated++;
       continue;
     }
@@ -274,6 +332,10 @@ Gov24Pick pickSupports(List<Map<String, Object?>> services) {
 
 /// 앱에 굽거나 Pages에 올리는 파일 한 장. 키 차례가 곧 파일 차례다 —
 /// 앱은 머리의 `checked`만 먼저 읽는다(`LocalSupportsStore.bundledChecked`).
+///
+/// `rev`는 목록 내용의 지문이다. 같은 날 다시 받아 내용이 바뀌어도 날짜는
+/// 같아서, 앱이 날짜만 보면 새 목록을 안 받는다(2026-09-26 하루에 다섯 번
+/// 올렸다). 앱은 날짜가 같으면 지문을 견준다.
 Map<String, Object?> supportsFile({
   required List<Map<String, String>> items,
   required String checked,
@@ -281,9 +343,23 @@ Map<String, Object?> supportsFile({
   'schema': 1,
   'source': '행정안전부 대한민국 공공서비스(혜택) 정보',
   'checked': checked,
+  'rev': contentRev(items),
   'count': items.length,
   'items': items,
 };
+
+/// 목록 내용의 지문 — FNV-1a 64비트, 16자리 16진수. 암호용이 아니라 「바뀌었나」만
+/// 가린다. 같은 목록이면 늘 같은 값이다(키 차례까지 같게 쓰므로).
+String contentRev(List<Map<String, String>> items) {
+  // 0xcbf29ce484222325를 부호 있는 64비트로 적은 것(VM의 int는 64비트에서 돈다).
+  var h = -3750763034362895579;
+  for (final b in utf8.encode(jsonEncode(items))) {
+    h ^= b;
+    h *= 1099511628211; // 0x100000001b3
+  }
+  String half(int v) => (v & 0xFFFFFFFF).toRadixString(16).padLeft(8, '0');
+  return '${half(h >> 32)}${half(h)}';
+}
 
 /// 글 칸의 값 — 줄 끝을 맞추고 앞뒤 공백을 걷는다. 빈 칸은 null.
 String? cleanText(Object? v) {

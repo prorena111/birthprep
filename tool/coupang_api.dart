@@ -129,19 +129,23 @@ Future<CoupangRun> convertCoupang({
           ),
         );
         final res = await req.close().timeout(const Duration(seconds: 30));
-        final body = await res.transform(utf8.decoder).join();
+        final body = await res
+            .transform(utf8.decoder)
+            .join()
+            .timeout(const Duration(seconds: 30));
+        // 응답 본문은 싣지 않는다 — 알림과 status.json은 공개다.
         if (res.statusCode != 200) {
-          failure = '${entry.key} (HTTP ${res.statusCode}) ${_clip(body)}';
+          failure = '${entry.key} (쿠팡 HTTP ${res.statusCode})';
         } else {
           final link = coupangExtractLink(jsonDecode(body));
           if (link == null || !link.startsWith('https://link.coupang.com/')) {
-            failure = '${entry.key} (링크를 못 찾음) ${_clip(body)}';
+            failure = '${entry.key} (쿠팡 답에서 링크를 못 찾음)';
           } else {
             links[entry.key] = link;
           }
         }
       } catch (e) {
-        failure = '${entry.key} ($e)';
+        failure = '${entry.key} (${e.runtimeType})';
       }
       if (failure != null) break;
       if (called % 20 == 0) log?.call('  쿠팡 $called / ${todo.length}');
@@ -151,6 +155,3 @@ Future<CoupangRun> convertCoupang({
   }
   return CoupangRun(links, failure);
 }
-
-String _clip(String body) =>
-    body.length <= 300 ? body : '${body.substring(0, 300)}…';

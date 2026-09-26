@@ -19,13 +19,20 @@ name: 매달 데이터 갱신
 
 on:
   schedule:
-    - cron: '17 0 1 * *' # 매달 1일 09:17(한국 시각)
+    # 매달 1·2·3일 09:17(한국 시각). GitHub가 예약을 빠뜨리는 날이 있어 사흘에
+    # 걸고, 이번 달에 이미 받아 올렸으면 둘째·셋째 날은 조용히 끝난다.
+    - cron: '17 0 1,2,3 * *'
   workflow_dispatch:
     inputs:
       accept:
         description: '확인을 마친 나라 제도 번호(예: S04, 전부면 all). 그냥 갱신하려면 비워 두세요.'
         required: false
         default: ''
+      allow_shrink:
+        description: '지원 목록이 지난달보다 3할 넘게 줄었는데 정말 줄어든 것이 맞으면 켜세요.'
+        type: boolean
+        required: false
+        default: false
   push:
     branches: [main]
     paths: ['tool/coupang_urls.tsv'] # 새 품목 주소를 올리면 링크만 바로 만든다
@@ -58,7 +65,9 @@ jobs:
           COUPANG_ACCESS_KEY: ${{ secrets.COUPANG_ACCESS_KEY }}
           COUPANG_SECRET_KEY: ${{ secrets.COUPANG_SECRET_KEY }}
           ACCEPT: ${{ github.event.inputs.accept }}
+          ALLOW_SHRINK: ${{ github.event.inputs.allow_shrink == 'true' }}
           ONLY_COUPANG: ${{ github.event_name == 'push' }}
+          SCHEDULED: ${{ github.event_name == 'schedule' }}
         run: dart --packages=tool/.dart_tool/package_config.json tool/monthly.dart --root .
 
       - name: 올리기

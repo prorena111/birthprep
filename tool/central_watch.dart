@@ -26,8 +26,10 @@ enum WatchStatus {
   /// 사람이 확인한 글과 같다 — 확인 시점을 올린다.
   same('같음'),
 
-  /// 처음 보는 제도 — 지금 글을 기준으로 적는다. 확인 시점은 안 올린다.
-  added('기준을 새로 적음'),
+  /// 처음 보는(또는 사람이 아직 안 본) 글 — 기준으로 적되 **사람이 받아들일
+  /// 때까지** 확인 시점을 안 올리고 알린다. 기계가 처음 찍은 글을 「사람이
+  /// 확인한 글」로 치면 안전장치가 비게 된다(2026-09-27 점검).
+  added('기준 글 확인 필요'),
 
   /// 사람이 받아들였다 — 새 글을 기준으로 적고 확인 시점을 올린다.
   accepted('받아들임'),
@@ -54,6 +56,7 @@ enum WatchStatus {
 
   /// 사람이 볼 것인지.
   bool get needsHuman =>
+      this == added ||
       this == changed ||
       this == missing ||
       this == notFound ||
@@ -120,6 +123,10 @@ bool _sameText(Object? a, Object? b) {
 /// [baseline]은 central_watch.json(없으면 빈 것), [services]는 정부24
 /// serviceList 전체, [accept]는 사람이 받아들인 제도(`all`이면 전부).
 /// [programs]는 검사에서만 바꾼다.
+///
+/// 적어 둔 글마다 `reviewed`가 있다. 사람이 받아들인 글만 true이고(예전에
+/// 적은 글은 표시가 없으면 true로 본다), false인 동안은 같아도 확인 시점을 안
+/// 올린다.
 WatchReport watchCentral({
   required Map<String, Object?> baseline,
   required List<Map<String, Object?>> services,
@@ -135,6 +142,8 @@ WatchReport watchCentral({
   final nextPrograms = <String, Object?>{};
   final status = <String, WatchStatus>{};
   final notes = <WatchNote>[];
+  // 「s04」처럼 적어도 받아들인다.
+  final accepted = {for (final a in accept) a.trim().toUpperCase()};
 
   for (final p in programs) {
     final old = oldPrograms[p.id] is Map
@@ -146,16 +155,16 @@ WatchReport watchCentral({
     final pending = old['pending'] is Map
         ? (old['pending'] as Map).cast<String, Object?>()
         : <String, Object?>{};
-    final accepting = accept.contains('all') || accept.contains(p.id);
+    final accepting = accepted.contains('ALL') || accepted.contains(p.id);
 
     if (!p.watched) {
       status[p.id] = WatchStatus.skipped;
       continue;
     }
 
-    // 지켜볼 서비스 번호 — 적어 둔 것 → 코드에 적은 것 → 이름으로 찾기.
-    var ids = known.keys.toList();
-    if (ids.isEmpty) ids = [...p.serviceIds];
+    // 지켜볼 서비스 번호 — **코드에 적은 것이 먼저**(정부24가 번호를 바꾸면
+    // 코드만 고치면 되게), 없으면 적어 둔 것, 그래도 없으면 이름으로 찾기.
+    var ids = p.serviceIds.isNotEmpty ? [...p.serviceIds] : known.keys.toList();
     if (ids.isEmpty) {
       final found = [
         for (final row in services)
@@ -199,23 +208,43 @@ WatchReport watchCentral({
       }
       final snap = snapshotOf(row);
       final before = known[id];
+      final waiting = pending[id];
       if (before is! Map) {
-        nextKnown[id] = snap;
-        if (result == WatchStatus.same) result = WatchStatus.added;
+        // 처음 보는 글 — 받아들이면 바로 기준, 아니면 사람이 볼 때까지 대기.
+        nextKnown[id] = {...snap, 'reviewed': accepting};
+        if (!accepting) {
+          if (result == WatchStatus.same) result = WatchStatus.added;
+          lines.add('- `$id` ${snap['name']} — 새 기준 글, 확인 필요 ${_url(id)}');
+        } else if (result == WatchStatus.same) {
+          result = WatchStatus.accepted;
+        }
         continue;
       }
+      final reviewed = before['reviewed'] != false;
       if (_sameText(before['text'], snap['text'])) {
-        nextKnown[id] = snap; // 수정일시만 바뀐 것도 새로 적는다
+        // 수정일시만 바뀐 것도 새로 적는다.
+        nextKnown[id] = {...snap, 'reviewed': reviewed || accepting};
+        if (!reviewed && !accepting) {
+          if (result == WatchStatus.same) result = WatchStatus.added;
+          lines.add('- `$id` ${snap['name']} — 기준 글 확인 필요 ${_url(id)}');
+        } else if (!reviewed && result == WatchStatus.same) {
+          result = WatchStatus.accepted;
+        }
         continue;
       }
-      if (accepting) {
-        nextKnown[id] = snap;
+      // 사람이 대기 글을 보고 받아들였는데 그 뒤 또 바뀌었으면 받아들이지
+      // 않는다 — 사람이 안 본 글이 기준이 되면 안 된다.
+      final seenByHuman =
+          waiting is! Map || _sameText(waiting['text'], snap['text']);
+      if (accepting && seenByHuman) {
+        nextKnown[id] = {...snap, 'reviewed': true};
         if (result == WatchStatus.same) result = WatchStatus.accepted;
         continue;
       }
       nextKnown[id] = before;
       nextPending[id] = snap;
       if (result != WatchStatus.missing) result = WatchStatus.changed;
+      if (accepting) lines.add('- `$id` — 확인한 뒤 또 바뀌어 받아들이지 않았습니다.');
       lines.addAll(_diff(id, before, snap));
     }
 
@@ -227,7 +256,7 @@ WatchReport watchCentral({
     }
 
     status[p.id] = result;
-    if (result.needsHuman || result == WatchStatus.added) {
+    if (result.needsHuman) {
       notes.add(WatchNote(p.id, result, lines));
     }
     nextPrograms[p.id] = {
