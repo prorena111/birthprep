@@ -1,0 +1,11 @@
+# 매달 1일 자동 작업(.github/workflows/monthly.yml)이 쓰는 도구.
+# 원본은 앱 저장소의 tool/monthly/ — 여기 .dart 파일은 그 사본이다.
+name: birthprep_monthly
+description: 정부24 지원 목록·나라 제도 지켜보기·쿠팡 파트너스 링크를 매달 갱신한다.
+publish_to: none
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  crypto: ^3.0.6
