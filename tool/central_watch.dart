@@ -242,7 +242,7 @@ WatchReport watchCentral({
     baseline: {
       'schema': 1,
       'about':
-          '정부24에서 나라 제도 여덟 가지의 글을 지켜본다. services는 사람이 확인한 '
+          '정부24에서 앱이 금액까지 보여 주는 나라 제도의 글을 지켜본다. services는 사람이 확인한 '
           '글이고, pending은 그 뒤 바뀐 글(사람이 볼 때까지 확인 시점을 안 올린다).',
       'programs': nextPrograms,
     },

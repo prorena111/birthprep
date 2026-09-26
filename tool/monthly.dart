@@ -388,7 +388,7 @@ String _changes(WatchReport report, DateTime now) {
   final out = StringBuffer('# 나라 제도 — 정부24 글 확인 (${dayOf(now)})\n\n');
   final human = report.notes.where((n) => n.status.needsHuman).toList();
   if (human.isEmpty) {
-    out.writeln('지금은 확인할 것이 없습니다. 여덟 가지 모두 사람이 확인한 글과 같습니다.');
+    out.writeln('지금은 확인할 것이 없습니다. 지켜보는 나라 제도 모두 사람이 확인한 글과 같습니다.');
   } else {
     out
       ..writeln('사람이 확인할 것이 있습니다. 원문을 보고 앱(`support_programs.dart`)과')

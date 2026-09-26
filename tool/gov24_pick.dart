@@ -172,6 +172,8 @@ const curatedPrograms = [
   CuratedProgram('S06', serviceIds: ['PTR000050390'], names: ['산모·신생아 건강관리']),
   CuratedProgram('S07', serviceIds: ['999000000008'], names: ['육아휴직급여']),
   CuratedProgram('S08', serviceIds: ['B55121000003'], names: ['도시가스']),
+  // 2026-09-26 큰 제도에 올렸다(정부24 글에 한도가 없어 목록에선 금액이 안 보였다).
+  CuratedProgram('S09', serviceIds: ['135200000114'], names: ['고위험 임산부 의료비']),
 ];
 
 /// 띄어쓰기·가운뎃점을 걷은 이름 — 「임신ㆍ출산 진료비」와 「임신·출산진료비」를
