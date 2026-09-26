@@ -80,7 +80,9 @@ bool isNationAboutBirth(String name) {
   return _birthWords.any(n.contains) || _nationNameWords.any(n.contains);
 }
 
-const _nationNameWords = ['입양', '선천성', '해산', '모자', '보육', '맘편한'];
+/// 「보육」은 홀로는 넓다(「스마트팜 청년창업 보육센터」·「보육교직원 마음성장」) —
+/// 부모가 받는 보육료·시간제보육만.
+const _nationNameWords = ['입양', '선천성', '해산', '모자', '보육료', '시간제보육', '맘편한'];
 
 /// 임신·출산·육아 이야기인지 — 서비스 이름과 목적 요약으로 본다.
 ///
