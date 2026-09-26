@@ -1,8 +1,8 @@
 {
-  "ran": "2026-09-26T21:15+09:00",
+  "ran": "2026-09-26T21:23+09:00",
   "supports": {
-    "count": 1388,
-    "nation": 90,
+    "count": 1346,
+    "nation": 48,
     "perSido": {
       "서울특별시": 138,
       "부산광역시": 51,
@@ -25,21 +25,19 @@
     "noUrl": 0
   },
   "central": {
-    "S01": "added",
-    "S02": "added",
-    "S03": "notFound",
-    "S04": "added",
-    "S05": "added",
-    "S06": "added",
-    "S07": "added",
-    "S08": "added"
+    "S01": "same",
+    "S02": "same",
+    "S03": "skipped",
+    "S04": "same",
+    "S05": "same",
+    "S06": "same",
+    "S07": "same",
+    "S08": "same"
   },
   "coupang": {
     "items": 263,
     "added": 0,
     "missing": 0
   },
-  "attention": [
-    "나라 제도의 정부24 글이 바뀌었거나 찾지 못했습니다 — tool/central_changes.md를 보고 앱·data.json을 고친 뒤 받아들여 주세요."
-  ]
+  "attention": []
 }
