@@ -292,7 +292,8 @@ Map<String, String> bokjiroItem(
 ) {
   String? d(String k) {
     final v = detail?[k];
-    return v is String ? cleanText(v) : null;
+    final t = v is String ? cleanText(v) : null;
+    return t == null ? null : restoreLines(t);
   }
 
   // 신청 방법은 정부24 꼴의 짧은 말로(앱이 칩으로 보인다) — 「방문신청||기타
@@ -450,4 +451,40 @@ Future<BokjiroRun> runBokjiro({
     fetchedDetails: fetched,
     missingDetails: missing,
   );
+}
+
+/// 복지로 상세 글의 줄을 되살린다 — 복지로 API는 줄바꿈을 모두 지워서 보낸다
+/// (2026-09-27 받은 689건 전부 한 줄). 「지원대상출산(유·사산)한 … 임산부자격요건①
+/// 고용노동부…② 신청일 기준…」처럼 붙어 나와 앱의 「누가」 줄이 읽히지 않았다.
+///
+/// 글머리(①~⑳·○·●·■·□·▶·◆·※·「- 」) 앞에서, 그리고 제목 말(지원대상·자격요건·
+/// 선정기준·지원내용…)이 글머리나 쌍점 앞에 붙어 있으면 그 앞뒤에서 줄을 나눈다.
+String restoreLines(String text) {
+  var t = text;
+  // 제목 말 — 글 맨 앞이거나, 바로 뒤가 글머리·쌍점일 때만.
+  final heads = RegExp(
+    r'(지원\s?대상|자격\s?요건|선정\s?기준|지원\s?내용|지원\s?기준|지원\s?금액|'
+    r'신청\s?방법|신청\s?기간|제출\s?서류|구비\s?서류|유의\s?사항|대상자|지원\s?조건)'
+    r'(?=\s*[:：]|\s*[①-⑳○●■□▶◆❍※]|\s*-\s)',
+  );
+  t = t.replaceAllMapped(heads, (m) => '\n${m[1]}\n');
+  if (RegExp(r'^\s*(지원\s?대상|지원\s?내용|선정\s?기준)(?=\S)').firstMatch(t)
+      case final m?) {
+    t = '${m[1]}\n${t.substring(m.end)}';
+  }
+  // 글머리 앞 — 「(※ …)」처럼 괄호 안의 것은 두고.
+  t = t.replaceAllMapped(
+    RegExp(r'(?<=[^\s(\n])\s*([①-⑳○●■□▶◆❍]|※(?!\))|-\s)'),
+    (m) => '\n${m[1]}',
+  );
+  return t
+      // 글머리만 남은 줄(「○」)은 다음 줄과 잇는다.
+      .replaceAllMapped(
+        RegExp(r'(^|\n)([①-⑳○●■□▶◆❍※-])[ \t]*\n'),
+        (m) => '${m[1]}${m[2]} ',
+      )
+      .replaceAll(RegExp(r'\n\s*[:：]\s*'), '\n')
+      .replaceAll(RegExp(r'[ \t]+\n'), '\n')
+      .replaceAll(RegExp(r'\n{2,}'), '\n')
+      .trim();
 }
