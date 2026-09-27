@@ -420,7 +420,25 @@ Future<void> main(List<String> args) async {
     final result = await runMonthly(
       root: root,
       now: now,
-      fetchServices: gov == null ? null : () => gov.all('serviceList'),
+      fetchServices: gov == null
+          ? null
+          : () async {
+              final services = await gov.all('serviceList');
+              // 원본 내려 두기(Run workflow의 dump) — 무엇이 빠지는지 사람이
+              // 뒤져 보려고. 워크플로가 raw 가지에 올린다(v1·tool은 안 건드린다).
+              if (env['DUMP'] == 'true') {
+                final conditions = await gov.all('supportConditions');
+                final dir = Directory('${root.path}/raw')
+                  ..createSync(recursive: true);
+                File(
+                  '${dir.path}/serviceList.json',
+                ).writeAsStringSync(jsonEncode(services));
+                File(
+                  '${dir.path}/supportConditions.json',
+                ).writeAsStringSync(jsonEncode(conditions));
+              }
+              return services;
+            },
       convertLinks: access.isEmpty || secret.isEmpty
           ? null
           : (todo) => convertCoupang(

@@ -37,6 +37,11 @@ on:
         description: '점검 — 이 말이 든 기관·서비스를 들고 빠진 까닭과 함께 Summary에(쉼표로 여럿, =서울특별시는 본청만). 보통은 비워 두세요.'
         required: false
         default: ''
+      dump:
+        description: '원본 내려 두기 — 정부24 서비스 목록·지원조건 전체를 raw 가지에 올립니다(빠진 것을 뒤져 볼 때). 보통은 끄세요.'
+        type: boolean
+        required: false
+        default: false
   push:
     branches: [main]
     paths: ['tool/coupang_urls.tsv'] # 새 품목 주소를 올리면 링크만 바로 만든다
@@ -73,6 +78,7 @@ jobs:
           ONLY_COUPANG: ${{ github.event_name == 'push' }}
           SCHEDULED: ${{ github.event_name == 'schedule' }}
           PROBE: ${{ github.event.inputs.probe }}
+          DUMP: ${{ github.event.inputs.dump == 'true' }}
         run: dart --packages=tool/.dart_tool/package_config.json tool/monthly.dart --root .
 
       - name: 올리기
@@ -101,6 +107,18 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             -H 'Accept: application/vnd.github+json' \
             "https://api.github.com/repos/${{ github.repository }}/pages/builds"
+
+      # 원본은 main과 따로 raw 가지에 한 커밋만 둔다(매번 덮어쓴다). 웹 페이지는
+      # main에서만 만들어지니 이 가지는 공개 주소에 안 뜬다.
+      - name: 원본 내려 두기
+        if: github.event.inputs.dump == 'true'
+        run: |
+          gzip -9 raw/serviceList.json raw/supportConditions.json
+          git checkout -q --orphan raw
+          git rm -rfq --cached .
+          git add -f raw/serviceList.json.gz raw/supportConditions.json.gz
+          git commit -qm "정부24 원본 $(TZ=Asia/Seoul date +%F)"
+          git push -f origin raw
 
       - name: 사람이 볼 것이 있으면 알림
         if: steps.run.outputs.attention == 'true'
