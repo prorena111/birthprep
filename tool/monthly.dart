@@ -81,6 +81,7 @@ Future<MonthlyResult> runMonthly({
   bool onlyCoupang = false,
   bool allowShrink = false,
   bool scheduled = false,
+  String? probe,
   String Function(Object)? hide,
 }) async {
   String safe(Object e) => hide == null ? '$e' : hide(e);
@@ -129,6 +130,11 @@ Future<MonthlyResult> runMonthly({
       try {
         final services = await fetchServices();
         summary.add('정부24 서비스 ${services.length}개를 받았습니다.');
+        // 점검(Run workflow의 probe) — 그 말이 든 서비스와 들고 빠진 까닭.
+        for (final needle in (probe ?? '').split(',')) {
+          if (needle.trim().isEmpty) continue;
+          summary.addAll(probeReport(services, needle.trim()));
+        }
 
         // 지원 목록.
         final pick = pickSupports(services);
@@ -428,6 +434,7 @@ Future<void> main(List<String> args) async {
           opts.containsKey('only-coupang') || env['ONLY_COUPANG'] == 'true',
       allowShrink: env['ALLOW_SHRINK'] == 'true',
       scheduled: env['SCHEDULED'] == 'true',
+      probe: opts['probe'] ?? env['PROBE'],
       hide: hideAll,
     );
     final text = result.summary.join('\n');

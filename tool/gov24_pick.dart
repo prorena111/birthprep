@@ -453,3 +453,63 @@ String dayOf(DateTime at) => '${at.year}-${_two(at.month)}-${_two(at.day)}';
 String monthOf(DateTime at) => '${at.year}-${_two(at.month)}';
 
 String _two(int v) => v.toString().padLeft(2, '0');
+
+/// 한 서비스가 왜 목록에 들었는지·빠졌는지 — 점검용(Run workflow의 `probe`).
+///
+/// 사장님 2026-09-27 「마포구만 해도 주는 게 이렇게 많은데 왜 하나도 안
+/// 나와」 — 정부24에 없는 것인지 우리가 거른 것인지 가리려고 만들었다.
+/// [pickSupports]와 같은 차례로 본다(둘을 같이 고친다).
+String explainPick(Map<String, Object?> row) {
+  final id = cleanText(row['서비스ID']);
+  final org = cleanText(row['소관기관명']);
+  final name = cleanText(row['서비스명']);
+  if (id == null || org == null || name == null) return '빠짐: 칸이 비었다';
+  final local = isLocalOrg(org);
+  if (!local && !isNationOrg(org)) return '빠짐: 지자체·나라 기관 이름 꼴이 아니다';
+  final field = cleanText(row['서비스분야']) ?? '';
+  final summary = cleanText(row['서비스목적요약']);
+  if (isOffTopic(name, local ? summary : null)) return '빠짐: 가축·농사·학비';
+  final aboutBirth = local
+      ? isAboutBirth(name, summary)
+      : isNationAboutBirth(name);
+  if (!aboutBirth && !field.contains('임신')) {
+    return '빠짐: 임신·출산·육아 낱말이 없다(분야 $field)';
+  }
+  if (!isForPeople(row['사용자구분'])) {
+    return '빠짐: 사람이 받는 것이 아니다(${row['사용자구분']})';
+  }
+  if (local
+      ? isCuratedCopy(name)
+      : curatedPrograms.any((p) => p.matches(id, name))) {
+    return '빠짐: 앱의 큰 제도와 같은 것';
+  }
+  if (govUrl(cleanText(row['상세조회URL'])) == null) return '빠짐: 정부24 원문 주소가 아니다';
+  return '들어감';
+}
+
+/// [needle]이 기관 이름이나 서비스 이름에 든 서비스를 모두 — 마크다운 표.
+///
+/// 「=서울특별시」처럼 `=`로 시작하면 기관 이름이 꼭 그것인 것만(시·도 본청).
+List<String> probeReport(List<Map<String, Object?>> services, String needle) {
+  final exact = needle.startsWith('=');
+  final word = exact ? needle.substring(1) : needle;
+  final rows = [
+    for (final r in services)
+      if (exact
+          ? cleanText(r['소관기관명']) == word
+          : (cleanText(r['소관기관명']) ?? '').contains(word) ||
+                (cleanText(r['서비스명']) ?? '').contains(word))
+        r,
+  ];
+  return [
+    '',
+    '### 점검: 「$needle」 ${rows.length}건',
+    '',
+    '| 기관 | 서비스 | 분야 | 지원유형 | 결과 |',
+    '|---|---|---|---|---|',
+    for (final r in rows)
+      '| ${cleanText(r['소관기관명'])} | ${cleanText(r['서비스명'])} | '
+          '${cleanText(r['서비스분야']) ?? ''} | ${cleanText(r['지원유형']) ?? ''} | '
+          '${explainPick(r)} |',
+  ];
+}
