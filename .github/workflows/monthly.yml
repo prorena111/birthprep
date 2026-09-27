@@ -33,6 +33,10 @@ on:
         type: boolean
         required: false
         default: false
+      probe:
+        description: '점검 — 이 말이 든 기관·서비스를 들고 빠진 까닭과 함께 Summary에(쉼표로 여럿, =서울특별시는 본청만). 보통은 비워 두세요.'
+        required: false
+        default: ''
   push:
     branches: [main]
     paths: ['tool/coupang_urls.tsv'] # 새 품목 주소를 올리면 링크만 바로 만든다
@@ -68,6 +72,7 @@ jobs:
           ALLOW_SHRINK: ${{ github.event.inputs.allow_shrink == 'true' }}
           ONLY_COUPANG: ${{ github.event_name == 'push' }}
           SCHEDULED: ${{ github.event_name == 'schedule' }}
+          PROBE: ${{ github.event.inputs.probe }}
         run: dart --packages=tool/.dart_tool/package_config.json tool/monthly.dart --root .
 
       - name: 올리기
