@@ -80,8 +80,39 @@ bool isNationAboutBirth(String name) {
   if (_notBirthWords.any(name.contains)) return false;
   if (isOffTopic(name, null)) return false;
   final n = _falseFriends(name);
-  return _birthWords.any(n.contains) || _nationNameWords.any(n.contains);
+  return _birthWords.any(n.contains) ||
+      _nationNameWords.any(n.contains) ||
+      _childNameWords.any(n.contains);
 }
+
+/// **이름에** 있으면 아이 키우는 집이 받는 것 — 이름으로만 본다(목적 요약에는
+/// 「아동」이 「노인·장애인·아동」처럼 늘 섞여 나온다).
+///
+/// 사장님 2026-09-27 「사소한 것들이라도 빠지는 게 있어서는 안 돼. 나라, 도
+/// 단위, 시 단위 등」. 점검(probe)으로 정부24 원본을 뒤져 보니 「미혼모부 양육비
+/// 지원」·「장애인가정 양육지원금」·「서울시 어린이 눈건강 지킴이」·「아동치과
+/// 치료지원」·「어린이 불소 도포」·「꿈나래통장」이 「임신·출산 낱말이 없다」로
+/// 빠지고 있었다.
+const _childNameWords = [
+  '아동',
+  '어린이',
+  '한부모',
+  '미혼모',
+  '미혼부',
+  '양육비',
+  '양육지원',
+  '장애아',
+  '발달재활',
+  '언어발달',
+  '육아휴직',
+  '육아기',
+  '배우자출산',
+  '배우자 출산',
+  '꿈나래',
+  '다함께',
+  '키즈',
+  '유아',
+];
 
 /// 「보육」은 홀로는 넓다(「스마트팜 청년창업 보육센터」·「보육교직원 마음성장」) —
 /// 부모가 받는 보육료·시간제보육만.
@@ -132,7 +163,8 @@ bool isAboutBirth(String name, String? summary) {
   if (_notBirthWords.any(name.contains)) return false;
   if (isOffTopic(name, summary)) return false;
   final text = _falseFriends('$name ${summary ?? ''}');
-  return _birthWords.any(text.contains);
+  return _birthWords.any(text.contains) ||
+      _childNameWords.any(_falseFriends(name).contains);
 }
 
 /// 낱말 속에 우연히 든 것을 걷는다 — 「아이디어」의 「아이」, 「체불임금」의
@@ -175,6 +207,13 @@ const _notBirthWords = [
   '아이돌보미 건강',
   '치매',
   '환경교육',
+  // 아이 키우는 집이 아니라 보호가 필요한 아동·시설·학대 대응.
+  '보호대상아동',
+  '아동보호',
+  '학대',
+  '자립준비',
+  '아동양육시설',
+  '그룹홈',
 ];
 
 /// 가축·농사와 대학 학비 — 낱말이 겹쳐도 이 앱(임신부터 만 6세까지) 이야기가
