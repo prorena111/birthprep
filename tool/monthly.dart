@@ -37,6 +37,7 @@ import 'dart:io';
 
 import 'bokjiro_client.dart';
 import 'bokjiro_pick.dart';
+import 'region_pick.dart';
 import 'central_watch.dart';
 import 'coupang_api.dart';
 import 'gov24_client.dart';
@@ -61,6 +62,9 @@ const shrinkLimit = 0.7;
 const minSupports = 300;
 
 typedef FetchServices = Future<List<Map<String, Object?>>> Function();
+
+/// 시·도 데이터 받기(서울·경기) — 키가 없으면 null.
+typedef FetchRows = Future<List<Map<String, String>>> Function();
 typedef ConvertLinks = Future<CoupangRun> Function(Map<String, String> todo);
 
 class MonthlyResult {
@@ -82,6 +86,8 @@ Future<MonthlyResult> runMonthly({
   required DateTime now,
   FetchServices? fetchServices,
   BokjiroSource? bokjiro,
+  FetchRows? fetchSeoul,
+  FetchRows? fetchGyeonggi,
   ConvertLinks? convertLinks,
   Set<String> accept = const {},
   bool onlyCoupang = false,
@@ -180,6 +186,71 @@ Future<MonthlyResult> runMonthly({
             );
           }
         }
+        // 시·도가 따로 여는 데이터 — 정부24·복지로에 없는 것만 더한다.
+        // 키가 없거나 받다가 멈추면 지난번 것을 그대로 쓴다.
+        for (final region in [
+          (
+            source: 'seoul',
+            label: '서울 몽땅정보통',
+            fetch: fetchSeoul,
+            toItems: (List<Map<String, String>> rows) => addNew(
+              [
+                for (final r in rows)
+                  if (!isSeoulStale(r) && isSeoulAboutBirth(r)) seoulItem(r),
+              ],
+              items,
+              againstNation: true,
+            ),
+          ),
+          (
+            source: 'gg',
+            label: '경기 출산장려금',
+            fetch: fetchGyeonggi,
+            toItems: (List<Map<String, String>> rows) =>
+                addNew([for (final r in rows) ggItem(r)], items),
+          ),
+        ]) {
+          final previousItems = _sourceItemsOf(
+            file(supportsPath),
+            region.source,
+          );
+          List<Map<String, String>> added;
+          String? error;
+          var listed = 0;
+          if (region.fetch == null) {
+            added = previousItems;
+          } else {
+            try {
+              final rows = await region.fetch!();
+              listed = rows.length;
+              added = region.toItems(rows);
+            } catch (e) {
+              error = safe(e);
+              added = previousItems;
+            }
+          }
+          status[region.source] = {
+            'listed': listed,
+            'added': added.length,
+            if (region.fetch == null) 'noKey': true,
+            'error': ?error,
+          };
+          if (error != null) {
+            attention.add(
+              '${region.label}을 받지 못해 지난번 ${added.length}개를 그대로 썼습니다: '
+              '$error',
+            );
+          } else if (region.fetch != null) {
+            summary.add(
+              '- ${region.label} $listed개 중 정부24·복지로에 없는 ${added.length}개를 더함',
+            );
+          }
+          items = [...items, ...added];
+        }
+        items.sort((a, b) {
+          final byOrg = a['org']!.compareTo(b['org']!);
+          return byOrg != 0 ? byOrg : a['name']!.compareTo(b['name']!);
+        });
         final prev = _count(file(supportsPath));
         final n = items.length;
         // 바닥(minSupports)은 늘 지킨다. 지난달보다 3할 넘게 줄면 막되,
@@ -448,13 +519,15 @@ Future<void> main(List<String> args) async {
   final key = env['DATA_GO_KR_KEY']?.trim() ?? '';
   final access = env['COUPANG_ACCESS_KEY']?.trim() ?? '';
   final secret = env['COUPANG_SECRET_KEY']?.trim() ?? '';
+  final seoulKey = env['SEOUL_OPENAPI_KEY']?.trim() ?? '';
+  final ggKey = env['GG_OPENAPI_KEY']?.trim() ?? '';
   final gov = key.isEmpty ? null : Gov24Client(key);
   // 복지로도 같은 공공데이터포털 키다(포털에서 활용신청이 되어 있어야 받힌다).
   final bok = key.isEmpty ? null : BokjiroClient(key);
   // 오류 글에서 키를 모두 가린다(정부24·쿠팡).
   String hideAll(Object e) {
     var text = gov?.hide(e) ?? '$e';
-    for (final k in [access, secret]) {
+    for (final k in [access, secret, seoulKey, ggKey]) {
       if (k.isNotEmpty) text = text.replaceAll(k, '***');
     }
     return text;
@@ -497,6 +570,12 @@ Future<void> main(List<String> args) async {
               },
               detail: bok.detail,
             ),
+      fetchSeoul: seoulKey.isEmpty
+          ? null
+          : () => fetchSeoul(seoulKey, log: stdout.writeln),
+      fetchGyeonggi: ggKey.isEmpty
+          ? null
+          : () => fetchGyeonggi(ggKey, log: stdout.writeln),
       convertLinks: access.isEmpty || secret.isEmpty
           ? null
           : (todo) => convertCoupang(
@@ -689,13 +768,17 @@ int? _count(File f) {
 }
 
 /// 지난번 지원 목록 파일의 복지로 항목 — 복지로를 못 받은 달에 그대로 쓴다.
-List<Map<String, String>> _bokjiroItemsOf(File f) {
+List<Map<String, String>> _bokjiroItemsOf(File f) =>
+    _sourceItemsOf(f, 'bokjiro');
+
+/// 지난번 지원 목록 파일에서 한 출처([source])의 항목.
+List<Map<String, String>> _sourceItemsOf(File f, String source) {
   final root = _readJson(f);
   final items = root?['items'];
   if (items is! List) return const [];
   return [
     for (final i in items)
-      if (i is Map && i['source'] == 'bokjiro')
+      if (i is Map && i['source'] == source)
         {
           for (final e in i.entries)
             if (e.value is String) '${e.key}': e.value as String,

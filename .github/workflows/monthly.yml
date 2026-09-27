@@ -15,6 +15,8 @@
 #   DATA_GO_KR_KEY       공공데이터포털 「일반 인증키(Decoding)」
 #   COUPANG_ACCESS_KEY   쿠팡 파트너스 Access Key
 #   COUPANG_SECRET_KEY   쿠팡 파트너스 Secret Key
+#   SEOUL_OPENAPI_KEY    서울 열린데이터광장 인증키(탄생육아 몽땅정보통)
+#   GG_OPENAPI_KEY       경기데이터드림 인증키(시군별 출산장려금)
 name: 매달 데이터 갱신
 
 on:
@@ -73,6 +75,8 @@ jobs:
           DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
           COUPANG_ACCESS_KEY: ${{ secrets.COUPANG_ACCESS_KEY }}
           COUPANG_SECRET_KEY: ${{ secrets.COUPANG_SECRET_KEY }}
+          SEOUL_OPENAPI_KEY: ${{ secrets.SEOUL_OPENAPI_KEY }}
+          GG_OPENAPI_KEY: ${{ secrets.GG_OPENAPI_KEY }}
           ACCEPT: ${{ github.event.inputs.accept }}
           ALLOW_SHRINK: ${{ github.event.inputs.allow_shrink == 'true' }}
           ONLY_COUPANG: ${{ github.event_name == 'push' }}
