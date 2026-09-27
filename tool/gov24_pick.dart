@@ -112,6 +112,20 @@ const _childNameWords = [
   '다함께',
   '키즈',
   '유아',
+  // 2026-09-27 밤 원본 전체(10,941건)를 뒤져 더 찾은 것 — 다자녀 진료비·가족사진,
+  // 손주 돌봄 수당, 입양 축하금, 부모부담 보육료.
+  '세 자녀',
+  '세자녀',
+  '두 자녀',
+  '두자녀',
+  '자녀 이상',
+  '손주돌봄',
+  '손자녀',
+  '입양축하',
+  '입양 축하',
+  '입양장려',
+  '입양가정',
+  '보육료',
 ];
 
 /// 「보육」은 홀로는 넓다(「스마트팜 청년창업 보육센터」·「보육교직원 마음성장」) —
@@ -164,7 +178,18 @@ bool isAboutBirth(String name, String? summary) {
   if (isOffTopic(name, summary)) return false;
   final text = _falseFriends('$name ${summary ?? ''}');
   return _birthWords.any(text.contains) ||
-      _childNameWords.any(_falseFriends(name).contains);
+      _childNameWords.any(_falseFriends(name).contains) ||
+      isSchoolEntry(name);
+}
+
+/// 초등학교에 들어갈 때 주는 돈 — 「초등학교 입학축하금」·「초·중·고 입학준비금」.
+/// 만 6세 아이가 받는다(이 앱은 만 6세까지). 중·고·대학만 주는 것은 뺀다.
+bool isSchoolEntry(String name) {
+  final n = squash(name).replaceAll(RegExp(r'[,·ㆍ]'), '');
+  if (!n.contains('입학')) return false;
+  // 「전입학생 지원」은 전학 온 학생에게 주는 것이다.
+  if (n.contains('대학') || n.contains('전입학')) return false;
+  return n.contains('초등') || n.contains('초중');
 }
 
 /// 낱말 속에 우연히 든 것을 걷는다 — 「아이디어」의 「아이」, 「체불임금」의
@@ -182,6 +207,9 @@ const _birthWords = [
   // 유기동물 입양). 이 꼴일 때만.
   '출생아', '출생축하', '출생 축하', '출생기본소득', '출생장려', '출생신고',
   '출생·입양', '출생가정', '양육수당',
+  // 2026-09-27 밤 원본 전체에서 — 미숙아 RSV 접종비, 0세아 의료비, 정관·난관
+  // 복원 시술비(임신 준비), 생후 36개월 이하 자녀 가정 요금 감면, 맘편한 택시.
+  '미숙아', '0세아', '정관', '난관 복원', '난관복원', '생후', '맘편한',
   ..._careWords,
 ];
 
