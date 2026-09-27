@@ -1,12 +1,11 @@
 {
-  "ran": "2026-09-27T23:55+09:00",
+  "ran": "2026-09-27T23:58+09:00",
   "bokjiro": {
-    "listed": 0,
+    "listed": 4819,
     "added": 689,
-    "duplicates": 0,
+    "duplicates": 569,
     "fetchedDetails": 0,
-    "missingDetails": 0,
-    "error": "SocketException: HTTP connection timed out after 0:00:20.000000, host: apis.data.go.kr, port: 443"
+    "missingDetails": 0
   },
   "supports": {
     "fetched": 10941,
@@ -49,7 +48,5 @@
     "added": 0,
     "missing": 0
   },
-  "attention": [
-    "복지로 목록을 받지 못해 지난번 복지로 항목 689개를 그대로 썼습니다: SocketException: HTTP connection timed out after 0:00:20.000000, host: apis.data.go.kr, port: 443"
-  ]
+  "attention": []
 }
