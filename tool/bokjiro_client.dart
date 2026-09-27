@@ -100,9 +100,11 @@ class BokjiroClient {
       } on Gov24KeyRejected {
         rethrow;
       } catch (e) {
-        if (attempt >= 3) rethrow;
-        _log('  다시 시도합니다($attempt/3): ${hide(e)}');
-        await Future<void>.delayed(Duration(seconds: 3 * attempt));
+        // 복지로(apis.data.go.kr)는 GitHub에서 가끔 연결이 20초 넘게 안 된다
+        // (2026-09-27 한 번) — 다섯 번까지, 점점 길게 쉬며 다시 한다.
+        if (attempt >= 5) rethrow;
+        _log('  다시 시도합니다($attempt/5): ${hide(e)}');
+        await Future<void>.delayed(Duration(seconds: 5 * attempt));
       }
     }
   }
