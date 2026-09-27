@@ -36,6 +36,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'bokjiro_client.dart';
+import 'bokjiro_pick.dart';
 import 'central_watch.dart';
 import 'coupang_api.dart';
 import 'gov24_client.dart';
@@ -48,6 +49,9 @@ const statusPath = 'v1/status.json';
 const watchPath = 'tool/central_watch.json';
 const changesPath = 'tool/central_changes.md';
 const coupangUrlsPath = 'tool/coupang_urls.tsv';
+
+/// 복지로 상세 저장분 — 다음 달엔 바뀐 것만 받는다(하루 1,000번 한도).
+const bokjiroCachePath = 'tool/bokjiro_details.json';
 
 /// 지원 목록이 지난달의 이만큼보다 적으면 올리지 않는다 — 정부24 쪽 사고로
 /// 반쯤 빈 목록을 받았을 수 있다.
@@ -77,6 +81,7 @@ Future<MonthlyResult> runMonthly({
   required Directory root,
   required DateTime now,
   FetchServices? fetchServices,
+  BokjiroSource? bokjiro,
   ConvertLinks? convertLinks,
   Set<String> accept = const {},
   bool onlyCoupang = false,
@@ -137,10 +142,46 @@ Future<MonthlyResult> runMonthly({
           summary.addAll(probeReport(services, needle.trim()));
         }
 
-        // 지원 목록.
+        // 지원 목록 — 정부24 + 복지로(정부24에 없는 지자체 것).
         final pick = pickSupports(services);
+        var items = pick.items;
+        if (bokjiro != null) {
+          final run = await runBokjiro(
+            source: bokjiro,
+            gov: pick.items,
+            cache: _readJson(file(bokjiroCachePath)) ?? const {},
+            previous: _bokjiroItemsOf(file(supportsPath)),
+            hide: hide,
+          );
+          _writeJson(file(bokjiroCachePath), run.cache);
+          items = [...pick.items, ...run.items]
+            ..sort((a, b) {
+              final byOrg = a['org']!.compareTo(b['org']!);
+              return byOrg != 0 ? byOrg : a['name']!.compareTo(b['name']!);
+            });
+          status['bokjiro'] = {
+            'listed': run.listed,
+            'added': run.items.length,
+            'duplicates': run.duplicates,
+            'fetchedDetails': run.fetchedDetails,
+            'missingDetails': run.missingDetails,
+            if (run.error != null) 'error': run.error,
+          };
+          if (run.error != null) {
+            attention.add(
+              '복지로 목록을 받지 못해 지난번 복지로 항목 ${run.items.length}개를 그대로 '
+              '썼습니다: ${run.error}',
+            );
+          } else {
+            summary.add(
+              '- 복지로 ${run.listed}개 중 정부24에 없는 ${run.items.length}개를 더함'
+              '(같은 사업 ${run.duplicates}개는 뺌, 상세 새로 ${run.fetchedDetails}개'
+              '${run.missingDetails > 0 ? ', 다음 달로 미룬 상세 ${run.missingDetails}개' : ''})',
+            );
+          }
+        }
         final prev = _count(file(supportsPath));
-        final n = pick.items.length;
+        final n = items.length;
         // 바닥(minSupports)은 늘 지킨다. 지난달보다 3할 넘게 줄면 막되,
         // 사람이 확인하고 허락하면(Run workflow → allow_shrink) 올린다.
         final belowFloor = n < minSupports;
@@ -157,7 +198,7 @@ Future<MonthlyResult> runMonthly({
           );
         } else {
           final checked = dayOf(now);
-          supports = supportsFile(items: pick.items, checked: checked);
+          supports = supportsFile(items: items, checked: checked);
           data['local'] = {
             'checked': checked,
             'rev': supports['rev'],
@@ -408,6 +449,8 @@ Future<void> main(List<String> args) async {
   final access = env['COUPANG_ACCESS_KEY']?.trim() ?? '';
   final secret = env['COUPANG_SECRET_KEY']?.trim() ?? '';
   final gov = key.isEmpty ? null : Gov24Client(key);
+  // 복지로도 같은 공공데이터포털 키다(포털에서 활용신청이 되어 있어야 받힌다).
+  final bok = key.isEmpty ? null : BokjiroClient(key);
   // 오류 글에서 키를 모두 가린다(정부24·쿠팡).
   String hideAll(Object e) {
     var text = gov?.hide(e) ?? '$e';
@@ -437,26 +480,23 @@ Future<void> main(List<String> args) async {
                 File(
                   '${dir.path}/supportConditions.json',
                 ).writeAsStringSync(jsonEncode(conditions));
-                // 복지로 지자체복지서비스 — 포털에서 활용신청을 해야 받힌다.
-                // 실패해도 이번 실행은 그대로 간다(원본 내려 두기일 뿐).
-                final bok = BokjiroClient(key);
-                try {
-                  File(
-                    '${dir.path}/bokjiroList.json',
-                  ).writeAsStringSync(jsonEncode(await bok.list()));
-                } catch (e) {
-                  final why = e is Gov24KeyRejected
-                      ? '키가 거절됐습니다 — 공공데이터포털에서 「한국사회보장정보원_'
-                            '지자체복지서비스」 활용신청을 확인해 주세요. ${e.body}'
-                      : bok.hide(e);
-                  stdout.writeln('복지로 목록을 받지 못했습니다: $why');
-                  File('${dir.path}/bokjiroError.txt').writeAsStringSync(why);
-                } finally {
-                  bok.close();
-                }
               }
               return services;
             },
+      bokjiro: bok == null
+          ? null
+          : BokjiroSource(
+              list: () async {
+                final rows = await bok.list();
+                if (env['DUMP'] == 'true') {
+                  File('${root.path}/raw/bokjiroList.json')
+                    ..parent.createSync(recursive: true)
+                    ..writeAsStringSync(jsonEncode(rows));
+                }
+                return rows;
+              },
+              detail: bok.detail,
+            ),
       convertLinks: access.isEmpty || secret.isEmpty
           ? null
           : (todo) => convertCoupang(
@@ -486,6 +526,7 @@ Future<void> main(List<String> args) async {
     }
   } finally {
     gov?.close();
+    bok?.close();
   }
 }
 
@@ -645,6 +686,21 @@ int? _count(File f) {
   } catch (_) {
     return null;
   }
+}
+
+/// 지난번 지원 목록 파일의 복지로 항목 — 복지로를 못 받은 달에 그대로 쓴다.
+List<Map<String, String>> _bokjiroItemsOf(File f) {
+  final root = _readJson(f);
+  final items = root?['items'];
+  if (items is! List) return const [];
+  return [
+    for (final i in items)
+      if (i is Map && i['source'] == 'bokjiro')
+        {
+          for (final e in i.entries)
+            if (e.value is String) '${e.key}': e.value as String,
+        },
+  ];
 }
 
 /// 두 칸 들여쓰기, 줄 끝은 LF — 앱에서 뽑은 data.json과 같은 모양.
