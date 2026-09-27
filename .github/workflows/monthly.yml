@@ -38,7 +38,7 @@ on:
         required: false
         default: ''
       dump:
-        description: '원본 내려 두기 — 정부24 서비스 목록·지원조건 전체를 raw 가지에 올립니다(빠진 것을 뒤져 볼 때). 보통은 끄세요.'
+        description: '원본 내려 두기 — 정부24 서비스 목록·지원조건과 복지로 지자체복지서비스 전체를 raw 가지에 올립니다(빠진 것을 뒤져 볼 때). 보통은 끄세요.'
         type: boolean
         required: false
         default: false
@@ -113,10 +113,10 @@ jobs:
       - name: 원본 내려 두기
         if: github.event.inputs.dump == 'true'
         run: |
-          gzip -9 raw/serviceList.json raw/supportConditions.json
+          gzip -9 raw/*.json
           git checkout -q --orphan raw
           git rm -rfq --cached .
-          git add -f raw/serviceList.json.gz raw/supportConditions.json.gz
+          git add -f raw
           git commit -qm "정부24 원본 $(TZ=Asia/Seoul date +%F)"
           git push -f origin raw
 

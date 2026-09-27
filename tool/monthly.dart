@@ -35,6 +35,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'bokjiro_client.dart';
 import 'central_watch.dart';
 import 'coupang_api.dart';
 import 'gov24_client.dart';
@@ -436,6 +437,23 @@ Future<void> main(List<String> args) async {
                 File(
                   '${dir.path}/supportConditions.json',
                 ).writeAsStringSync(jsonEncode(conditions));
+                // 복지로 지자체복지서비스 — 포털에서 활용신청을 해야 받힌다.
+                // 실패해도 이번 실행은 그대로 간다(원본 내려 두기일 뿐).
+                final bok = BokjiroClient(key);
+                try {
+                  File(
+                    '${dir.path}/bokjiroList.json',
+                  ).writeAsStringSync(jsonEncode(await bok.list()));
+                } catch (e) {
+                  final why = e is Gov24KeyRejected
+                      ? '키가 거절됐습니다 — 공공데이터포털에서 「한국사회보장정보원_'
+                            '지자체복지서비스」 활용신청을 확인해 주세요. ${e.body}'
+                      : bok.hide(e);
+                  stdout.writeln('복지로 목록을 받지 못했습니다: $why');
+                  File('${dir.path}/bokjiroError.txt').writeAsStringSync(why);
+                } finally {
+                  bok.close();
+                }
               }
               return services;
             },
