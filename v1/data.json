@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-09-27",
+  "updated": "2026-09-28",
   "minBuild": 1,
   "support": {
     "programs": {
@@ -860,9 +860,9 @@
     "C10-13": "https://link.coupang.com/a/hkLIu170Me"
   },
   "local": {
-    "checked": "2026-09-27",
-    "rev": "d648493849328ffd",
-    "count": 2348,
+    "checked": "2026-09-28",
+    "rev": "5a8bfe26f9fb8d29",
+    "count": 2447,
     "nation": 69
   }
 }

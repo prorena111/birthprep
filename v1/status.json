@@ -1,5 +1,5 @@
 {
-  "ran": "2026-09-27T23:58+09:00",
+  "ran": "2026-09-28T00:40+09:00",
   "bokjiro": {
     "listed": 4819,
     "added": 689,
@@ -7,9 +7,17 @@
     "fetchedDetails": 0,
     "missingDetails": 0
   },
+  "seoul": {
+    "listed": 322,
+    "added": 94
+  },
+  "gg": {
+    "listed": 48,
+    "added": 5
+  },
   "supports": {
     "fetched": 10941,
-    "count": 2348,
+    "count": 2447,
     "nation": 69,
     "perSido": {
       "서울특별시": 200,
