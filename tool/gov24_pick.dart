@@ -309,6 +309,13 @@ const _offTopicWords = [
 /// 있으면 지자체가 더 주는 것이라 남긴다. 산모·신생아 건강관리는 지자체 것이
 /// 대부분 본인부담금 추가 지원이라 여기 넣지 않는다.
 bool isCuratedCopy(String name) {
+  // 임산부 친환경농산물 꾸러미는 농식품부 사업을 지자체가 운영한다 — 이름이
+  // 제각각이라(「경기임산부 친환경농산물 지원」·「임산부 친환경농산물 꾸러미
+  // 지원」) 낱말로 본다. 앱의 나라 카드(S10)와 같은 것이다(2026-09-28).
+  final s = squash(name);
+  if (s.contains('친환경농산물') && (s.contains('임산부') || s.contains('임신부'))) {
+    return true;
+  }
   final n = squash(name)
       .replaceAll(RegExp(r'[\(\[][^\)\]]*[\)\]]'), '')
       .replaceAll(RegExp(r'(지원|사업|신청)+$'), '');
@@ -374,6 +381,11 @@ const curatedPrograms = [
   CuratedProgram('S08', serviceIds: ['B55121000003'], names: ['도시가스']),
   // 2026-09-26 큰 제도에 올렸다(정부24 글에 한도가 없어 목록에선 금액이 안 보였다).
   CuratedProgram('S09', serviceIds: ['135200000114'], names: ['고위험 임산부 의료비']),
+  // 2026-09-28 — 정부24에 나라 쪽 글이 없어 지켜보지 않는다(사람이 1년에 한 번).
+  // 영유아 건강검진은 이름으로 빼지 않는다 — 「의료급여수급권자 영유아건강검진비」는
+  // 다른 사업이다.
+  CuratedProgram('S10', serviceIds: [], names: ['임산부 친환경농산물'], watched: false),
+  CuratedProgram('S11', serviceIds: [], names: [], watched: false),
 ];
 
 /// 띄어쓰기·가운뎃점을 걷은 이름 — 「임신ㆍ출산 진료비」와 「임신·출산진료비」를
