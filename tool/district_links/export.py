@@ -1,7 +1,7 @@
 # 판정 결과(build/district_links/links_*.json)에서 앱에 넣을 것만 골라
 #   tool/district_links/links.json   — 원본(저장소에 들어간다, 사람이 읽고 고칠 수 있다)
 #   lib/data/catalog/district_links.dart — 앱이 쓰는 표(손으로 고치지 않는다)
-# 를 만든다. 넣는 것: 앱 항목과 같은 사업으로 확인된 것(짝 확인 ≥ 0.8)과
+# 를 만든다(--bake <v1/links.json>이면 게시된 표를 그대로 굽는다). 넣는 것: 앱 항목과 같은 사업으로 확인된 것(짝 확인 ≥ 0.8)과
 # 나라 제도·보건소 공통 카드의 구 안내 쪽. 검토·새 것·범위 밖은 넣지 않는다.
 import json, pathlib, re, sys, datetime
 from urllib.parse import urlparse
@@ -151,13 +151,22 @@ def remote(pages_root, files):
     dp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"v1/links.json {today} {rev}")
 
-def main(files):
+def main(files, bake=None):
     old = load_existing()
-    rows, new_checked, runs, dropped, new_found = collect(files, old.get("links", []))
-    checked = {**old.get("checked", {}), **new_checked}
-    found = {p: v for p, v in old.get("found", {}).items() if p not in runs}
-    found.update(new_found)
-    found = dict(sorted(found.items()))
+    if bake:
+        # 게시된 v1/links.json을 그대로 앱에 굽는다(매달 작업 결과와 앱 판을 맞출 때).
+        pub = json.loads(pathlib.Path(bake).read_text(encoding="utf-8"))
+        rows = sorted(({"place": k.split("|")[0], "id": k.split("|")[1], "url": v[0], "label": v[1]}
+                       for k, v in pub["links"].items()), key=lambda x: (x["place"], x["id"]))
+        checked = {**old.get("checked", {}), **{r["place"]: pub["checked"] for r in rows}}
+        found = dict(sorted(pub.get("found", {}).items()))
+        dropped = []
+    else:
+        rows, new_checked, runs, dropped, new_found = collect(files, old.get("links", []))
+        checked = {**old.get("checked", {}), **new_checked}
+        found = {p: v for p, v in old.get("found", {}).items() if p not in runs}
+        found.update(new_found)
+        found = dict(sorted(found.items()))
     OUT_JSON.write_text(json.dumps({"checked": dict(sorted(checked.items())), "links": rows, "found": found},
                                    ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
@@ -347,5 +356,7 @@ if __name__ == "__main__":
     if args[:1] == ["--remote"]:
         src = pathlib.Path(__import__("os").environ.get("LINK_OUT") or SRC)
         remote(args[1], args[2:] or sorted(str(p) for p in src.glob("links_*.json") if "_" not in p.stem[len("links_"):]))
+    elif args[:1] == ["--bake"]:
+        main([], bake=args[1])
     else:
         main(args or sorted(str(p) for p in SRC.glob("links_*.json") if "_" not in p.stem[len("links_"):]))
