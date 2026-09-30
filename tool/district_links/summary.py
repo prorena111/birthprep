@@ -14,7 +14,8 @@ for f in sorted(glob.glob(str(out / "links_*.json"))):
             ok += 1
             links += len(r.get("links", []))
         else:
-            e = h.get("error") or f"HTTP {h.get('status')}"
+            # 출발 쪽을 연 뒤 판정에서 죽었으면 hub_status가 없고 error가 있다(키 오류 등).
+            e = h.get("error") or (r.get("error") or "")[:120] or f"HTTP {h.get('status')}"
             errs[e] += 1
             if len(samples) < 10:
                 samples.append(f"{r['sido']} {r['district']}: {e}")
