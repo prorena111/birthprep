@@ -113,5 +113,14 @@ if __name__ == "__main__":
     text = body(a.root, today)
     print(text)
     print(f"\n({len(text)}자)")
-    if a.post:
+    rs = results()
+    unreached = sum(1 for r in rs if not (r.get("hub_status") or {}).get("ok"))
+    # 누리집이 3할 넘게 안 열린 날(해외 서버에서 한꺼번에 늦을 때)에는 공지를 미루고 다음 날 다시 돈다 —
+    # 「100곳이 안 열렸다」는 공지는 사실과 달라 보인다. 매달 1·2·3일 중 3일째나 손으로 돌린 때는 올린다.
+    busy = rs and unreached > len(rs) * 0.3
+    last_try = today.day >= 3 or os.environ.get("SCHEDULED") != "true"
+    if busy and not last_try:
+        print(f"\n누리집 {unreached}/{len(rs)}곳이 안 열려 공지를 미룬다 — 내일 다시 돈다")
+        (OUT / "retry_tomorrow").write_text("1", encoding="utf-8")
+    elif a.post:
         post(text, f"links-{today:%Y-%m}")

@@ -81,6 +81,7 @@ jobs:
           python tool/district_links/summary.py >> "$GITHUB_STEP_SUMMARY"
 
       - name: 표 쓰기
+        id: export
         if: steps.due.outputs.run == 'true'
         shell: bash # pipefail — 3할 넘게 줄면(종료 3) 실패로 끝나 메일이 간다
         env:
@@ -88,11 +89,26 @@ jobs:
           PYTHONIOENCODING: utf-8
         run: |
           python tool/district_links/export.py --remote . | tee -a "$GITHUB_STEP_SUMMARY"
-          TZ=Asia/Seoul date +%F > tool/district_links/last_run.txt
+
+      # 확인하지 못한 곳을 커뮤니티 공지(운영팀 글, 맨 위 고정)로 — 같은 달에 다시 돌면 그 달 글을
+      # 고친다. 서버 함수 publish_monthly_notice는 공지 토큰(NOTICE_TOKEN)의 지문만 안다.
+      - name: 커뮤니티 공지
+        if: steps.due.outputs.run == 'true'
+        shell: bash # pipefail — 올리기 실패(종료 4)면 이 단계도 실패해 메일이 간다
+        env:
+          NOTICE_TOKEN: ${{ secrets.NOTICE_TOKEN }}
+          LINK_OUT: build/district_links
+          PYTHONIOENCODING: utf-8
+          SCHEDULED: ${{ github.event_name == 'schedule' }}
+        run: |
+          python tool/district_links/notice.py --root . --post | tee -a "$GITHUB_STEP_SUMMARY"
+          # 누리집이 많이 안 열려 미룬 날은 last_run을 적지 않는다 — 다음 날 예약이 다시 돈다.
+          [ -f build/district_links/retry_tomorrow ] || TZ=Asia/Seoul date +%F > tool/district_links/last_run.txt
 
       - name: 올리기
         id: push
-        if: steps.due.outputs.run == 'true'
+        # 공지가 실패해도(메일은 간다) 표는 올린다 — 표 쓰기가 성공했을 때만.
+        if: ${{ !cancelled() && steps.due.outputs.run == 'true' && steps.export.outcome == 'success' }}
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -106,19 +122,8 @@ jobs:
           git push origin HEAD:main
           echo 'pushed=true' >> "$GITHUB_OUTPUT"
 
-      # 확인하지 못한 곳을 커뮤니티 공지(운영팀 글, 맨 위 고정)로 — 같은 달에 다시 돌면 그 달 글을
-      # 고친다. 서버 함수 publish_monthly_notice는 공지 토큰(NOTICE_TOKEN)의 지문만 안다.
-      - name: 커뮤니티 공지
-        if: steps.due.outputs.run == 'true'
-        shell: bash # pipefail — 올리기 실패(종료 4)면 이 단계도 실패해 메일이 간다
-        env:
-          NOTICE_TOKEN: ${{ secrets.NOTICE_TOKEN }}
-          LINK_OUT: build/district_links
-          PYTHONIOENCODING: utf-8
-        run: python tool/district_links/notice.py --root . --post | tee -a "$GITHUB_STEP_SUMMARY"
-
       - name: 웹 페이지 다시 만들기
-        if: steps.push.outputs.pushed == 'true'
+        if: ${{ !cancelled() && steps.push.outputs.pushed == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
