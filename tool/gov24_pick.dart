@@ -308,6 +308,18 @@ const _offTopicWords = [
 /// 이름이 곧 제도 이름일 때만 뺀다 — 「첫만남이용권 추가 지원」처럼 덧붙인 말이
 /// 있으면 지자체가 더 주는 것이라 남긴다. 산모·신생아 건강관리는 지자체 것이
 /// 대부분 본인부담금 추가 지원이라 여기 넣지 않는다.
+/// 끝난 사업 — 서비스ID와 끝난 날. 정부24 글이 늦게 내려가도 이 날부터 뺀다.
+/// 앱도 같은 표를 갖는다(`LocalSupportBook.ended`) — 둘을 같이 고친다.
+const endedServices = <String, String>{
+  // 경기도 산후조리비 — 2026-10-01 종료(9월 30일 신청 건까지), 시·군 누리집 7곳 확인.
+  '641000000137': '2026-10-01',
+};
+
+bool isEndedService(String id, [DateTime? now]) {
+  final day = endedServices[id];
+  return day != null && !(now ?? DateTime.now()).isBefore(DateTime.parse(day));
+}
+
 bool isCuratedCopy(String name) {
   // 임산부 친환경농산물 꾸러미는 농식품부 사업을 지자체가 운영한다 — 이름이
   // 제각각이라(「경기임산부 친환경농산물 지원」·「임산부 친환경농산물 꾸러미
@@ -445,6 +457,7 @@ Gov24Pick pickSupports(List<Map<String, Object?>> services) {
         : isNationAboutBirth(name);
     if (!aboutBirth && !field.contains('임신')) continue;
     if (!isForPeople(row['사용자구분'])) continue;
+    if (isEndedService(id)) continue;
     if (local
         ? isCuratedCopy(name)
         : curatedPrograms.any((p) => p.matches(id, name))) {
@@ -583,6 +596,7 @@ String explainPick(Map<String, Object?> row) {
   if (!isForPeople(row['사용자구분'])) {
     return '빠짐: 사람이 받는 것이 아니다(${row['사용자구분']})';
   }
+  if (isEndedService(id)) return '빠짐: 끝난 사업(endedServices)';
   if (local
       ? isCuratedCopy(name)
       : curatedPrograms.any((p) => p.matches(id, name))) {
