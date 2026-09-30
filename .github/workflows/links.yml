@@ -57,6 +57,12 @@ jobs:
         if: steps.due.outputs.run == 'true'
         run: pip install requests beautifulsoup4
 
+      - name: 키 모양(값은 안 찍음 — 길이·지문 앞 8자리)
+        if: steps.due.outputs.run == 'true'
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+        run: python tool/district_links/keycheck.py | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: 판정
         if: steps.due.outputs.run == 'true'
         shell: bash # pipefail — 판정이 죽으면 이 단계도 실패

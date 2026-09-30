@@ -25,7 +25,14 @@ NEW_CACHE = {"links": {}, "pages": {}}
 HITS = {"links": 0, "pages": 0}
 _lock = threading.Lock()
 # 키: 환경변수 TYPESAFE_API_KEY, 없으면 OneDrive 맨 위의 「타입세이프 api 키.txt」. 찍지 않는다.
-KEY = os.environ.get("TYPESAFE_API_KEY") or (pathlib.Path.home() / "OneDrive" / "타입세이프 api 키.txt").read_text(encoding="utf-8-sig").strip().split()[-1]
+def _clean_key(raw):
+    """앞뒤 공백·줄바꿈·BOM·보이지 않는 글자를 걷고 마지막 낱말만(설명 글과 같이 붙여 넣어도)."""
+    raw = raw.replace("﻿", "").replace("​", "")
+    words = raw.split()
+    return words[-1] if words else ""
+
+KEY = _clean_key(os.environ.get("TYPESAFE_API_KEY") or
+                 (pathlib.Path.home() / "OneDrive" / "타입세이프 api 키.txt").read_text(encoding="utf-8-sig"))
 UA = {"User-Agent": "Mozilla/5.0 (Linux; Android 14; SM-S948N) AppleWebKit/537.36 Chrome/128 Mobile Safari/537.36"}
 USAGE = {"input": 0, "output": 0, "calls": 0}
 
