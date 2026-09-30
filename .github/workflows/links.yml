@@ -1,0 +1,111 @@
+# 매달 시·군·구 누리집 혜택 안내 링크 갱신 — 사람이 누를 것이 없다.
+#
+# 매달 데이터 갱신(monthly.yml)이 v1/local.json을 새로 올린 뒤 돈다. 전국 시·군·구 누리집의
+# 출산·육아 쪽에서 혜택별 링크를 모아 TypeSafe로 판정하고(그 쪽이 혜택을 설명하는지 · 로그인
+# 없이 보이는지 · 앱 목록의 어느 사업과 같은지), 같은 사업으로 확인된 것만 v1/links.json으로
+# 올린다. v1/data.json에 links 머리(날짜·지문)를 적으면 앱이 새 표를 내려받는다.
+#
+# - 지난 판정(tool/district_links/cache.json)을 기억한다. 링크 글자·쪽 본문·보기가 그대로면
+#   TypeSafe에 다시 묻지 않는다 — 바뀐 쪽만 돈이 든다(전국을 처음부터 다 물어도 0.4달러 안팎).
+# - 누리집이 안 열린 시·군·구는 지난달 링크를 그대로 둔다.
+# - 링크가 지난달보다 3할 넘게 줄면 올리지 않고 실패로 끝낸다(메일이 간다).
+#
+# 코드는 tool/district_links/*.py — 원본은 앱 저장소의 tool/district_links/이고 여기는 사본이다.
+# tool/local_sites.json도 앱 저장소의 사본이다(시·군·구 누리집 주소).
+# 키: Settings → Secrets and variables → Actions → TYPESAFE_API_KEY
+name: 매달 구 누리집 링크
+
+on:
+  schedule:
+    # 매달 1·2·3일 12:17(한국 시각) — monthly.yml(09:17)이 끝난 뒤.
+    - cron: '17 3 1,2,3 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: monthly # monthly.yml과 겹치지 않게 같은 줄에 선다
+  cancel-in-progress: false
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: 이번 달에 이미 했으면 끝
+        id: due
+        run: |
+          month=$(TZ=Asia/Seoul date +%Y-%m)
+          last=$(cat tool/district_links/last_run.txt 2>/dev/null || true)
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "${last:0:7}" = "$month" ]; then
+            echo "이번 달($month)은 이미 돌았다 — $last"
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.due.outputs.run == 'true'
+        with:
+          python-version: '3.12'
+
+      - name: 패키지
+        if: steps.due.outputs.run == 'true'
+        run: pip install requests beautifulsoup4
+
+      - name: 판정
+        if: steps.due.outputs.run == 'true'
+        shell: bash # pipefail — 판정이 죽으면 이 단계도 실패
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          LINK_ITEMS: v1/local.json
+          LINK_OUT: build/district_links
+          LINK_CACHE: tool/district_links/cache.json
+          PYTHONIOENCODING: utf-8
+        run: |
+          python tool/district_links/pilot.py --all --workers 8 | tee build-links.log | tail -40
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          u = json.load(open("build/district_links/usage.json"))
+          print(f"## 구 누리집 링크\n\nTypeSafe {u['calls']}번 · 입력 {u['input']:,} 토큰 ≈ ${u['input']/1e6*0.042:.3f} · 다시 안 물은 것 {u['hits']}")
+          PY
+
+      - name: 표 쓰기
+        if: steps.due.outputs.run == 'true'
+        shell: bash # pipefail — 3할 넘게 줄면(종료 3) 실패로 끝나 메일이 간다
+        env:
+          LINK_OUT: build/district_links
+          PYTHONIOENCODING: utf-8
+        run: |
+          python tool/district_links/export.py --remote . | tee -a "$GITHUB_STEP_SUMMARY"
+          TZ=Asia/Seoul date +%F > tool/district_links/last_run.txt
+
+      - name: 올리기
+        id: push
+        if: steps.due.outputs.run == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add v1/links.json v1/data.json tool/district_links/cache.json tool/district_links/last_run.txt
+          if git diff --cached --quiet; then
+            echo '바뀐 것 없음'
+            exit 0
+          fi
+          git commit -m "구 누리집 링크 갱신 $(TZ=Asia/Seoul date +%F)"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo 'pushed=true' >> "$GITHUB_OUTPUT"
+
+      - name: 웹 페이지 다시 만들기
+        if: steps.push.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds"
