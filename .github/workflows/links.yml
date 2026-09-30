@@ -106,6 +106,7 @@ jobs:
       # 고친다. 서버 함수 publish_monthly_notice는 공지 토큰(NOTICE_TOKEN)의 지문만 안다.
       - name: 커뮤니티 공지
         if: steps.due.outputs.run == 'true'
+        shell: bash # pipefail — 올리기 실패(종료 4)면 이 단계도 실패해 메일이 간다
         env:
           NOTICE_TOKEN: ${{ secrets.NOTICE_TOKEN }}
           LINK_OUT: build/district_links
