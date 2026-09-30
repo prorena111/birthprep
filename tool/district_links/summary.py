@@ -22,3 +22,10 @@ for f in sorted(glob.glob(str(out / "links_*.json"))):
 print(f"출발 쪽이 열린 곳 {ok} · 안 열린 곳 {sum(errs.values())} {dict(errs)} · 판정한 쪽 {links}\n")
 for x in samples:
     print(f"- {x}")
+
+# TypeSafe 키가 틀렸거나(401) 판정이 거의 다 죽었으면 실패로 끝낸다 — 성공으로 끝나면 메일이
+# 안 가서 아무도 모른다(2026-09-30 첫 실행: 비밀값 오류로 189곳이 401인데 「성공」이었다).
+failed = sum(n for e, n in errs.items() if e.startswith("TypeSafe"))
+if failed:
+    print(f"\n⚠️ TypeSafe 오류 {failed}곳 — Settings → Secrets → TYPESAFE_API_KEY를 확인하세요.")
+    raise SystemExit(2)
