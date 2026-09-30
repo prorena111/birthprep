@@ -96,6 +96,13 @@ def fetch(url, _again=True):
     if not enc or enc.lower() in ("iso-8859-1", "ascii"):
         enc = r.apparent_encoding or "utf-8"
     html = r.content.decode(enc, errors="replace")
+    final, status = r.url, r.status_code
+    if status == 200 and len(html) < 2000:
+        # 프로그램에는 빈 쪽(스크립트로 브라우저인지 보는 쪽)만 주는 누리집 — 강북구 등.
+        # 화면 없는 크롬으로 다시 연다(playwright가 없으면 그대로).
+        got = _browser_html(url)
+        if got:
+            final, html = got
     soup = BeautifulSoup(html, "html.parser")
     title = (soup.title.get_text(" ", strip=True) if soup.title else "")[:120]
     has_pw = bool(soup.find("input", {"type": "password"}))
@@ -103,9 +110,30 @@ def fetch(url, _again=True):
         t.decompose()
     text = re.sub(r"\s+", " ", soup.get_text(" ", strip=True))
     main = main_text(soup) or text
-    return {"ok": r.status_code == 200, "status": r.status_code, "final": r.url, "title": title,
+    return {"ok": status == 200, "status": status, "final": final, "title": title,
             "html": html, "text": text, "main": main, "has_pw": has_pw,
-            "login_url": bool(LOGIN_URL.search(urlparse(r.url).path + "?" + urlparse(r.url).query))}
+            "login_url": bool(LOGIN_URL.search(urlparse(final).path + "?" + urlparse(final).query))}
+
+_tl = threading.local()
+
+def _browser_html(url):
+    """화면 없는 크롬으로 연 쪽(주소, html). 스레드마다 브라우저 하나. 못 열면 None."""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        return None
+    try:
+        if getattr(_tl, "browser", None) is None:
+            _tl.pw = sync_playwright().start()
+            _tl.browser = _tl.pw.chromium.launch()
+        page = _tl.browser.new_page(user_agent=UA["User-Agent"], ignore_https_errors=True)
+        try:
+            page.goto(url, wait_until="networkidle", timeout=45000)
+            return page.url, page.content()
+        finally:
+            page.close()
+    except Exception:
+        return None
 
 MENU = re.compile(r"gnb|lnb|snb|menu|nav|header|footer|quick|side|location|breadcrumb|util|allmenu|sitemap|skip|family|banner", re.I)
 CONT = re.compile(r"content|contents|cont_|_cont|contArea|article|sub_con|subCon|txt_area|board_view|view", re.I)
@@ -161,6 +189,34 @@ def collect_links(page, base):
             continue
         seen.add(key)
         out.append({"text": text, "url": key})
+    return out
+
+# 사업 이름이 아니라 그 안의 항목 제목(「1) 지원대상 :」「신청방법」「구비서류」) — 이것으로 자르면 사업이
+# 조각난다(고양·화성, 2026-09-30).
+FIELD = re.compile(r"^\s*(\d+\s*[).]|[①-⑳]|[가-하]\s*[.)])|:|^\s*(지원|신청|구비|문의|대상|내용|방법|기간|기한|금액|"
+                   r"절차|선정|제외|유의|담당|접수|제출|처리|참고|근거|구분|사업|개요|목적|혜택|카드|지급|자격|서류|"
+                   r"안내|주의|기타|관련|문의처|연락처)\s*(대상|내용|방법|기간|기한|금액|절차|기준|사항|서류|처|개요|"
+                   r"목적|혜택|시기|요건|장소|부서)?\s*$")
+
+def sections_of(html):
+    """한 쪽에 여러 사업을 풀어 적은 누리집(담양군 등) — 가장 많이 쓰인 제목 태그(h3·h4·h5)로 본문을
+    잘라 [(제목, 그 아래 글)]. 제목에서 다음 제목 앞까지, 3,000자까지."""
+    soup = BeautifulSoup(html, "html.parser")
+    for t in soup(["script", "style", "noscript", "header", "footer", "nav"]):
+        t.decompose()
+    cands = {tag: [x for x in (h.get_text(" ", strip=True) for h in soup.find_all(tag))
+                   if 3 <= len(x) <= 45 and not FIELD.search(x)]
+             for tag in ("h3", "h4", "h5")}
+    titles = max(cands.values(), key=len)
+    text = re.sub(r"\s+", " ", soup.get_text(" ", strip=True))
+    out, pos = [], 0
+    for i, t in enumerate(titles):
+        a = text.find(t, pos)
+        if a < 0:
+            continue
+        b = text.find(titles[i + 1], a + len(t)) if i + 1 < len(titles) else -1
+        out.append((t, text[a:(b if b > a else a + 3000)][:3000]))
+        pos = a + len(t)
     return out
 
 # ---------- 판정 1: 링크 글자만 보고 ----------
@@ -345,20 +401,51 @@ def run_district(site):
     sido, d = site["sido"], site["district"]
     place = f"{sido} {d}"
     rec = {"sido": sido, "district": d, "hub": site["birth"], "hub_title_saved": site.get("birth_title")}
+    sections = {}
     if site.get("seeds"):
         # 메뉴를 스크립트로 그리는 누리집 — 웹 검색으로 찾아 둔 혜택별 쪽을 바로 판정한다(hubs.json).
         hub = {"ok": True, "status": 200, "final": site["seeds"][0][1], "title": f"{place} 출산·육아 지원"}
         links = [{"text": t, "url": u} for t, u in site["seeds"]]
+    elif site.get("render"):
+        # 목록을 스크립트로 불러오는 누리집(성남시 등) — 처음부터 브라우저로 연다(hubs.json).
+        got = _browser_html(site["render"])
+        hub = {"ok": bool(got), "status": 200 if got else None, "final": got[0] if got else site["render"],
+               "title": f"{place} 출산·육아 지원", "html": got[1] if got else "", "error": None if got else "Browser"}
+        links = collect_links(hub, site["render"]) if got else []
+    elif site.get("sections"):
+        # 한 쪽에 사업을 풀어 적은 누리집 — 브라우저로 열어 제목마다 잘라 판정한다(hubs.json).
+        url = site["sections"]
+        got = _browser_html(url)
+        hub = {"ok": bool(got), "status": 200 if got else None, "final": got[0] if got else url,
+               "title": f"{place} 출산·육아 지원", "error": None if got else "Browser"}
+        for t, body in (sections_of(got[1]) if got else []):
+            sections[t] = body
+        links = [{"text": t, "url": hub["final"]} for t in sections]
     else:
         hub = fetch(site["birth"])
     rec["hub_status"] = {k: hub.get(k) for k in ("ok", "status", "final", "title", "has_pw", "login_url", "error")}
     if not hub.get("ok"):
         rec["links"] = []
         return rec
-    if not site.get("seeds"):
-        links = collect_links(hub, site["birth"])
+    if not site.get("seeds") and not site.get("sections") and not site.get("render"):
+        links = []
+        for u in [site["birth"], *site.get("more", [])]:
+            h2 = hub if u == site["birth"] else fetch(u)
+            if h2.get("ok"):
+                links += collect_links(h2, u)
+        if len(links) < 3:
+            # 목록을 스크립트로 불러오는 누리집(성남시 등) — 브라우저로 다시 연다.
+            got = _browser_html(site["birth"])
+            if got:
+                links = collect_links({"ok": True, "final": got[0], "html": got[1]}, site["birth"])
+        seen_u, uniq = set(), []
+        for l in links:
+            if l["url"] not in seen_u:
+                seen_u.add(l["url"])
+                uniq.append(l)
+        links = uniq
     rec["n_candidates"] = len(links)
-    if site.get("seeds"):
+    if site.get("seeds") or site.get("sections"):
         judged = [{**l, "p_program": 1.0} for l in links]
     else:
         judged = judge_links(place, hub["title"], links) if links else []
@@ -367,11 +454,15 @@ def run_district(site):
     for l in judged:
         if l["p_program"] < 0.5:
             continue
-        time.sleep(0.3)
-        pg = fetch(l["url"])
-        if pg.get("final") in seen_final:
-            continue
-        seen_final.add(pg.get("final"))
+        if l["text"] in sections:
+            body = sections[l["text"]]
+            pg = {"ok": True, "status": 200, "final": l["url"], "title": l["text"], "main": body, "text": body}
+        else:
+            time.sleep(0.3)
+            pg = fetch(l["url"])
+            if pg.get("final") in seen_final:
+                continue
+            seen_final.add(pg.get("final"))
         row = {**l, "final": pg.get("final"), "status": pg.get("status"), "title": pg.get("title"),
                "code_login": bool(pg.get("has_pw") or pg.get("login_url"))}
         if pg.get("ok") and len(pg.get("text", "")) > 80:
@@ -379,6 +470,26 @@ def run_district(site):
             judge_cached(place, l, pg, row, groups)
         row["cls"] = classify(row)
         found.append(row)
+    # 링크로 찾은 사업이 셋도 안 되면, 출발 쪽 자체에 사업을 풀어 적은 누리집일 수 있다(고양·화성·
+    # 창원·아산 등 — 2026-09-30 전국에서 54곳). 출발 쪽을 제목마다 잘라 한 번 더 판정한다.
+    good = sum(1 for r in found if r["cls"] in ("match", "national", "new"))
+    if good < 3 and not site.get("sections") and not site.get("seeds") and hub.get("ok"):
+        secs = sections_of(hub.get("html", "")) if hub.get("html") else []
+        if len(secs) < 3:
+            got = _browser_html(hub["final"])
+            secs = sections_of(got[1]) if got else []
+        have = {r["text"] for r in found}
+        for t, body in secs:
+            if t in have or len(body) < 80:
+                continue
+            have.add(t)
+            l = {"text": t, "url": hub["final"], "p_program": 1.0, "section": True}
+            pg = {"ok": True, "status": 200, "final": hub["final"], "title": t, "main": body, "text": body}
+            row = {**l, "final": hub["final"], "status": 200, "title": t, "code_login": False,
+                   "hash": hashlib.sha1(body.encode()).hexdigest()[:12]}
+            judge_cached(place, l, pg, row, groups)
+            row["cls"] = classify(row)
+            found.append(row)
     rec["links"] = found
     rec["rejected"] = [l for l in judged if l["p_program"] < 0.5]
     return rec
@@ -415,7 +526,13 @@ if __name__ == "__main__":
     def hub_of(s):
         h = hubs.get(f"{s['sido']} {s['district']}")
         if isinstance(h, dict):
+            if "sections" in h:
+                return {**s, "sections": h["sections"]}
+            if "render" in h:
+                return {**s, "render": h["render"]}
             return {**s, "seeds": h["seeds"]}
+        if isinstance(h, list):
+            return {**s, "birth": h[0], "more": h[1:]}
         return {**s, "birth": h or s["birth"]}
     sites = [hub_of(s) for s in sites]
     results = run_sites(sites, a.workers)

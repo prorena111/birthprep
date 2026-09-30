@@ -102,12 +102,12 @@ def clean_label(t):
     return re.sub(r"\s*자세히\s*보기$", "", t).strip()
 
 # 출산 준비와 거리가 먼 아동복지·행정 절차 — 「새 것」이어도 앱에 싣지 않는다.
-NOT_FOUND = re.compile(r"위탁|학대|결식|급식|옴부즈|출생신고|금연|보호종료|자립|지역아동센터|청소년|초등|방과후")
+NOT_FOUND = re.compile(r"위탁|학대|결식|급식|옴부즈|출생신고|금연|보호종료|자립|지역아동센터|청소년|초등|방과후|\d+월\s*프로그램|[{}]|^\d{4}년")
 
 def is_found(l):
     """앱 목록에 없는 구 자체 사업 중 앱에 보여 줄 만큼 확실한 것 — 그 사업을 설명하는 쪽이고(0.8),
     로그인 없이 보이고, 대상에 임신~만 6세가 들고(0.6), 목록의 어느 것과도 다르다고 분명히 고른 것(0.8)."""
-    if NOT_FOUND.search(l.get("text", "")):
+    if NOT_FOUND.search(l.get("text", "")) or re.search(r"^\s*\d+\s*[).]|:", l.get("text", "")):
         return False
     return (l.get("cls") == "new" and l.get("p_describes", 0) >= 0.8 and l.get("p_scope", 0) >= 0.6
             and l.get("p_login", 1) < 0.3 and not l.get("code_login") and l.get("same_conf", 0) >= 0.8)

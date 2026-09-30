@@ -55,7 +55,11 @@ jobs:
 
       - name: 패키지
         if: steps.due.outputs.run == 'true'
-        run: pip install requests beautifulsoup4
+        # playwright — 프로그램에는 빈 쪽만 주거나 목록을 스크립트로 그리는 누리집(강북구·고흥·담양 등)은
+        # 화면 없는 크롬으로 연다.
+        run: |
+          pip install requests beautifulsoup4 playwright
+          python -m playwright install --with-deps chromium
 
       - name: 키 모양(값은 안 찍음 — 길이·지문 앞 8자리)
         if: steps.due.outputs.run == 'true'

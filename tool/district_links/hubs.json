@@ -1,5 +1,5 @@
 {
- "_설명": "링크 모으기에만 쓰는 출발 쪽. 값이 주소면 그 쪽에서 링크를 모으고, {\"seeds\": [[글자, 주소], …]}이면 메뉴를 스크립트로 그려 링크가 안 읽히는 곳이라 웹 검색으로 찾은 혜택별 쪽을 바로 판정한다. local_sites.json의 birth(앱 누리집 단추)는 건드리지 않는다. 2026-09-30",
+ "_설명": "링크 모으기에만 쓰는 출발 쪽. 값이 주소면 그 쪽에서 링크를 모으고, {\"seeds\": [[글자, 주소], …]}이면 메뉴를 스크립트로 그려 링크가 안 읽히는 곳이라 웹 검색으로 찾은 혜택별 쪽을 바로 판정한다. local_sites.json의 birth(앱 누리집 단추)는 건드리지 않는다. 2026-09-30 값이 [주소, …]이면 여러 출발 쪽, {\"sections\": 주소}이면 한 쪽에 풀어 적은 사업을 제목(h3·h4·h5)마다 잘라 판정한다. {\"render\": 주소}이면 처음부터 브라우저로 연다.",
  "경기도 남양주시": "https://www.nyj.go.kr/health/contents.do?key=416",
  "경기도 파주시": "https://clinic.paju.go.kr/clinic/clinic_03/clinic_03_11/clinic_03_11_01/clinic_03_11_01_01.jsp",
  "서울특별시 은평구": "https://www.ep.go.kr/health/index.do",
@@ -74,5 +74,12 @@
     "https://www.usc.go.kr/together/page.do?mnu_uid=1130"
    ]
   ]
+ },
+ "전남광주통합특별시 고흥군": "https://www.ilovegoheung.kr/theme/sample71/html/sub_2_01.php",
+ "전남광주통합특별시 담양군": {
+  "sections": "https://www.damyang.go.kr/menu/goToContentsPage?contentsSid=113&domainId=DOM_0000001&menuCd=DOM_000000190004011000&activeSid=901"
+ },
+ "경기도 성남시": {
+  "render": "https://www.seongnam.go.kr/wf-pm020101?arrWlfCrrCyclCd=WLF_CRR_CYCL_1"
  }
 }
