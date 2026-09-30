@@ -12,7 +12,7 @@
 #
 # 코드는 tool/district_links/*.py — 원본은 앱 저장소의 tool/district_links/이고 여기는 사본이다.
 # tool/local_sites.json도 앱 저장소의 사본이다(시·군·구 누리집 주소).
-# 키: Settings → Secrets and variables → Actions → TYPESAFE_API_KEY
+# 키: Settings → Secrets and variables → Actions → TYPESAFE_API_KEY(apikey_까지 통째로), NOTICE_TOKEN(공지)
 name: 매달 구 누리집 링크
 
 on:
@@ -101,6 +101,16 @@ jobs:
           git pull --rebase origin main
           git push origin HEAD:main
           echo 'pushed=true' >> "$GITHUB_OUTPUT"
+
+      # 확인하지 못한 곳을 커뮤니티 공지(운영팀 글, 맨 위 고정)로 — 같은 달에 다시 돌면 그 달 글을
+      # 고친다. 서버 함수 publish_monthly_notice는 공지 토큰(NOTICE_TOKEN)의 지문만 안다.
+      - name: 커뮤니티 공지
+        if: steps.due.outputs.run == 'true'
+        env:
+          NOTICE_TOKEN: ${{ secrets.NOTICE_TOKEN }}
+          LINK_OUT: build/district_links
+          PYTHONIOENCODING: utf-8
+        run: python tool/district_links/notice.py --root . --post | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: 웹 페이지 다시 만들기
         if: steps.push.outputs.pushed == 'true'
