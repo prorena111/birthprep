@@ -47,6 +47,7 @@ def collect(files, old_rows):
     있던 곳)만 새 줄로 바꾸고, 못 돈 곳은 예전 줄을 그대로 둔다 — 누리집이 잠깐 안 열린 달에
     그 시·군·구의 단추가 사라지지 않게."""
     keep = {}                      # (place, id) -> row
+    found = {}                     # place -> {url: label} — 앱 목록에 없는 구 자체 사업
     checked, runs, dropped = {}, set(), []
     for f in files:
         data = json.loads(pathlib.Path(f).read_text(encoding="utf-8"))
@@ -60,6 +61,11 @@ def collect(files, old_rows):
             runs.add(place)
             checked[place] = day
             for l in r["links"]:
+                if is_found(l):
+                    url = as_https(l["final"])
+                    if url and site_key(url) in SITES.get(place, set()):
+                        found.setdefault(place, {}).setdefault(url, clean_label(l["text"]))
+                    continue
                 if l.get("cls") not in ("match", "national"):
                     continue
                 m = l["match"]
@@ -69,7 +75,7 @@ def collect(files, old_rows):
                 if not url or site_key(url) not in SITES.get(place, set()):
                     dropped.append((place, l["final"]))
                     continue
-                label = re.sub(r"\s+", " ", l["text"]).strip()
+                label = clean_label(l["text"])
                 for i in ids:
                     row = {"place": place, "id": i, "url": url, "label": label,
                            "p": l["p_same"], "hash": l.get("hash")}
@@ -78,7 +84,33 @@ def collect(files, old_rows):
                         keep[k] = row
     rows = [x for x in old_rows if x["place"] not in runs] + list(keep.values())
     rows.sort(key=lambda x: (x["place"], x["id"]))
-    return rows, checked, runs, dropped
+    # 한 곳에 30건까지, 같은 이름은 한 번만.
+    found_rows = {}
+    for place, byurl in found.items():
+        seen, out = set(), []
+        for url, label in byurl.items():
+            if label not in seen and len(out) < 30:
+                seen.add(label)
+                out.append([label, url])
+        found_rows[place] = out
+    return rows, checked, runs, dropped, found_rows
+
+def clean_label(t):
+    """링크 글자 — 공백을 줄이고 앞의 기호(「- 」「· 」「# 」)와 끝의 「자세히 보기」를 뗀다."""
+    t = re.sub(r"\s+", " ", t).strip()
+    t = re.sub(r"^[\-·•#○◦▶>\s]+", "", t)
+    return re.sub(r"\s*자세히\s*보기$", "", t).strip()
+
+# 출산 준비와 거리가 먼 아동복지·행정 절차 — 「새 것」이어도 앱에 싣지 않는다.
+NOT_FOUND = re.compile(r"위탁|학대|결식|급식|옴부즈|출생신고|금연|보호종료|자립|지역아동센터|청소년|초등|방과후")
+
+def is_found(l):
+    """앱 목록에 없는 구 자체 사업 중 앱에 보여 줄 만큼 확실한 것 — 그 사업을 설명하는 쪽이고(0.8),
+    로그인 없이 보이고, 대상에 임신~만 6세가 들고(0.6), 목록의 어느 것과도 다르다고 분명히 고른 것(0.8)."""
+    if NOT_FOUND.search(l.get("text", "")):
+        return False
+    return (l.get("cls") == "new" and l.get("p_describes", 0) >= 0.8 and l.get("p_scope", 0) >= 0.6
+            and l.get("p_login", 1) < 0.3 and not l.get("code_login") and l.get("same_conf", 0) >= 0.8)
 
 def remote(pages_root, files):
     """매달 작업 — 공개 저장소의 v1/links.json을 새로 쓰고 v1/data.json에 links 머리(날짜·지문)를
@@ -90,11 +122,14 @@ def remote(pages_root, files):
     old = json.loads(lp.read_text(encoding="utf-8")) if lp.exists() else {"links": {}}
     old_rows = [{"place": k.split("|")[0], "id": k.split("|")[1], "url": v[0], "label": v[1]}
                 for k, v in old.get("links", {}).items()]
-    rows, checked, runs, dropped = collect(files, old_rows)
+    rows, checked, runs, dropped, new_found = collect(files, old_rows)
     links = {f"{x['place']}|{x['id']}": [x["url"], x["label"]] for x in rows}
-    rev = hashlib.sha1(json.dumps(links, ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:16]
+    found = {p: v for p, v in old.get("found", {}).items() if p not in runs}
+    found.update(new_found)
+    found = dict(sorted(found.items()))
+    rev = hashlib.sha1(json.dumps([links, found], ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:16]
     n_old = len(old.get("links", {}))
-    print(f"링크 {n_old} → {len(links)} · 돈 곳 {len(runs)} · 뺀 링크 {len(dropped)}")
+    print(f"링크 {n_old} → {len(links)} · 더 찾은 것 {sum(len(v) for v in found.values())} · 돈 곳 {len(runs)} · 뺀 링크 {len(dropped)}")
     if n_old and len(links) < n_old * 0.7:
         print("⚠️ 3할 넘게 줄었다 — 올리지 않는다", file=sys.stderr)
         sys.exit(3)
@@ -108,7 +143,8 @@ def remote(pages_root, files):
         print("바뀐 것 없음")
         return
     today = datetime.date.today().isoformat()
-    lp.write_text(json.dumps({"checked": today, "rev": rev, "count": len(links), "links": dict(sorted(links.items()))},
+    lp.write_text(json.dumps({"checked": today, "rev": rev, "count": len(links), "links": dict(sorted(links.items())),
+                              "found": found},
                              ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     data = json.loads(dp.read_text(encoding="utf-8"))
     data["links"] = {"checked": today, "rev": rev}
@@ -117,9 +153,12 @@ def remote(pages_root, files):
 
 def main(files):
     old = load_existing()
-    rows, new_checked, runs, dropped = collect(files, old.get("links", []))
+    rows, new_checked, runs, dropped, new_found = collect(files, old.get("links", []))
     checked = {**old.get("checked", {}), **new_checked}
-    OUT_JSON.write_text(json.dumps({"checked": dict(sorted(checked.items())), "links": rows},
+    found = {p: v for p, v in old.get("found", {}).items() if p not in runs}
+    found.update(new_found)
+    found = dict(sorted(found.items()))
+    OUT_JSON.write_text(json.dumps({"checked": dict(sorted(checked.items())), "links": rows, "found": found},
                                    ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
     def q(s):
@@ -175,10 +214,19 @@ def main(files):
         "",
         "/// 링크 표 한 판 — 앱에 든 판([baked]) 또는 내려받은 `v1/links.json`.",
         "class DistrictLinkBook {",
-        "  const DistrictLinkBook({required this.links, required this.checked, this.rev});",
+        "  const DistrictLinkBook({",
+        "    required this.links,",
+        "    required this.checked,",
+        "    this.rev,",
+        "    this.found = const {},",
+        "  });",
         "",
         "  /// 열쇠 「서울특별시 마포구|S09」 → 쪽.",
         "  final Map<String, DistrictLink> links;",
+        "",
+        "  /// 앱 목록(정부24·복지로)에 없는 구 자체 사업 — 「서울특별시 마포구」 → 그 구 누리집의",
+        "  /// 사업 쪽들. 그 사업을 설명하고 로그인 없이 보이고 대상에 임신~만 6세가 드는 것만.",
+        "  final Map<String, List<DistrictLink>> found;",
         "",
         "  /// 만든 날(`2026-10-01`).",
         "  final String checked;",
@@ -189,10 +237,15 @@ def main(files):
         "  static const baked = DistrictLinkBook(",
         "    links: _links,",
         "    checked: DistrictLinks.builtOn,",
+        "    found: _found,",
         "  );",
         "",
         "  DistrictLink? of(Region region, String district, String id) =>",
         "      links['${region.name} $district|$id'];",
+        "",
+        "  /// 그 구 누리집에서 더 찾은 사업. 없으면 빈 목록.",
+        "  List<DistrictLink> foundOf(Region region, String district) =>",
+        "      found['${region.name} $district'] ?? const [];",
         "",
         "  /// 이보다 적게 읽히면 이상한 파일이다 — 앱에 든 판의 반.",
         "  static int get minLinks => _links.length ~/ 2;",
@@ -220,10 +273,28 @@ def main(files):
         "        links[key] = DistrictLink(url, label.trim());",
         "      }",
         "      if (links.length < minLinks) return null;",
+        "      final found = <String, List<DistrictLink>>{};",
+        "      final rawFound = root['found'];",
+        "      if (rawFound is Map) {",
+        "        for (final MapEntry(:key, :value) in rawFound.entries) {",
+        "          if (key is! String || value is! List) continue;",
+        "          final list = <DistrictLink>[",
+        "            for (final item in value.take(30))",
+        "              if (item is List && item.length == 2)",
+        "                if (item case [final String label, final String url])",
+        "                  if (label.trim().isNotEmpty &&",
+        "                      label.length <= 80 &&",
+        "                      isOwnSite(key, url))",
+        "                    DistrictLink(url, label.trim()),",
+        "          ];",
+        "          if (list.isNotEmpty) found[key] = list;",
+        "        }",
+        "      }",
         "      return DistrictLinkBook(",
         "        links: links,",
         "        checked: checked,",
         "        rev: rev is String && _rev.hasMatch(rev) ? rev : null,",
+        "        found: found,",
         "      );",
         "    } catch (_) {",
         "      return null;",
@@ -257,6 +328,10 @@ def main(files):
         "// ── 아래는 tool/district_links/export.py가 만든다. 손으로 고치지 않는다. ──",
         "const _checked = <String, String>{",
         *[f"  {q(k)}: {q(v)}," for k, v in sorted(checked.items())],
+        "};",
+        "const _found = <String, List<DistrictLink>>{",
+        *[f"  {q(p)}: [\n" + "".join(f"    DistrictLink({q(u)}, {q(t)}),\n" for t, u in items) + "  ],"
+          for p, items in found.items()],
         "};",
         "const _links = <String, DistrictLink>{",
         *[f"  {q(x['place'] + '|' + x['id'])}: DistrictLink(\n    {q(x['url'])},\n    {q(x['label'])},\n  ),"

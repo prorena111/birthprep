@@ -345,14 +345,23 @@ def run_district(site):
     sido, d = site["sido"], site["district"]
     place = f"{sido} {d}"
     rec = {"sido": sido, "district": d, "hub": site["birth"], "hub_title_saved": site.get("birth_title")}
-    hub = fetch(site["birth"])
+    if site.get("seeds"):
+        # 메뉴를 스크립트로 그리는 누리집 — 웹 검색으로 찾아 둔 혜택별 쪽을 바로 판정한다(hubs.json).
+        hub = {"ok": True, "status": 200, "final": site["seeds"][0][1], "title": f"{place} 출산·육아 지원"}
+        links = [{"text": t, "url": u} for t, u in site["seeds"]]
+    else:
+        hub = fetch(site["birth"])
     rec["hub_status"] = {k: hub.get(k) for k in ("ok", "status", "final", "title", "has_pw", "login_url", "error")}
     if not hub.get("ok"):
         rec["links"] = []
         return rec
-    links = collect_links(hub, site["birth"])
+    if not site.get("seeds"):
+        links = collect_links(hub, site["birth"])
     rec["n_candidates"] = len(links)
-    judged = judge_links(place, hub["title"], links) if links else []
+    if site.get("seeds"):
+        judged = [{**l, "p_program": 1.0} for l in links]
+    else:
+        judged = judge_links(place, hub["title"], links) if links else []
     groups = groups_for(sido, d)
     found, seen_final = [], set()
     for l in judged:
@@ -403,8 +412,25 @@ if __name__ == "__main__":
         sites = [s for s in sites if s["district"] in a.districts]
     # 링크 모으기에 안 맞는 출발 쪽은 hubs.json이 바꾼다(앱의 누리집 단추는 그대로).
     hubs = json.loads((pathlib.Path(__file__).parent / "hubs.json").read_text(encoding="utf-8"))
-    sites = [{**s, "birth": hubs.get(f"{s['sido']} {s['district']}", s["birth"])} for s in sites]
+    def hub_of(s):
+        h = hubs.get(f"{s['sido']} {s['district']}")
+        if isinstance(h, dict):
+            return {**s, "seeds": h["seeds"]}
+        return {**s, "birth": h or s["birth"]}
+    sites = [hub_of(s) for s in sites]
     results = run_sites(sites, a.workers)
+    # 해외(GitHub 서버)에서는 누리집이 몰릴 때 늦게 답한다 — 안 열린 곳만 1분 쉬었다가 둘씩 한 번 더.
+    slow = {(r["sido"], r["district"]) for r in results
+            if (r.get("hub_status") or {}).get("error") in ("Timeout", "ConnectionError", "ConnectTimeout", "ReadTimeout")}
+    if slow:
+        print(f"다시 시도 {len(slow)}곳", flush=True)
+        time.sleep(60)
+        again = {(r["sido"], r["district"]): r for r in run_sites(
+            [s for s in sites if (s["sido"], s["district"]) in slow], 2)}
+        def better(r):
+            a2 = again.get((r["sido"], r["district"]))
+            return a2 if a2 and (a2.get("hub_status") or {}).get("ok") else r
+        results = [better(r) for r in results]
     for sido in sorted({r["sido"] for r in results}):
         part = [r for r in results if r["sido"] == sido]
         name = f"links_{sido}" + ("_" + "_".join(a.districts) if a.districts else "") + ".json"

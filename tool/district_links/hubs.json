@@ -1,6 +1,78 @@
 {
- "_설명": "링크 모으기에만 쓰는 출발 쪽. local_sites.json의 birth(앱 누리집 단추)가 모으기에 안 맞는 곳만. 2026-09-30",
+ "_설명": "링크 모으기에만 쓰는 출발 쪽. 값이 주소면 그 쪽에서 링크를 모으고, {\"seeds\": [[글자, 주소], …]}이면 메뉴를 스크립트로 그려 링크가 안 읽히는 곳이라 웹 검색으로 찾은 혜택별 쪽을 바로 판정한다. local_sites.json의 birth(앱 누리집 단추)는 건드리지 않는다. 2026-09-30",
  "경기도 남양주시": "https://www.nyj.go.kr/health/contents.do?key=416",
  "경기도 파주시": "https://clinic.paju.go.kr/clinic/clinic_03/clinic_03_11/clinic_03_11_01/clinic_03_11_01_01.jsp",
- "서울특별시 은평구": "https://www.ep.go.kr/health/index.do"
+ "서울특별시 은평구": "https://www.ep.go.kr/health/index.do",
+ "부산광역시 금정구": "https://www.geumjeong.go.kr/index.geumj?menuCd=DOM_000000503003001000",
+ "강원특별자치도 강릉시": "https://www.gn.go.kr/www/contents.do?key=369",
+ "강원특별자치도 철원군": "https://www.cwg.go.kr/health/contents.do?key=822",
+ "경상남도 의령군": "https://www.uiryeong.go.kr/index.uiryeong?menuCd=DOM_000000204002003028",
+ "부산광역시 중구": {
+  "seeds": [
+   [
+    "임산부건강관리",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001001"
+   ],
+   [
+    "산모신생아건강관리지원사업",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001004"
+   ],
+   [
+    "한의 난임부부 치료비 지원",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001009"
+   ],
+   [
+    "부산형 산후조리경비 지원",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001006"
+   ],
+   [
+    "영구 불임 예상 난자·정자 냉동 지원",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001007"
+   ]
+  ]
+ },
+ "대구광역시 중구": {
+  "seeds": [
+   [
+    "산모신생아 건강관리 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0905"
+   ],
+   [
+    "미숙아 및 선천성이상아 의료비 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0913"
+   ],
+   [
+    "영양플러스",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0891"
+   ]
+  ]
+ },
+ "전남광주통합특별시 영암군": {
+  "seeds": [
+   [
+    "출산장려금 지급 안내",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_03/yeongam.go"
+   ],
+   [
+    "고위험임산부 의료비지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_09_04/yeongam.go"
+   ]
+  ]
+ },
+ "경상북도 의성군": {
+  "seeds": [
+   [
+    "출산장려금 지원",
+    "https://www.usc.go.kr/ko/page.do?mnu_uid=539"
+   ],
+   [
+    "맘편한 임신 통합제공 서비스",
+    "https://www.usc.go.kr/health/page.do?mnu_uid=2440"
+   ],
+   [
+    "여성장애인 출산비용 지원",
+    "https://www.usc.go.kr/together/page.do?mnu_uid=1130"
+   ]
+  ]
+ }
 }
