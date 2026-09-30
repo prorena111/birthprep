@@ -27,7 +27,7 @@ _lock = threading.Lock()
 # 키: 환경변수 TYPESAFE_API_KEY, 없으면 OneDrive 맨 위의 「타입세이프 api 키.txt」. 찍지 않는다.
 def _clean_key(raw):
     """앞뒤 공백·줄바꿈·BOM·보이지 않는 글자를 걷고 마지막 낱말만(설명 글과 같이 붙여 넣어도)."""
-    raw = raw.replace("﻿", "").replace("​", "")
+    raw = raw.replace(chr(0xFEFF), "").replace(chr(0x200B), "")
     words = raw.split()
     return words[-1] if words else ""
 
