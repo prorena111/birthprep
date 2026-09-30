@@ -68,11 +68,7 @@ jobs:
           PYTHONIOENCODING: utf-8
         run: |
           python tool/district_links/pilot.py --all --workers 8 | tee build-links.log | tail -40
-          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
-          import json
-          u = json.load(open("build/district_links/usage.json"))
-          print(f"## 구 누리집 링크\n\nTypeSafe {u['calls']}번 · 입력 {u['input']:,} 토큰 ≈ ${u['input']/1e6*0.042:.3f} · 다시 안 물은 것 {u['hits']}")
-          PY
+          python tool/district_links/summary.py >> "$GITHUB_STEP_SUMMARY"
 
       - name: 표 쓰기
         if: steps.due.outputs.run == 'true'
