@@ -76,9 +76,15 @@ class _LegacyTLS(requests.adapters.HTTPAdapter):
 _legacy = requests.Session()
 _legacy.mount("https://", _LegacyTLS())
 
-def fetch(url):
+def fetch(url, _again=True):
     try:
         r = requests.get(url, headers=UA, timeout=25, verify=False, allow_redirects=True)
+    except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout):
+        # 해외(GitHub 서버)에서 부르면 누리집이 가끔 늦다 — 조금 쉬었다가 한 번 더.
+        if not _again:
+            return {"ok": False, "error": "Timeout", "final": url}
+        time.sleep(5)
+        return fetch(url, _again=False)
     except requests.exceptions.SSLError:
         try:
             r = _legacy.get(url, headers=UA, timeout=25, verify=False, allow_redirects=True)
