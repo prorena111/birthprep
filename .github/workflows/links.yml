@@ -77,7 +77,7 @@ jobs:
           LINK_CACHE: tool/district_links/cache.json
           PYTHONIOENCODING: utf-8
         run: |
-          python tool/district_links/pilot.py --all --workers 4 | tee build-links.log | tail -40
+          python tool/district_links/pilot.py --all --workers 4 --notes 서울특별시 | tee build-links.log | tail -40
           python tool/district_links/summary.py >> "$GITHUB_STEP_SUMMARY"
 
       - name: 표 쓰기

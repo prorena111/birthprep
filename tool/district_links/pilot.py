@@ -20,9 +20,11 @@ ITEMS = pathlib.Path(os.environ.get("LINK_ITEMS") or ROOT / "assets" / "data" / 
 CACHE_PATH = os.environ.get("LINK_CACHE")
 _old = (json.loads(pathlib.Path(CACHE_PATH).read_text(encoding="utf-8"))
         if CACHE_PATH and pathlib.Path(CACHE_PATH).exists() else {})
-OLD_CACHE = {"links": _old.get("links", {}), "pages": _old.get("pages", {})}
-NEW_CACHE = {"links": {}, "pages": {}}
-HITS = {"links": 0, "pages": 0}
+OLD_CACHE = {"links": _old.get("links", {}), "pages": _old.get("pages", {}), "notes": _old.get("notes", {})}
+NEW_CACHE = {"links": {}, "pages": {}, "notes": {}}
+HITS = {"links": 0, "pages": 0, "notes": 0}
+# 쪽 본문에서 「받는 것·대상·신청」 줄을 골라 앱에 그대로 보여 줄 시·도(--notes). 서울 시범(2026-10-01).
+NOTES_SIDO = set()
 _lock = threading.Lock()
 # 키: 환경변수 TYPESAFE_API_KEY, 없으면 OneDrive 맨 위의 「타입세이프 api 키.txt」. 찍지 않는다.
 def _clean_key(raw):
@@ -306,6 +308,115 @@ def verify_same(place, link, page, cand_name):
                               "or only loosely related."}}})
     return round(a["same"]["noul"], 3)
 
+# ---------- 판정 3: 쪽 본문에서 앱에 옮길 줄 고르기 (서울 시범) ----------
+# AI는 글을 쓰지 않는다 — 누리집 본문을 줄로 나누고(코드), 줄마다 「받는 것·대상·신청·기타」를
+# 고르게만 한다(TypeSafe) — 받는 것 6·대상 2·신청 2줄까지. 앱에는 고른 줄을 글자 그대로 보여 주고 원문 단추를 붙인다.
+BLOCK = ["p", "li", "dd", "dt", "h2", "h3", "h4", "h5", "h6", "td", "th", "div", "caption", "dl", "ul", "ol",
+         "table", "tr", "section", "article", "blockquote"]
+BULLET = re.compile(r"^[\s\-·•∙◦○●■□▪▶▷►★☆※♣♠◆◇→⇒>✔✓☞]+")
+KINDS = ("benefit", "who", "apply")
+NOTE_MAX = {"benefit": 6, "who": 2, "apply": 2}
+# 운영 세부 — 시간·전화번호·수령 요일·계산 예시·서식 내려받기. 이런 줄은 원문에서 본다.
+OPERATIONAL = re.compile(r"☎|\d{2,4}\s*-\s*\d{3,4}\s*-\s*\d{4}|\d{1,2}\s*:\s*\d{2}|\d{1,2}시\s*~|오전|오후|"
+                         r"토요일|일요일|공휴일|^예\s*\)|⇒\s*지원대상|=\s*\d|다운로드|바로가기|https?://|\.hwp|\.pdf|<[a-zA-Z/]")
+
+def page_lines(html):
+    """본문 덩어리를 줄로 — 안에 다른 덩어리가 없는 칸(li·p·td…)마다 한 줄, <br>은 줄바꿈.
+    한글이 있고 6~160자인 줄만, 같은 줄은 한 번, 앞에서부터 80줄."""
+    soup = BeautifulSoup(html, "html.parser")
+    for t in soup(["script", "style", "noscript", "header", "footer", "nav", "form", "button", "select"]):
+        t.decompose()
+    for t in soup.find_all(attrs={"id": MENU}) + soup.find_all(attrs={"class": MENU}):
+        if not t.decomposed:
+            t.decompose()
+    best, score = None, 0
+    for t in soup.find_all(["div", "section", "article", "main", "td"]):
+        ident = " ".join([t.get("id") or ""] + (t.get("class") or []))
+        if not CONT.search(ident):
+            continue
+        txt = t.get_text(" ", strip=True)
+        sc = len(txt) - 2 * sum(len(a.get_text(" ", strip=True)) for a in t.find_all("a"))
+        if len(txt) >= 150 and sc > score:
+            best, score = t, sc
+    root = best or soup.body or soup
+    for br in root.find_all("br"):
+        br.replace_with("\n")
+    out, seen = [], set()
+    for el in root.find_all(BLOCK):
+        if el.find(BLOCK):
+            # 안에 목록을 품은 칸은 제 글만(「임신초기검사 : 서초구민…」 + 아래 목록) — 목록 줄은 따로 나온다.
+            text = "".join(c if isinstance(c, str) else c.get_text(" ")
+                           for c in el.children if isinstance(c, str) or (c.name not in BLOCK and not c.find(BLOCK)))
+        else:
+            text = el.get_text(" ")
+        for part in text.split("\n"):
+            line = BULLET.sub("", re.sub(r"\s+", " ", part)).strip()
+            if not (6 <= len(line) <= 160) or line in seen or not re.search(r"[가-힣]", line):
+                continue
+            seen.add(line)
+            out.append(line)
+    return out[:80]
+
+def pick_notes(place, program, title, lines):
+    """줄마다 종류를 골라 [[종류, 줄]] — 종류마다 확신 높은 것부터 NOTE_MAX줄, 본문 차례대로."""
+    ck = hashlib.sha1(json.dumps([program, lines], ensure_ascii=False).encode()).hexdigest()[:16]
+    got = OLD_CACHE["notes"].get(ck)
+    if got is not None:
+        with _lock:
+            HITS["notes"] += 1
+            NEW_CACHE["notes"][ck] = got
+        return got
+    picks = []
+    # 쪽의 줄을 25줄씩 준다(쪽 전체 80줄을 한꺼번에 주면 답이 0.5 근처로 몰렸다 — 2026-10-01 시범).
+    for i in range(0, len(lines), 25):
+        state = {"district": place, "program": program, "page_title": title, "lines": lines[i:i + 25]}
+        chunk = range(len(state["lines"]))
+        qs = {f"l{j}": {"type": "choice",
+            "instructions": f"`lines[{j}]` is one line copied from the {place} website page about `program`. If this "
+                            "single line were shown alone as a bullet under the heading `program` in an app for "
+                            "pregnant women and parents, what would it tell them?",
+            "criteria": {
+                "benefit": "What residents actually get from the program: an item, a money amount, a free test or "
+                           "vaccination, a service, a quantity or duration, a discount or rental — stated concretely "
+                           "and understandable on its own.",
+                "who": "Who can get it: residence, pregnancy weeks, the child's age, birth order, income or other "
+                       "eligibility conditions.",
+                "apply": "How, where or when to apply or receive it, or what to bring.",
+                "other": "Anything else: a bare heading or category name, opening hours, phone numbers, staff or "
+                         "department names, legal basis, general notices, menu text, content about a different "
+                         "program, or a fragment that cannot be understood alone."}}
+            for j in chunk}
+        # 종류와 따로 「혼자 보여도 쓸모 있는 줄인가」 — 수령 요일·택배 반납·대수·계산 예시 같은 운영
+        # 세부와 「16주~20주」 같은 표 머리 조각이 섞이던 것(서초구 시범, 2026-10-01)을 거른다.
+        for j in chunk:
+            qs[f"k{j}"] = {"type": "noul",
+                "instructions": f"Shown alone as a bullet under the heading `program` in an app, does `lines[{j}]` give "
+                                "a pregnant woman or parent a concrete, useful fact — something they can get (a named "
+                                "item, test, vaccination, service, class, rental or money), who qualifies, or how to "
+                                "apply — that is clear without the rest of the page?",
+                "criteria": {"true": "Concrete and understandable alone, e.g. 「엽산제 지원 : 거주지 제한 없음, 최대 2개월 "
+                                     "분량」, 「대상 : 출산 후 3개월 이내 서초구 산모」, 「신청방법 : 인터넷 사전 예약」.",
+                             "false": "A heading or fragment (「16주~20주」, 「기본 30일」), opening hours, phone numbers, "
+                                      "pickup or return rules, stock counts, product models, an example calculation, a "
+                                      "warning, or something about a different program."}}
+        ans = ask(state, qs)
+        for j in chunk:
+            line, a = state["lines"][j], ans[f"l{j}"]
+            p = (a.get("probabilities") or {}).get(a["choice"], a.get("confidence", 0))
+            key = ans[f"k{j}"]["noul"]
+            # 8자 미만은 표 머리 조각(「16주~분만전」), 시간·전화·수령 요일·계산 예시는 코드로 뺀다.
+            if (a["choice"] in KINDS and p >= 0.5 and key >= 0.35 and len(line) >= 8
+                    and not OPERATIONAL.search(line)):
+                picks.append((key, i + j, a["choice"], line))
+    out = []
+    for kind in KINDS:
+        # 꼭 알아야 할 줄부터 골라 본문 차례로 놓는다.
+        best = sorted((x for x in picks if x[2] == kind), key=lambda x: -x[0])[:NOTE_MAX[kind]]
+        out += [[kind, line] for _, _, _, line in sorted(best, key=lambda x: x[1])]
+    with _lock:
+        NEW_CACHE["notes"][ck] = out
+    return out
+
 # ---------- 앱 목록 (같은 사업은 한 묶음) ----------
 items = json.load(open(ITEMS, encoding="utf-8"))["items"]
 CENTRAL = {"S01": "임신·출산 진료비 지원(국민행복카드)", "S02": "첫만남이용권", "S03": "부모급여",
@@ -449,6 +560,25 @@ def run_district(site):
         judged = [{**l, "p_program": 1.0} for l in links]
     else:
         judged = judge_links(place, hub["title"], links) if links else []
+        # 「임산부」「영유아」처럼 메뉴 이름이라 떨어진 링크는 한 단계 더 들어가 그 안의 사업 링크를
+        # 모은다(서초구 — 보건소 사업이 메뉴 아래에 있었다, 2026-10-01). 네 쪽·60개까지.
+        known = {l["url"] for l in judged} | {hub.get("final")}
+        more = []
+        for c in [l for l in judged if l["p_program"] < 0.5 and len(l["text"]) <= 12][:4]:
+            h3 = fetch(c["url"])
+            if h3.get("ok") and h3.get("html"):
+                for l in collect_links(h3, c["url"]):
+                    if l["url"] not in known:
+                        known.add(l["url"])
+                        more.append(l)
+        if more:
+            judged += judge_links(place, hub["title"], more[:60])
+            rec["n_candidates"] += len(more[:60])
+        # 출발 쪽 자체도 한 사업을 설명할 수 있다 — 서초구는 출발 쪽이 「임산부 건강관리」였는데 그
+        # 안의 링크만 보고 쪽 자체는 판정하지 않았다(2026-10-01).
+        name = re.split(r"\s+[-|ㅣ:<>]\s+|\s*[|ㅣ]\s*", site.get("birth_title") or hub.get("title") or "")[0].strip()
+        if 2 <= len(name) <= 45 and hub.get("html"):
+            judged.insert(0, {"text": name, "url": hub["final"], "p_program": 1.0, "hub": True})
     groups = groups_for(sido, d)
     found, seen_final = [], set()
     for l in judged:
@@ -458,8 +588,11 @@ def run_district(site):
             body = sections[l["text"]]
             pg = {"ok": True, "status": 200, "final": l["url"], "title": l["text"], "main": body, "text": body}
         else:
-            time.sleep(0.3)
-            pg = fetch(l["url"])
+            if l.get("hub"):
+                pg = hub
+            else:
+                time.sleep(0.3)
+                pg = fetch(l["url"])
             if pg.get("final") in seen_final:
                 continue
             seen_final.add(pg.get("final"))
@@ -469,6 +602,11 @@ def run_district(site):
             row["hash"] = hashlib.sha1((pg.get("main") or "").encode()).hexdigest()[:12]
             judge_cached(place, l, pg, row, groups)
         row["cls"] = classify(row)
+        if (sido in NOTES_SIDO and pg.get("html") and row["cls"] in ("match", "national", "new", "review")
+                and row.get("p_describes", 0) >= 0.7):
+            lines = page_lines(pg["html"])
+            if lines:
+                row["notes"] = pick_notes(place, l["text"], pg.get("title") or "", lines)
         found.append(row)
     # 링크로 찾은 사업이 셋도 안 되면, 출발 쪽 자체에 사업을 풀어 적은 누리집일 수 있다(고양·화성·
     # 창원·아산 등 — 2026-09-30 전국에서 54곳). 출발 쪽을 제목마다 잘라 한 번 더 판정한다.
@@ -515,8 +653,10 @@ if __name__ == "__main__":
     ap.add_argument("--sido", default="서울특별시")
     ap.add_argument("--all", action="store_true", help="전국 — 시·도마다 links_<시도>.json")
     ap.add_argument("--workers", type=int, default=5)
+    ap.add_argument("--notes", default="", help="본문 줄을 고를 시·도(쉼표로) — 서울 시범: 서울특별시")
     ap.add_argument("districts", nargs="*")
     a = ap.parse_args()
+    NOTES_SIDO.update(x for x in a.notes.split(",") if x)
     sites = [x for x in json.load(open(ROOT / "tool" / "local_sites.json", encoding="utf-8"))
              if x["district"] and x.get("birth") and (a.all or x["sido"] == a.sido)]
     if a.districts:

@@ -48,6 +48,7 @@ def collect(files, old_rows):
     그 시·군·구의 단추가 사라지지 않게."""
     keep = {}                      # (place, id) -> row
     found = {}                     # place -> {url: label} — 앱 목록에 없는 구 자체 사업
+    notes = {}                     # url -> [[종류, 줄]] — 쪽 본문에서 고른 줄(서울 시범)
     checked, runs, dropped = {}, set(), []
     for f in files:
         data = json.loads(pathlib.Path(f).read_text(encoding="utf-8"))
@@ -65,6 +66,10 @@ def collect(files, old_rows):
                     url = as_https(l["final"])
                     if url and site_key(url) in SITES.get(place, set()):
                         found.setdefault(place, {}).setdefault(url, clean_label(l["text"]))
+                        # 누리집이 태그를 글자로 내보낸 줄(「<p class=…>」)은 뺀다.
+                        kept = [n for n in l.get("notes") or [] if not re.search(r"<[a-zA-Z/]", n[1])]
+                        if kept:
+                            notes.setdefault(url, kept)
                     continue
                 if l.get("cls") not in ("match", "national"):
                     continue
@@ -76,6 +81,8 @@ def collect(files, old_rows):
                     dropped.append((place, l["final"]))
                     continue
                 label = clean_label(l["text"])
+                # 본문 줄은 「더 찾은 것」에만 — 앱이 이미 정부24·복지로 글로 보여 주는 사업에 구 쪽
+                # 글을 붙이면 낡은 구 쪽(「아동수당 만 8세」)과 앱이 다른 말을 한다(2026-10-01 서울 시범).
                 for i in ids:
                     row = {"place": place, "id": i, "url": url, "label": label,
                            "p": l["p_same"], "hash": l.get("hash")}
@@ -93,7 +100,15 @@ def collect(files, old_rows):
                 seen.add(label)
                 out.append([label, url])
         found_rows[place] = out
-    return rows, checked, runs, dropped, found_rows
+    return rows, checked, runs, dropped, found_rows, notes
+
+def merge_notes(old_notes, new_notes, links_rows, found, runs):
+    """줄 표 — 이번에 돈 곳은 새 것, 못 돈 곳은 지난 것. 표(links·found)에 남은 쪽의 것만."""
+    place_of = {r["url"]: r["place"] for r in links_rows}
+    place_of.update({u: p for p, items in found.items() for _, u in items})
+    out = {u: v for u, v in old_notes.items() if place_of.get(u) not in runs}
+    out.update(new_notes)
+    return {u: v for u, v in sorted(out.items()) if u in place_of and v}
 
 def clean_label(t):
     """링크 글자 — 공백을 줄이고 앞의 기호(「- 」「· 」「# 」)와 끝의 「자세히 보기」를 뗀다."""
@@ -105,12 +120,16 @@ def clean_label(t):
 NOT_FOUND = re.compile(r"위탁|학대|결식|급식|옴부즈|출생신고|금연|보호종료|자립|지역아동센터|청소년|초등|방과후|\d+월\s*프로그램|[{}]|^\d{4}년")
 
 def is_found(l):
-    """앱 목록에 없는 구 자체 사업 중 앱에 보여 줄 만큼 확실한 것 — 그 사업을 설명하는 쪽이고(0.8),
-    로그인 없이 보이고, 대상에 임신~만 6세가 들고(0.6), 목록의 어느 것과도 다르다고 분명히 고른 것(0.8)."""
+    """앱 목록에 없는 구 자체 사업 중 앱에 보여 줄 것 — 그 사업을 설명하는 쪽이고(0.8), 로그인 없이
+    보이고, 대상에 임신~만 6세가 들고(0.5), 목록의 어느 것과도 짝이 안 지어진 것(「새 것」을 고른 확신
+    0.5, 또는 고른 짝을 확인에서 아니라고 한 것). 2026-10-01 넓힘 — 서초구 「모유 수유 클리닉」(새 것
+    0.54)·「출산 후 건강검진」(범위 0.55)이 빠졌다. 겹쳐도 해는 작다(이름과 원문 링크뿐)."""
     if NOT_FOUND.search(l.get("text", "")) or re.search(r"^\s*\d+\s*[).]|:", l.get("text", "")):
         return False
-    return (l.get("cls") == "new" and l.get("p_describes", 0) >= 0.8 and l.get("p_scope", 0) >= 0.6
-            and l.get("p_login", 1) < 0.3 and not l.get("code_login") and l.get("same_conf", 0) >= 0.8)
+    unmatched = not l.get("match") and (
+        (l.get("same_as") == "new" and l.get("same_conf", 0) >= 0.5) or l.get("rejected_match"))
+    return (l.get("cls") in ("new", "review") and unmatched and l.get("p_describes", 0) >= 0.8
+            and l.get("p_scope", 0) >= 0.5 and l.get("p_login", 1) < 0.3 and not l.get("code_login"))
 
 def remote(pages_root, files):
     """매달 작업 — 공개 저장소의 v1/links.json을 새로 쓰고 v1/data.json에 links 머리(날짜·지문)를
@@ -122,14 +141,17 @@ def remote(pages_root, files):
     old = json.loads(lp.read_text(encoding="utf-8")) if lp.exists() else {"links": {}}
     old_rows = [{"place": k.split("|")[0], "id": k.split("|")[1], "url": v[0], "label": v[1]}
                 for k, v in old.get("links", {}).items()]
-    rows, checked, runs, dropped, new_found = collect(files, old_rows)
+    rows, checked, runs, dropped, new_found, new_notes = collect(files, old_rows)
     links = {f"{x['place']}|{x['id']}": [x["url"], x["label"]] for x in rows}
     found = {p: v for p, v in old.get("found", {}).items() if p not in runs}
     found.update(new_found)
     found = dict(sorted(found.items()))
-    rev = hashlib.sha1(json.dumps([links, found], ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:16]
+    notes = merge_notes(old.get("notes", {}), new_notes, rows, found, runs)
+    parts = [links, found, notes] if notes else [links, found]
+    rev = hashlib.sha1(json.dumps(parts, ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:16]
     n_old = len(old.get("links", {}))
-    print(f"링크 {n_old} → {len(links)} · 더 찾은 것 {sum(len(v) for v in found.values())} · 돈 곳 {len(runs)} · 뺀 링크 {len(dropped)}")
+    print(f"링크 {n_old} → {len(links)} · 더 찾은 것 {sum(len(v) for v in found.values())} · 본문 줄 {len(notes)}쪽"
+          f" · 돈 곳 {len(runs)} · 뺀 링크 {len(dropped)}")
     if n_old and len(links) < n_old * 0.7:
         print("⚠️ 3할 넘게 줄었다 — 올리지 않는다", file=sys.stderr)
         sys.exit(3)
@@ -144,7 +166,7 @@ def remote(pages_root, files):
         return
     today = datetime.date.today().isoformat()
     lp.write_text(json.dumps({"checked": today, "rev": rev, "count": len(links), "links": dict(sorted(links.items())),
-                              "found": found},
+                              "found": found, **({"notes": notes} if notes else {})},
                              ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     data = json.loads(dp.read_text(encoding="utf-8"))
     data["links"] = {"checked": today, "rev": rev}
@@ -160,14 +182,17 @@ def main(files, bake=None):
                        for k, v in pub["links"].items()), key=lambda x: (x["place"], x["id"]))
         checked = {**old.get("checked", {}), **{r["place"]: pub["checked"] for r in rows}}
         found = dict(sorted(pub.get("found", {}).items()))
+        notes = dict(sorted(pub.get("notes", {}).items()))
         dropped = []
     else:
-        rows, new_checked, runs, dropped, new_found = collect(files, old.get("links", []))
+        rows, new_checked, runs, dropped, new_found, new_notes = collect(files, old.get("links", []))
         checked = {**old.get("checked", {}), **new_checked}
         found = {p: v for p, v in old.get("found", {}).items() if p not in runs}
         found.update(new_found)
         found = dict(sorted(found.items()))
-    OUT_JSON.write_text(json.dumps({"checked": dict(sorted(checked.items())), "links": rows, "found": found},
+        notes = merge_notes(old.get("notes", {}), new_notes, rows, found, runs)
+    OUT_JSON.write_text(json.dumps({"checked": dict(sorted(checked.items())), "links": rows, "found": found,
+                                    "notes": notes},
                                    ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
     def q(s):
@@ -221,6 +246,20 @@ def main(files, bake=None):
         "  final String label;",
         "}",
         "",
+        "/// 구 누리집 쪽 본문에서 고른 한 줄 — **글자 그대로**다. AI는 줄을 고르기만",
+        "/// 하고 쓰지 않는다(사장님 2026-10-01 「내용까지 앱 항목으로 — 서울 시범」).",
+        "class DistrictNote {",
+        "  const DistrictNote(this.kind, this.text);",
+        "",
+        "  /// `benefit`(받는 것) · `who`(대상) · `apply`(신청).",
+        "  final String kind;",
+        "  final String text;",
+        "",
+        "  static const kinds = {'benefit': '받는 것', 'who': '대상', 'apply': '신청'};",
+        "",
+        "  String get kindLabel => kinds[kind] ?? '';",
+        "}",
+        "",
         "/// 링크 표 한 판 — 앱에 든 판([baked]) 또는 내려받은 `v1/links.json`.",
         "class DistrictLinkBook {",
         "  const DistrictLinkBook({",
@@ -228,7 +267,11 @@ def main(files, bake=None):
         "    required this.checked,",
         "    this.rev,",
         "    this.found = const {},",
+        "    this.notes = const {},",
         "  });",
+        "",
+        "  /// 쪽 주소 → 그 쪽 본문에서 고른 줄(서울 시범). 없으면 링크만 보여 준다.",
+        "  final Map<String, List<DistrictNote>> notes;",
         "",
         "  /// 열쇠 「서울특별시 마포구|S09」 → 쪽.",
         "  final Map<String, DistrictLink> links;",
@@ -247,10 +290,14 @@ def main(files, bake=None):
         "    links: _links,",
         "    checked: DistrictLinks.builtOn,",
         "    found: _found,",
+        "    notes: _notes,",
         "  );",
         "",
         "  DistrictLink? of(Region region, String district, String id) =>",
         "      links['${region.name} $district|$id'];",
+        "",
+        "  /// 그 쪽 본문에서 고른 줄. 없으면 빈 목록.",
+        "  List<DistrictNote> notesOf(String url) => notes[url] ?? const [];",
         "",
         "  /// 그 구 누리집에서 더 찾은 사업. 없으면 빈 목록.",
         "  List<DistrictLink> foundOf(Region region, String district) =>",
@@ -299,11 +346,30 @@ def main(files, bake=None):
         "          if (list.isNotEmpty) found[key] = list;",
         "        }",
         "      }",
+        "      final notes = <String, List<DistrictNote>>{};",
+        "      final rawNotes = root['notes'];",
+        "      if (rawNotes is Map) {",
+        "        for (final MapEntry(:key, :value) in rawNotes.entries) {",
+        "          if (key is! String || !key.startsWith('https://') || value is! List) {",
+        "            continue;",
+        "          }",
+        "          final list = <DistrictNote>[",
+        "            for (final item in value.take(10))",
+        "              if (item case [final String kind, final String text])",
+        "                if (DistrictNote.kinds.containsKey(kind) &&",
+        "                    text.trim().isNotEmpty &&",
+        "                    text.length <= 200)",
+        "                  DistrictNote(kind, text.trim()),",
+        "          ];",
+        "          if (list.isNotEmpty) notes[key] = list;",
+        "        }",
+        "      }",
         "      return DistrictLinkBook(",
         "        links: links,",
         "        checked: checked,",
         "        rev: rev is String && _rev.hasMatch(rev) ? rev : null,",
         "        found: found,",
+        "        notes: notes,",
         "      );",
         "    } catch (_) {",
         "      return null;",
@@ -341,6 +407,10 @@ def main(files, bake=None):
         "const _found = <String, List<DistrictLink>>{",
         *[f"  {q(p)}: [\n" + "".join(f"    DistrictLink({q(u)}, {q(t)}),\n" for t, u in items) + "  ],"
           for p, items in found.items()],
+        "};",
+        "const _notes = <String, List<DistrictNote>>{",
+        *[f"  {q(u)}: [\n" + "".join(f"    DistrictNote({q(k)}, {q(t)}),\n" for k, t in items) + "  ],"
+          for u, items in notes.items()],
         "};",
         "const _links = <String, DistrictLink>{",
         *[f"  {q(x['place'] + '|' + x['id'])}: DistrictLink(\n    {q(x['url'])},\n    {q(x['label'])},\n  ),"
