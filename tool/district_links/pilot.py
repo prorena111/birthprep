@@ -23,7 +23,7 @@ _old = (json.loads(pathlib.Path(CACHE_PATH).read_text(encoding="utf-8"))
 OLD_CACHE = {"links": _old.get("links", {}), "pages": _old.get("pages", {}), "notes": _old.get("notes", {})}
 NEW_CACHE = {"links": {}, "pages": {}, "notes": {}}
 HITS = {"links": 0, "pages": 0, "notes": 0}
-# 쪽 본문에서 「받는 것·대상·신청」 줄을 골라 앱에 그대로 보여 줄 시·도(--notes). 서울 시범(2026-10-01).
+# 쪽 본문에서 「받는 것·대상·신청」 줄을 골라 앱에 그대로 보여 줄 시·도(--notes, 전국은 all). 서울 시범 뒤 전국(2026-10-01).
 NOTES_SIDO = set()
 _lock = threading.Lock()
 # 키: 환경변수 TYPESAFE_API_KEY, 없으면 OneDrive 맨 위의 「타입세이프 api 키.txt」. 찍지 않는다.
@@ -602,8 +602,9 @@ def run_district(site):
             row["hash"] = hashlib.sha1((pg.get("main") or "").encode()).hexdigest()[:12]
             judge_cached(place, l, pg, row, groups)
         row["cls"] = classify(row)
-        if (sido in NOTES_SIDO and pg.get("html") and row["cls"] in ("match", "national", "new", "review")
-                and row.get("p_describes", 0) >= 0.7):
+        # 본문 줄은 앱 목록과 짝이 안 지어진 쪽(「더 찾은 것」 후보)만 — 앱이 그것만 보여 준다.
+        if ((sido in NOTES_SIDO or "all" in NOTES_SIDO) and pg.get("html") and row["cls"] in ("new", "review")
+                and not row.get("match") and row.get("p_describes", 0) >= 0.7):
             lines = page_lines(pg["html"])
             if lines:
                 row["notes"] = pick_notes(place, l["text"], pg.get("title") or "", lines)
@@ -653,7 +654,7 @@ if __name__ == "__main__":
     ap.add_argument("--sido", default="서울특별시")
     ap.add_argument("--all", action="store_true", help="전국 — 시·도마다 links_<시도>.json")
     ap.add_argument("--workers", type=int, default=5)
-    ap.add_argument("--notes", default="", help="본문 줄을 고를 시·도(쉼표로) — 서울 시범: 서울특별시")
+    ap.add_argument("--notes", default="", help="본문 줄을 고를 시·도(쉼표로), 전국은 all — 2026-10-01 서울 시범 뒤 전국")
     ap.add_argument("districts", nargs="*")
     a = ap.parse_args()
     NOTES_SIDO.update(x for x in a.notes.split(",") if x)
