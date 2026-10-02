@@ -508,6 +508,59 @@ def judge_cached(place, link, pg, row, groups):
     if got.get("match_key") in ref:
         row["match"] = ref[got["match_key"]]
 
+def sec_lines(body, title=""):
+    """제목으로 자른 칸의 글(공백이 하나로 눌린 글)을 줄로 — 글머리표·「1)」·문장 끝, 그리고
+    「지원대상:」「지원내용:」「문의:」 같은 이름표 앞에서 자른다(해남 — 한 칸이 한 줄로 붙어 있었다)."""
+    if title and body.startswith(title):
+        body = body[len(title):]
+    parts = re.split(r"\s+(?=[○●■□▶◆◇※·•∙\-–]\s)|\s+(?=\d+\)\s)|(?<=[다요음함]\.)\s+"
+                     r"|\s+(?=[가-힣]{2,6}\s?:)", body)
+    out, seen = [], set()
+    for part in parts:
+        line = BULLET.sub("", part).strip()
+        if 6 <= len(line) <= 160 and line not in seen and re.search(r"[가-힣]", line):
+            seen.add(line)
+            out.append(line)
+    return out[:40]
+
+GENERIC_TITLE = re.compile(r"^(이용|신청|지원|사업|접수|문의|참여|운영|기타)?\s*(방법|안내|대상|내용|절차|기간|기준|자격|"
+                           r"장소|시간|처|문의처|유의사항|구비서류|제출서류)$")
+
+def split_programs(place, page_title, pg):
+    """한 쪽에 사업 여럿을 접어 둔 누리집(해남·고성·예산 등) — 제목(h3·h4·h5)마다 잘라 사업마다 한 건으로.
+    사장님 2026-10-02 「최대한 배너 형태로」: 지원 탭에 사업 하나가 카드 한 장. 제목이 사업 이름인지는
+    TypeSafe가 먼저 본다(「지원대상」「둘째아」 같은 칸 제목은 FIELD와 이 판정이 걸러 낸다). 주소는
+    쪽 주소 + #s1·#s2… — 앱 표에서 같은 주소끼리 하나로 합쳐지지 않게."""
+    if not pg.get("html"):
+        return []
+    all_secs = sections_of(pg["html"])
+    seen_t = {}
+    for t, _ in all_secs:
+        seen_t[t] = seen_t.get(t, 0) + 1
+    # 한 쪽에 같은 제목이 되풀이되면(영월 「이용방법」×7) 사업 이름이 아니라 칸 제목이다.
+    secs = [(t, b) for t, b in all_secs
+            if len(b) >= 80 and len(t) >= 3 and seen_t[t] == 1 and not GENERIC_TITLE.search(t)]
+    if len(secs) < 3:
+        return []
+    base = (pg.get("final") or "").split("#")[0]
+    cands = [{"text": t, "url": f"{base}#s{i + 1}", "body": b} for i, (t, b) in enumerate(secs[:24])]
+    judged = judge_links(place, page_title, [{"text": c["text"], "url": c["url"]} for c in cands])
+    return [{**c, "p_program": j["p_program"]} for c, j in zip(cands, judged) if j["p_program"] >= 0.5]
+
+def section_row(place, sido, c, groups):
+    pg = {"ok": True, "status": 200, "final": c["url"], "title": c["text"], "main": c["body"], "text": c["body"]}
+    row = {"text": c["text"], "url": c["url"], "p_program": c["p_program"], "section": True,
+           "final": c["url"], "status": 200, "title": c["text"], "code_login": False,
+           "hash": hashlib.sha1(c["body"].encode()).hexdigest()[:12]}
+    judge_cached(place, {"text": c["text"], "url": c["url"]}, pg, row, groups)
+    row["cls"] = classify(row)
+    if ((sido in NOTES_SIDO or "all" in NOTES_SIDO) and row["cls"] in ("new", "review")
+            and not row.get("match") and row.get("p_describes", 0) >= 0.7):
+        lines = sec_lines(c["body"], c["text"])
+        if lines:
+            row["notes"] = pick_notes(place, c["text"], c["text"], lines)
+    return row
+
 def run_district(site):
     sido, d = site["sido"], site["district"]
     place = f"{sido} {d}"
@@ -608,6 +661,14 @@ def run_district(site):
             lines = page_lines(pg["html"])
             if lines:
                 row["notes"] = pick_notes(place, l["text"], pg.get("title") or "", lines)
+        parts = split_programs(place, l["text"], pg) if pg.get("ok") and l["text"] not in sections else []
+        if len(parts) >= 3:
+            rows = [section_row(place, sido, c, groups) for c in parts]
+            found.extend(rows)
+            # 여러 사업을 묶은 쪽 한 장은 사업마다 나눈 것과 겹친다 — 앱 목록의 사업과 짝이 지어진 게
+            # 아니면(새 것·검토) 빼고 나눈 것만 둔다.
+            if row["cls"] in ("new", "review") and not row.get("match"):
+                row["cls"] = "split"
         found.append(row)
     # 링크로 찾은 사업이 셋도 안 되면, 출발 쪽 자체에 사업을 풀어 적은 누리집일 수 있다(고양·화성·
     # 창원·아산 등 — 2026-09-30 전국에서 54곳). 출발 쪽을 제목마다 잘라 한 번 더 판정한다.
@@ -618,17 +679,13 @@ def run_district(site):
             got = _browser_html(hub["final"])
             secs = sections_of(got[1]) if got else []
         have = {r["text"] for r in found}
-        for t, body in secs:
+        base = hub["final"].split("#")[0]
+        for i, (t, body) in enumerate(secs):
             if t in have or len(body) < 80:
                 continue
             have.add(t)
-            l = {"text": t, "url": hub["final"], "p_program": 1.0, "section": True}
-            pg = {"ok": True, "status": 200, "final": hub["final"], "title": t, "main": body, "text": body}
-            row = {**l, "final": hub["final"], "status": 200, "title": t, "code_login": False,
-                   "hash": hashlib.sha1(body.encode()).hexdigest()[:12]}
-            judge_cached(place, l, pg, row, groups)
-            row["cls"] = classify(row)
-            found.append(row)
+            found.append(section_row(place, sido, {"text": t, "url": f"{base}#s{i + 1}", "body": body,
+                                                   "p_program": 1.0}, groups))
     rec["links"] = found
     rec["rejected"] = [l for l in judged if l["p_program"] < 0.5]
     return rec

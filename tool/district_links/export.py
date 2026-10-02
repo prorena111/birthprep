@@ -65,7 +65,8 @@ def collect(files, old_rows):
             for l in r["links"]:
                 # 잠깐 안 열린 쪽(응답 없음)은 빼지 않는다 — 404·410처럼 없어진 쪽만.
                 gone = l.get("cls") == "broken" and l.get("status") in (404, 410)
-                if (gone or l.get("cls") in ("login", "not_page", "out_scope")) and l.get("final"):
+                # 「split」 — 여러 사업을 묶은 쪽, 사업마다 나눈 것이 대신 들어간다(pilot.split_programs).
+                if (gone or l.get("cls") in ("login", "not_page", "out_scope", "split")) and l.get("final"):
                     BAD.add((place, as_https(l["final"]) or l["final"]))
                 if is_found(l):
                     url = as_https(l["final"])
@@ -142,6 +143,10 @@ def clean_label(t):
     """링크 글자 — 공백을 줄이고 앞의 기호(「- 」「· 」「# 」)와 끝의 「자세히 보기」를 뗀다."""
     t = re.sub(r"\s+", " ", t).strip()
     t = re.sub(r"^[\-·•#○◦▶>\s]+", "", t)
+    # 「1-4 임산부 배려 전용 주차구역」·「2-9 해피맘 건강교실」 — 누리집 칸 번호를 뗀다.
+    t = re.sub(r"^\d+(-\d+)+\s+", "", t)
+    # 「공동육아나눔터란 ?」「B형간염 주산기 감염 예방사업이란?」 — 사업 이름만.
+    t = re.sub(r"\s*(이)?란\s*\?$", "", t)
     return re.sub(r"\s*자세히\s*보기$", "", t).strip()
 
 # 출산 준비와 거리가 먼 아동복지·행정 절차 — 「새 것」이어도 앱에 싣지 않는다.
@@ -154,6 +159,17 @@ NOT_FOUND = re.compile(r"위탁|학대|결식|급식|옴부즈|출생신고|금�
                        r"|^\d+월\s|\.\.$|접수\s*마감|제\d+회|에어바운스|출산\s*예정일|새창|^(?!.*(출산|출생|축하|장려)).*(부모급여|양육수당)|보육료\s*/"
                        r"|맘편한\s*임신|홍역|MMR|어린이\s*예방접종|보육\s*자격|대체\s*교사|원아|보류|중단됨|사업\s*종료")
 
+# 쪽을 사업마다 나누다 딸려 온 칸 제목(「지원대상 및 신청자격」「검진절차」「사용처」「지원항목 및 금액」) —
+# 칸 낱말이 있는데 끝이 사업 이름 꼴(…지원·대여·교실·수당·운영…)이 아니면 사업이 아니다(2026-10-02).
+FIELD_TITLE = re.compile(r"대상|자격|요건|절차|방법|서류|범위|방식|기간|시간|장소|항목|사용처|참고사항|유의사항|"
+                         r"교육\s*내용|제공되는|변경\s*시|신청$|^사업\s*신청|접수$|관련\s*사항|기준$|주요\s*내용|용도|^\[.*\]$|\?$|^<.*>$|^사업\s*명$|^서비스\s*이용$")
+PROGRAM_END = re.compile(r"(지원(사업)?|대여|교실|클리닉|검사|검진|수당|축하금|장려금|지원금|비|운영|사업|서비스|접종|"
+                         r"카드|발급|감면|보험|쉼터|모임|프로그램|용품|꾸러미|센터)\s*(\(.*\))?$")
+
+def field_title(t):
+    t = re.sub(r"\s+", " ", t).strip()
+    return bool(FIELD_TITLE.search(t)) and not PROGRAM_END.search(t)
+
 def is_found(l):
     """앱 목록에 없는 구 자체 사업 중 앱에 보여 줄 것 — 그 사업을 설명하는 쪽이고(0.8), 로그인 없이
     보이고, 대상에 임신~만 6세가 들고(0.5), 목록의 어느 것과도 짝이 안 지어진 것(「새 것」을 고른 확신
@@ -161,8 +177,12 @@ def is_found(l):
     0.54)·「출산 후 건강검진」(범위 0.55)이 빠졌다. 겹쳐도 해는 작다(이름과 원문 링크뿐)."""
     if NOT_FOUND.search(l.get("text", "")) or re.search(r"^\s*\d+\s*[).]|:", l.get("text", "")):
         return False
+    if field_title(clean_label(l.get("text", ""))):
+        return False
     if l.get("_carry"):
         return True
+    if l.get("cls") == "split":
+        return False
     unmatched = not l.get("match") and (
         (l.get("same_as") == "new" and l.get("same_conf", 0) >= 0.5) or l.get("rejected_match"))
     return (l.get("cls") in ("new", "review") and unmatched and l.get("p_describes", 0) >= 0.8
