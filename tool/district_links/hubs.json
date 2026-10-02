@@ -81,5 +81,11 @@
  },
  "경기도 성남시": {
   "render": "https://www.seongnam.go.kr/wf-pm020101?arrWlfCrrCyclCd=WLF_CRR_CYCL_1"
- }
+ },
+ "서울특별시 마포구": [
+  "https://www.mapo.go.kr/site/health/content/health04020101",
+  "https://www.mapo.go.kr/site/health/content/health040202",
+  "https://www.mapo.go.kr/site/main/content/mapo05010301",
+  "https://www.mapo.go.kr/site/main/content/mapo0511"
+ ]
 }
