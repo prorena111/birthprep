@@ -50,6 +50,7 @@ def collect(files, old_rows):
     found = {}                     # place -> {url: label} — 앱 목록에 없는 구 자체 사업
     notes = {}                     # url -> [[종류, 줄]] — 쪽 본문에서 고른 줄(서울 시범)
     checked, runs, dropped = {}, set(), []
+    BAD.clear()
     for f in files:
         data = json.loads(pathlib.Path(f).read_text(encoding="utf-8"))
         day = datetime.date.fromtimestamp(pathlib.Path(f).stat().st_mtime).isoformat()
@@ -62,6 +63,10 @@ def collect(files, old_rows):
             runs.add(place)
             checked[place] = day
             for l in r["links"]:
+                # 잠깐 안 열린 쪽(응답 없음)은 빼지 않는다 — 404·410처럼 없어진 쪽만.
+                gone = l.get("cls") == "broken" and l.get("status") in (404, 410)
+                if (gone or l.get("cls") in ("login", "not_page", "out_scope")) and l.get("final"):
+                    BAD.add((place, as_https(l["final"]) or l["final"]))
                 if is_found(l):
                     url = as_https(l["final"])
                     if url and site_key(url) in SITES.get(place, set()):
@@ -96,11 +101,34 @@ def collect(files, old_rows):
     for place, byurl in found.items():
         seen, out = set(), []
         for url, label in byurl.items():
-            if label not in seen and len(out) < 30:
-                seen.add(label)
+            key = re.sub(r"\s|(안내|소개|운영|신청)$", "", re.sub(r"\s*(안내|소개|운영|신청)$", "", label))
+            if key not in seen and len(out) < 30:
+                seen.add(key)
                 out.append([label, url])
         found_rows[place] = out
     return rows, checked, runs, dropped, found_rows, notes
+
+BAD = set()   # (place, url) — 이번 판정에서 깨졌거나·로그인·설명 쪽 아님·범위 밖으로 나온 쪽
+
+def carry_found(old_found, new_found, rows, runs):
+    """지난번에 넣은 「더 찾은 것」을 이어 둔다 — 2026-10-02 출발 쪽을 넓혀 다시 판정하자 영도구
+    「출산축하금」·안성 「출생축하선물」 같은 진짜 사업이 판정이 흔들려 빠졌다. 이번에 그 쪽이 깨졌거나
+    사업 설명이 아니라고 나왔거나, 앱 목록의 사업과 짝이 지어졌거나(rows), 거르기(NOT_FOUND)에
+    걸리면 뺀다. 한 곳에 30건까지."""
+    linked = {(r["place"], r["url"]) for r in rows}
+    out = {p: list(v) for p, v in new_found.items()}
+    for place, items in old_found.items():
+        if place not in runs:
+            continue
+        have = {u for _, u in out.get(place, [])}
+        keys = {re.sub(r"\s", "", t) for t, _ in out.get(place, [])}
+        for label, url in items:
+            if (url in have or (place, url) in linked or (place, url) in BAD
+                    or re.sub(r"\s", "", label) in keys or not is_found({"text": label, "_carry": True})):
+                continue
+            if len(out.setdefault(place, [])) < 30:
+                out[place].append([label, url])
+    return out
 
 def merge_notes(old_notes, new_notes, links_rows, found, runs):
     """줄 표 — 이번에 돈 곳은 새 것, 못 돈 곳은 지난 것. 표(links·found)에 남은 쪽의 것만."""
@@ -119,7 +147,12 @@ def clean_label(t):
 # 출산 준비와 거리가 먼 아동복지·행정 절차 — 「새 것」이어도 앱에 싣지 않는다.
 NOT_FOUND = re.compile(r"위탁|학대|결식|급식|옴부즈|출생신고|금연|보호종료|자립|지역아동센터|청소년|초등|방과후|\d+월\s*프로그램|[{}]|^\d{4}년"
                        # 2026-10-01 전국 넓힘에서 들어온 행정·보호 쪽(「아동보호」「어린이집 관리」).
-                       r"|아동보호|보호아동|요보호|어린이집\s*(관리|운영|현황|평가|지도)")
+                       r"|아동보호|보호아동|요보호|어린이집\s*(관리|운영|현황|평가|지도)"
+                       # 2026-10-02 출발 쪽 넓힘 — 게시판 글·지난 행사(「9월 임신육아교실 운영 안내」「접수마감」
+                       # 「….」로 잘린 제목), 계산기(「출산예정일」), 나라 제도와 겹치는 쪽(부모급여·양육수당·
+                       # 맘편한 임신·홍역·MMR·어린이 예방접종), 직원·시설용(보육자격·대체교사·원아 교육), 멈춘 사업.
+                       r"|^\d+월\s|\.\.$|접수\s*마감|제\d+회|에어바운스|출산\s*예정일|새창|^(?!.*(출산|출생|축하|장려)).*(부모급여|양육수당)|보육료\s*/"
+                       r"|맘편한\s*임신|홍역|MMR|어린이\s*예방접종|보육\s*자격|대체\s*교사|원아|보류|중단됨|사업\s*종료")
 
 def is_found(l):
     """앱 목록에 없는 구 자체 사업 중 앱에 보여 줄 것 — 그 사업을 설명하는 쪽이고(0.8), 로그인 없이
@@ -128,6 +161,8 @@ def is_found(l):
     0.54)·「출산 후 건강검진」(범위 0.55)이 빠졌다. 겹쳐도 해는 작다(이름과 원문 링크뿐)."""
     if NOT_FOUND.search(l.get("text", "")) or re.search(r"^\s*\d+\s*[).]|:", l.get("text", "")):
         return False
+    if l.get("_carry"):
+        return True
     unmatched = not l.get("match") and (
         (l.get("same_as") == "new" and l.get("same_conf", 0) >= 0.5) or l.get("rejected_match"))
     return (l.get("cls") in ("new", "review") and unmatched and l.get("p_describes", 0) >= 0.8
@@ -146,7 +181,7 @@ def remote(pages_root, files):
     rows, checked, runs, dropped, new_found, new_notes = collect(files, old_rows)
     links = {f"{x['place']}|{x['id']}": [x["url"], x["label"]] for x in rows}
     found = {p: v for p, v in old.get("found", {}).items() if p not in runs}
-    found.update(new_found)
+    found.update(carry_found(old.get("found", {}), new_found, rows, runs))
     found = dict(sorted(found.items()))
     notes = merge_notes(old.get("notes", {}), new_notes, rows, found, runs)
     parts = [links, found, notes] if notes else [links, found]
@@ -190,7 +225,7 @@ def main(files, bake=None):
         rows, new_checked, runs, dropped, new_found, new_notes = collect(files, old.get("links", []))
         checked = {**old.get("checked", {}), **new_checked}
         found = {p: v for p, v in old.get("found", {}).items() if p not in runs}
-        found.update(new_found)
+        found.update(carry_found(old.get("found", {}), new_found, rows, runs))
         found = dict(sorted(found.items()))
         notes = merge_notes(old.get("notes", {}), new_notes, rows, found, runs)
     OUT_JSON.write_text(json.dumps({"checked": dict(sorted(checked.items())), "links": rows, "found": found,

@@ -1,12 +1,44 @@
 {
  "_설명": "링크 모으기에만 쓰는 출발 쪽. 값이 주소면 그 쪽에서 링크를 모으고, {\"seeds\": [[글자, 주소], …]}이면 메뉴를 스크립트로 그려 링크가 안 읽히는 곳이라 웹 검색으로 찾은 혜택별 쪽을 바로 판정한다. local_sites.json의 birth(앱 누리집 단추)는 건드리지 않는다. 2026-09-30 값이 [주소, …]이면 여러 출발 쪽, {\"sections\": 주소}이면 한 쪽에 풀어 적은 사업을 제목(h3·h4·h5)마다 잘라 판정한다. {\"render\": 주소}이면 처음부터 브라우저로 연다.",
- "경기도 남양주시": "https://www.nyj.go.kr/health/contents.do?key=416",
- "경기도 파주시": "https://clinic.paju.go.kr/clinic/clinic_03/clinic_03_11/clinic_03_11_01/clinic_03_11_01_01.jsp",
- "서울특별시 은평구": "https://www.ep.go.kr/health/index.do",
- "부산광역시 금정구": "https://www.geumjeong.go.kr/index.geumj?menuCd=DOM_000000503003001000",
+ "경기도 남양주시": [
+  "https://www.nyj.go.kr/health/contents.do?key=416",
+  "https://www.nyj.go.kr/health/contents.do?key=4601",
+  "https://www.nyj.go.kr/health/sub.do?key=415"
+ ],
+ "경기도 파주시": [
+  "https://clinic.paju.go.kr/clinic/clinic_03/clinic_03_11/clinic_03_11_01/clinic_03_11_01_01.jsp",
+  "https://clinic.paju.go.kr/clinic/clinic_03/clinic_03_11/clinic_03_11_02/clinic_03_11_02_01.jsp",
+  "https://www.paju.go.kr/www/www_02/www_02_01/www_02_01_07/www_02_01_07_02/www_02_01_07_02_03.jsp",
+  "https://clinic.paju.go.kr/clinic/clinic_03/clinic_03_11/clinic_03_11_04/clinic_03_11_04_01.jsp",
+  "https://clinic.paju.go.kr/clinic/clinic_03/clinic_03_11/clinic_03_11_03/clinic_03_11_03_01.jsp",
+  "https://www.paju.go.kr/www/intropaju/intropaju_05/intropaju_05_17.jsp",
+  "https://www.paju.go.kr/www/www_02/www_02_01/www_02_01_07/www_02_01_07_02/www_02_01_07_02_01.jsp"
+ ],
+ "서울특별시 은평구": [
+  "https://www.ep.go.kr/health/index.do",
+  "https://www.ep.go.kr/www/contents.do?key=4589",
+  "https://www.ep.go.kr/www/contents.do?key=929",
+  "https://www.ep.go.kr/www/contents.do?key=3833",
+  "https://www.ep.go.kr/health/contents.do?key=3825",
+  "https://www.ep.go.kr/health/contents.do?key=1574",
+  "https://www.ep.go.kr/health/contents.do?key=1582"
+ ],
+ "부산광역시 금정구": [
+  "https://www.geumjeong.go.kr/index.geumj?menuCd=DOM_000000503003001000",
+  "https://www.geumjeong.go.kr/index.geumj?menuCd=DOM_000000503003000000"
+ ],
  "강원특별자치도 강릉시": "https://www.gn.go.kr/www/contents.do?key=369",
- "강원특별자치도 철원군": "https://www.cwg.go.kr/health/contents.do?key=822",
- "경상남도 의령군": "https://www.uiryeong.go.kr/index.uiryeong?menuCd=DOM_000000204002003028",
+ "강원특별자치도 철원군": [
+  "https://www.cwg.go.kr/health/contents.do?key=822",
+  "https://www.cwg.go.kr/health/contents.do?key=1741",
+  "https://www.cwg.go.kr/health/sub.do?key=815"
+ ],
+ "경상남도 의령군": [
+  "https://www.uiryeong.go.kr/index.uiryeong?menuCd=DOM_000000204002003028",
+  "https://www.uiryeong.go.kr/index.uiryeong?menuCd=DOM_000000204002003026",
+  "https://www.uiryeong.go.kr/index.uiryeong?menuCd=DOM_000000204001004000",
+  "https://www.uiryeong.go.kr/index.uiryeong?menuCd=DOM_000000204002003021"
+ ],
  "부산광역시 중구": {
   "seeds": [
    [
@@ -75,7 +107,11 @@
    ]
   ]
  },
- "전남광주통합특별시 고흥군": "https://www.ilovegoheung.kr/theme/sample71/html/sub_2_01.php",
+ "전남광주통합특별시 고흥군": [
+  "https://www.ilovegoheung.kr/theme/sample71/html/sub_2_01.php",
+  "https://www.goheung.go.kr/health/contentsView.do?pageId=health16",
+  "https://www.ilovegoheung.kr/theme/sample71/html/sub_4_01.php"
+ ],
  "전남광주통합특별시 담양군": {
   "sections": "https://www.damyang.go.kr/menu/goToContentsPage?contentsSid=113&domainId=DOM_0000001&menuCd=DOM_000000190004011000&activeSid=901"
  },
@@ -86,6 +122,1566 @@
   "https://www.mapo.go.kr/site/health/content/health04020101",
   "https://www.mapo.go.kr/site/health/content/health040202",
   "https://www.mapo.go.kr/site/main/content/mapo05010301",
-  "https://www.mapo.go.kr/site/main/content/mapo0511"
+  "https://www.mapo.go.kr/site/main/content/mapo0511",
+  "https://www.mapo.go.kr/site/mll/edu/lecture_list?lgtSeq=LG004&lgtGubun=1&listType=list&pcd=&sv=출산준비교실"
+ ],
+ "강원특별자치도 고성군": [
+  "https://www.gwgs.go.kr/kor/sub01_0501.do",
+  "https://www.gwgs.go.kr/health/sub03_040801.do",
+  "https://www.gwgs.go.kr/kor/sub02_010101.do"
+ ],
+ "강원특별자치도 동해시": [
+  "https://www.dh.go.kr/www/contents.do?key=2050",
+  "https://www.dh.go.kr/health/contents.do?key=946",
+  "https://www.dh.go.kr/www/contents.do?key=2052"
+ ],
+ "강원특별자치도 삼척시": [
+  "https://www.samcheok.go.kr/specialty/03284/03286.web",
+  "https://www.samcheok.go.kr/01088.web",
+  "https://www.samcheok.go.kr/specialty/03284.web",
+  "https://www.samcheok.go.kr/specialty/03284/03285.web"
+ ],
+ "강원특별자치도 속초시": [
+  "https://www.sokcho.go.kr/sc/fields/welfare/population/birth",
+  "https://www.sokcho.go.kr/bo/health/healthproject/maternalchild/support",
+  "https://www.sokcho.go.kr/bo/health/healthproject/maternalchild",
+  "https://www.sokcho.go.kr/bo/health/healthproject/maternalchild/infant",
+  "https://www.sokcho.go.kr/sc/fields/welfare/population/childcare",
+  "https://www.sokcho.go.kr/sc/fields/welfare/woman/childcare",
+  "https://www.sokcho.go.kr/sc/fields/welfare/population/guidebook",
+  "https://www.sokcho.go.kr/bo/health/healthproject/maternalchild/motherbaby",
+  "https://www.sokcho.go.kr/bo/health/healthproject/maternalchild/acyesis"
+ ],
+ "강원특별자치도 양구군": [
+  "https://www.yanggu.go.kr/user_sub?gfnc=www&mu_idx=339",
+  "https://www.yanggu.go.kr/health/user_sub?gfnc=health&mu_idx=441",
+  "https://www.yanggu.go.kr/user_sub?gfnc=www&mu_idx=305"
+ ],
+ "강원특별자치도 양양군": [
+  "https://www.yangyang.go.kr/gw/healthcenter/service_mchealth",
+  "https://www.yangyang.go.kr/gw/healthcenter/info_mahealth",
+  "https://childcare.yangyang.go.kr/",
+  "https://www.yangyang.go.kr/gw/portal/yyc_yyintro_cguide_business?searchGroup=43510440000"
+ ],
+ "강원특별자치도 영월군": [
+  "https://www.yw.go.kr/www/contents.do?key=1539",
+  "https://www.yw.go.kr/www/contents.do?key=1538",
+  "https://www.yw.go.kr/health/contents.do?key=634",
+  "https://www.yw.go.kr/health/contents.do?key=647"
+ ],
+ "강원특별자치도 원주시": [
+  "https://www.wonju.go.kr/welfare/contents.do?key=2268",
+  "https://www.wonju.go.kr/health/contents.do?key=6160&",
+  "https://www.wonju.go.kr/health/contents.do?key=1718&",
+  "https://www.wonju.go.kr/health/contents.do?key=3589&",
+  "https://www.wonju.go.kr/health/sub.do?key=1717",
+  "https://www.wonju.go.kr/health/contents.do?key=1721&",
+  "https://www.wonju.go.kr/welfare/sub.do?key=3593",
+  "https://www.wonju.go.kr/welfare/selectBbsNttList.do?bbsNo=874&key=3580&",
+  "https://www.wonju.go.kr/welfare/sub.do?key=2267"
+ ],
+ "강원특별자치도 인제군": [
+  "https://www.inje.go.kr/health/business/maternalchildhealth",
+  "https://www.inje.go.kr/egf/bp/board/article/download?fileSeq=121596"
+ ],
+ "강원특별자치도 정선군": [
+  "https://www.jeongseon.go.kr/portal/partinfo/lifewelfare/populationpolicy/pregnancy",
+  "https://www.jeongseon.go.kr/portal/partinfo/lifewelfare/populationpolicy/childcare"
+ ],
+ "강원특별자치도 춘천시": [
+  "https://www.chuncheon.go.kr/new-welfare/life/infant/childcare-subsidy/",
+  "https://www.chuncheon.go.kr/health/business/maternal-and-child-health/pregnancy-support/",
+  "https://www.chuncheon.go.kr/health/business/maternal-and-child-health/",
+  "https://www.chuncheon.go.kr/new-welfare/life/pregnancy-birth/encouragement-policy/",
+  "https://www.chuncheon.go.kr/new-welfare/life/infant/child-care/",
+  "https://www.chuncheon.go.kr/new-welfare/life/pregnancy-birth/guide-book/",
+  "https://www.chuncheon.go.kr/new-welfare/life/infant/business-guide/"
+ ],
+ "강원특별자치도 태백시": [
+  "https://www.taebaek.go.kr/www/contents.do?key=1702",
+  "https://www.taebaek.go.kr/www/contents.do?key=439",
+  "https://www.taebaek.go.kr/www/contents.do?key=440",
+  "https://www.taebaek.go.kr/www/contents.do?key=1703"
+ ],
+ "강원특별자치도 평창군": [
+  "https://www.pc.go.kr/health/service/service-health/service-health-gravida",
+  "https://www.pc.go.kr/health/service/service-health"
+ ],
+ "강원특별자치도 홍천군": [
+  "https://www.hongcheon.go.kr/www/selectWlfareSvcWebList.do?key=1537&servType=SVCTY01",
+  "https://www.hongcheon.go.kr/www/selectWlfareSvcWebList.do?key=1537&pageUnit=10&searchCnd=all&searchKrwd=&servType=SVCTY01",
+  "https://www.hongcheon.go.kr/www/selectWlfareSvcWebList.do?key=1537&pageUnit=10&searchCnd=all&searchKrwd=&servType=SVCTY02",
+  "https://www.hongcheon.go.kr/www/selectWlfareSvcWebList.do?key=1537&servType=SVCTY02",
+  "https://www.hongcheon.go.kr/www/contents.do?key=424"
+ ],
+ "강원특별자치도 화천군": [
+  "https://www.ihc.go.kr/health/contents.do?key=835",
+  "https://www.ihc.go.kr/health/contents.do?key=834",
+  "https://www.ihc.go.kr/www/contents.do?key=984",
+  "https://www.ihc.go.kr/www/contents.do?key=2488",
+  "https://www.ihc.go.kr/www/contents.do?key=983",
+  "https://www.ihc.go.kr/www/sub.do?key=222"
+ ],
+ "강원특별자치도 횡성군": [
+  "https://www.hsg.go.kr/health/contents.do?key=2136",
+  "https://www.hsg.go.kr/health/contents.do?key=2130&"
+ ],
+ "경기도 가평군": [
+  "https://www.gp.go.kr/health/contents.do?key=1117",
+  "https://www.gp.go.kr/portal/contents.do?key=2247",
+  "https://www.gp.go.kr/portal/contents.do?key=572",
+  "https://www.gp.go.kr/portal/contents.do?key=1197",
+  "https://www.gp.go.kr/portal/contents.do?key=659",
+  "https://www.gp.go.kr/health/contents.do?key=219",
+  "https://www.gp.go.kr/portal/contents.do?key=2157",
+  "https://www.gp.go.kr/portal/contents.do?key=2248",
+  "https://www.gp.go.kr/portal/contents.do?key=2261"
+ ],
+ "경기도 고양시": [
+  "https://www.goyang.go.kr/www/www03/www03_8/www03_8_6/www03_8_6_tab7.jsp",
+  "https://www.goyang.go.kr/health/health02/health02_4/health02_4_1/health02_4_1_tab1.jsp",
+  "https://www.goyang.go.kr/health/health02/health02_4/health02_4_4/health02_4_4_tab1.jsp"
+ ],
+ "경기도 과천시": [
+  "https://www.gccity.go.kr/dept/contents.do?mId=0212020400",
+  "https://www.gccity.go.kr:443/ghc/contents.do?mId=0601000000",
+  "https://www.gccity.go.kr:443/ghc/contents.do?mId=0601020000",
+  "https://www.gccity.go.kr:443/ghc/contents.do?mId=0601030000",
+  "https://www.gccity.go.kr:443/dept/contents.do?mId=0206000000",
+  "https://www.gccity.go.kr/reservation/contents.do?mId=0407000000",
+  "https://www.gccity.go.kr/dept/contents.do?mId=0206000000",
+  "https://www.gccity.go.kr:443/ghc/contents.do?mId=0601050000",
+  "https://www.gccity.go.kr:443/ghc/contents.do?mId=0406000000"
+ ],
+ "경기도 광명시": [
+  "https://www.gm.go.kr/pt/partInfo/wf/wf03/PTMN781.jsp",
+  "http://www.gm.go.kr/health/helthBsns/mhrhlHelth/chldbrthEncrg.jsp",
+  "http://www.gm.go.kr/health/helthBsns/mhrhlHelth/pwnmManage.jsp",
+  "https://www.gm.go.kr/health/helthBsns/mhrhlHelth/pwnmManage.jsp",
+  "http://www.gm.go.kr/health/helthBsns/mhrhlHelth/infantManage.jsp",
+  "https://www.gm.go.kr/health/helthBsns/mhrhlHelth/chldbrthEncrg.jsp",
+  "https://www.gm.go.kr/health/helthBsns/mhrhlHelth/infantManage.jsp",
+  "https://www.gm.go.kr/pt/partInfo/wf/childcare/PTMN540.jsp",
+  "https://www.gm.go.kr/health/helthBsns/prevntInocl/vaccCalc.jsp"
+ ],
+ "경기도 광주시": [
+  "https://www.gjcity.go.kr/depart/contents.do?mId=1005010100",
+  "https://www.gjcity.go.kr/depart/contents.do?mId=0805070000",
+  "https://www.gjcity.go.kr/depart/contents.do?mId=1010010000",
+  "https://www.gjcity.go.kr/depart/contents.do?mId=1005010000"
+ ],
+ "경기도 구리시": [
+  "https://www.guri.go.kr/www/contents.do?key=569",
+  "https://www.guri.go.kr/www/contents.do?key=509",
+  "https://www.guri.go.kr/www/selectWlfareSvcWebList.do?key=2212&searchSiteId=www&pageUnit=10&searchCnd=all&searchKrwd=&servType=SVCTY01",
+  "https://www.guri.go.kr/health/contents.do?key=7897",
+  "https://www.guri.go.kr/health/contents.do?key=7901",
+  "https://www.guri.go.kr/health/contents.do?key=7902",
+  "https://www.guri.go.kr/health/contents.do?key=3557",
+  "https://www.guri.go.kr/health/contents.do?key=3562",
+  "https://www.guri.go.kr/health/contents.do?key=7903"
+ ],
+ "경기도 군포시": [
+  "https://www.gunpo.go.kr/www/contents.do?key=4417",
+  "https://www.gunpo.go.kr/health/contents.do?key=1008817",
+  "https://www.gunpo.go.kr/health/sub.do?key=1008448",
+  "https://www.gunpo.go.kr/health/contents.do?key=1009091",
+  "https://www.gunpo.go.kr/health/sub.do?bbsNo=4&key=1008817",
+  "https://www.gunpo.go.kr/www/contents.do?key=1008843",
+  "https://www.gunpo.go.kr/health/contents.do?key=1008449",
+  "https://www.gunpo.go.kr/health/contents.do?key=1008448"
+ ],
+ "경기도 김포시": [
+  "https://www.gimpo.go.kr/health/contents.do?key=7297",
+  "https://www.gimpo.go.kr/portal/contents.do?key=1391",
+  "https://www.gimpo.go.kr/portal/contents.do?key=1395",
+  "https://www.gimpo.go.kr/health/contents.do?key=2187",
+  "https://www.gimpo.go.kr/health/sub.do?key=2210",
+  "https://www.gimpo.go.kr/health/contents.do?key=2190"
+ ],
+ "경기도 동두천시": [
+  "https://www.ddc.go.kr/ddc/contents.do?key=1936",
+  "https://www.ddc.go.kr/health/contents.do?key=825",
+  "https://www.ddc.go.kr/health/contents.do?key=816",
+  "https://www.ddc.go.kr/ddc/contents.do?key=1937",
+  "https://www.ddc.go.kr/health/sub.do?key=776",
+  "https://www.ddc.go.kr/health/contents.do?key=830",
+  "https://www.ddc.go.kr/ddc/sub.do?key=1936",
+  "https://www.ddc.go.kr/health/contents.do?key=831",
+  "https://www.ddc.go.kr/health/contents.do?key=806"
+ ],
+ "경기도 부천시": [
+  "https://www.bucheon.go.kr/site/homepage/menu/viewMenu?menuid=148006003009005",
+  "https://www.bucheon.go.kr/site/homepage/menu/viewMenu?menuid=148006003009001005",
+  "https://www.bucheon.go.kr/site/homepage/menu/viewMenu?menuid=148006003007001"
+ ],
+ "경기도 수원시": [
+  "https://health.suwon.go.kr/sub_new.asp?page_code=sub0703",
+  "http://www.suwon.go.kr/sw-www/deptHome/dep_welfare/welfare07/welfare07-01/welfare07-01-01.jsp"
+ ],
+ "경기도 시흥시": [
+  "https://www.siheung.go.kr/portal/contents.do?mId=0302020900",
+  "https://www.siheung.go.kr/main/contents.do?mId=0311060100",
+  "https://www.siheung.go.kr/portal/contents.do?mId=0201020100",
+  "https://www.siheung.go.kr/portal/contents.do?mId=0302020000"
+ ],
+ "경기도 안산시": [
+  "https://www.ansan.go.kr/iloveyou/",
+  "https://www.ansan.go.kr/www/common/cntnts/selectContents.do?cntnts_id=C0001474",
+  "https://www.ansan.go.kr/snshealth/common/cntnts/selectContents.do?cntnts_id=C0001839",
+  "https://www.ansan.go.kr/snshealth/common/cntnts/selectContents.do?cntnts_id=C0001838",
+  "https://ansan.go.kr/iloveyou/",
+  "https://www.ansan.go.kr/snshealth/common/cntnts/selectContents.do?cntnts_id=C0001782",
+  "https://www.ansan.go.kr/www/common/cntnts/selectContents.do?cntnts_id=C0001237",
+  "https://www.ansan.go.kr/www/common/cntnts/selectContents.do?cntnts_id=C0001247",
+  "https://www.ansan.go.kr/snshealth/common/cntnts/selectContents.do?cntnts_id=C0001785"
+ ],
+ "경기도 안성시": [
+  "https://www.anseong.go.kr/depart/contents.do?mId=0502010600",
+  "https://www.anseong.go.kr/depart/contents.do?mId=0502000000"
+ ],
+ "경기도 안양시": [
+  "https://www.anyang.go.kr/health/contents.do?key=1343",
+  "https://www.anyang.go.kr/health/contents.do?key=1351"
+ ],
+ "경기도 양주시": [
+  "https://www.yangju.go.kr/www/contents.do?key=2455",
+  "https://www.yangju.go.kr/health/contents.do?key=4332",
+  "https://www.yangju.go.kr/health/contents.do?key=4338",
+  "https://www.yangju.go.kr/health/contents.do?key=4324",
+  "https://www.yangju.go.kr/health/contents.do?key=4333",
+  "https://www.yangju.go.kr/health/contents.do?key=4344",
+  "https://www.yangju.go.kr/www/contents.do?key=472",
+  "https://www.yangju.go.kr/health/contents.do?key=4335",
+  "https://www.yangju.go.kr/health/contents.do?key=4327"
+ ],
+ "경기도 양평군": [
+  "https://www.yp21.go.kr/health/contents.do?key=4288",
+  "https://www.yp21.go.kr/www/contents.do?key=2149",
+  "https://www.yp21.go.kr/www/selectWelfareWebView.do?key=1330&welfareNo=15",
+  "https://www.yp21.go.kr/www/contents.do?key=4344",
+  "https://www.yp21.go.kr/www/contents.do?key=4371",
+  "https://www.yp21.go.kr/www/contents.do?key=2141",
+  "https://www.yp21.go.kr/www/selectWelfareWebView.do?key=1330&welfareNo=9",
+  "https://www.yp21.go.kr/www/selectWelfareWebView.do?key=1330&welfareNo=12",
+  "https://www.yp21.go.kr/www/selectWelfareWebView.do?key=1330&welfareNo=13"
+ ],
+ "경기도 여주시": [
+  "https://www.yeoju.go.kr/health/contents.do?key=714",
+  "https://www.yeoju.go.kr/health/contents.do?key=716",
+  "https://www.yeoju.go.kr/health/contents.do?key=713",
+  "https://www.yeoju.go.kr/health/contents.do?key=718"
+ ],
+ "경기도 오산시": [
+  "https://www.osan.go.kr/depart/contents.do?mId=0504010100",
+  "https://www.osan.go.kr/depart/contents.do?mId=0504010000",
+  "https://www.osan.go.kr/depart/contents.do?mId=0402030000",
+  "https://www.osan.go.kr/depart/contents.do?mId=0402060000",
+  "https://www.osan.go.kr/depart/contents.do?mId=0501030100"
+ ],
+ "경기도 용인시": [
+  "https://www.yongin.go.kr/home/www/www18/www18_05/www18_05_02/www18_05_02_01.jsp",
+  "https://www.yongin.go.kr/home/health/healthSvc/mcHealth/mcHealth02/mcHealth02_06.jsp",
+  "https://www.yongin.go.kr/home/health/healthSvc/mcHealth/mcHealth03/mcHealth03_04.jsp",
+  "https://www.yongin.go.kr/home/health/healthSvc/mngCancer/mcHealth03_06.jsp",
+  "https://www.yongin.go.kr/home/health/healthSvc/mcHealth/mcHealth08/mcHealth02_01.jsp",
+  "https://www.yongin.go.kr/home/health/healthSvc/mcHealth/mcHealth09/mcHealth10.jsp",
+  "https://www.yongin.go.kr/home/health/healthSvc/mcHealth/mcHealth02/mcHealth02_05.jsp",
+  "https://www.yongin.go.kr/home/health/healthSvc/mngCancer/mcHealth03_01.jsp",
+  "https://www.yongin.go.kr/home/www/www18/www18_04/www18_04_06.jsp"
+ ],
+ "경기도 의왕시": [
+  "https://www.uiwang.go.kr/heal/UWHEAL0405",
+  "https://www.uiwang.go.kr/heal/UWHEAL0403",
+  "https://www.uiwang.go.kr/UWKORWEL1001",
+  "https://www.uiwang.go.kr/heal/UWHEAL0407",
+  "https://www.uiwang.go.kr/UWKORWEL1005",
+  "https://www.uiwang.go.kr/UWKORWEL1003",
+  "https://www.uiwang.go.kr/UWKORWEL0210",
+  "https://www.uiwang.go.kr/heal/UWHEAL060303"
+ ],
+ "경기도 의정부시": [
+  "https://www.ui4u.go.kr/depart/contents.do?mId=0906000000",
+  "https://www.ui4u.go.kr/health/contents.do?mId=0301040000",
+  "https://www.ui4u.go.kr/health/contents.do?mId=0301130000",
+  "https://www.ui4u.go.kr/health/contents.do?mId=0301000000",
+  "https://www.ui4u.go.kr/health/contents.do?mId=0301060000",
+  "https://www.ui4u.go.kr/health/contents.do?mId=0301030000",
+  "https://www.ui4u.go.kr/health/contents.do?mId=0301140000",
+  "https://www.ui4u.go.kr/depart/contents.do?mId=0906010000",
+  "https://www.ui4u.go.kr/depart/contents.do?mId=0907040000"
+ ],
+ "경기도 이천시": [
+  "https://www.icheon.go.kr/depart/contents.do?mid=0604070202",
+  "https://www.icheon.go.kr/depart/contents.do?mid=0604070100",
+  "https://www.icheon.go.kr/depart/contents.do?mid=0604070000",
+  "https://www.icheon.go.kr/depart/contents.do?mid=0604070200",
+  "https://www.icheon.go.kr/portal/contents.do?mid=0204050000",
+  "https://www.icheon.go.kr/portal/contents.do?mid=0210040000"
+ ],
+ "경기도 평택시": [
+  "https://www.pyeongtaek.go.kr/depart/contents.do?mid=0407010000",
+  "https://www.pyeongtaek.go.kr/health/contents.do?mid=0302000000",
+  "https://www.pyeongtaek.go.kr/health/contents.do?mid=0302020000",
+  "https://www.pyeongtaek.go.kr/health/contents.do?mid=0302030000",
+  "https://www.pyeongtaek.go.kr/health/contents.do?mid=0302040000",
+  "https://www.pyeongtaek.go.kr/depart/contents.do?mid=0407000000",
+  "https://www.pyeongtaek.go.kr/depart/contents.do?mid=0405000000"
+ ],
+ "경기도 포천시": [
+  "https://www.pocheon.go.kr/pbhlth/contents.do?key=9510",
+  "https://www.pocheon.go.kr/www/contents.do?key=3933",
+  "https://www.pocheon.go.kr/www/contents.do?key=47435",
+  "https://www.pocheon.go.kr/www/contents.do?key=3929",
+  "https://www.pocheon.go.kr/pbhlth/selectTnFixesHealthListU.do?key=30976&sa1=HLT01&sc3=NC",
+  "https://www.pocheon.go.kr/pbhlth/selectTnFixesHealthListU.do?key=30976&sa1=HLT02&sc3=NC"
+ ],
+ "경기도 하남시": [
+  "https://www.hanam.go.kr/health/contents.do?key=6660",
+  "https://www.hanam.go.kr/health/contents.do?key=956",
+  "https://www.hanam.go.kr/health/contents.do?key=948",
+  "https://www.hanam.go.kr/health/contents.do?key=961"
+ ],
+ "경기도 화성시": [
+  "https://www.hscity.go.kr/www/partInfo/femaleFamily/Welfare1/Welfare1_2.jsp",
+  "https://www.hscity.go.kr/health/business/region/motherchild/motherchild04.jsp",
+  "https://www.hscity.go.kr/health/business/region/motherchild/motherchild08.jsp",
+  "https://www.hscity.go.kr/health/business/region/motherchild/motherchild14.jsp",
+  "https://www.hscity.go.kr/health/business/region/motherchild/motherchild15.jsp",
+  "https://www.hscity.go.kr/health/business/region/motherchild/motherchild02.jsp",
+  "https://www.hscity.go.kr/www/partInfo/femaleFamily/Welfare1/Welfare1_3.jsp",
+  "https://www.hscity.go.kr/www/partInfo/femaleFamily/Welfare3/Welfare3_10.jsp",
+  "https://www.hscity.go.kr/www/partInfo/femaleFamily/Welfare3/Welfare3_4/Welfare3_10.jsp"
+ ],
+ "경상남도 거창군": [
+  "https://www.geochang.go.kr/00784/00833/00849.web",
+  "https://www.geochang.go.kr/00784/00833/00848.web",
+  "https://www.geochang.go.kr/00784/00833.web"
+ ],
+ "경상남도 고성군": [
+  "https://www.goseong.go.kr/index.goseong?menuCd=DOM_000000105013000000",
+  "http://www.goseong.go.kr/welfare/index.goseong?menuCd=DOM_000001809003000000"
+ ],
+ "경상남도 김해시": [
+  "https://www.gimhae.go.kr/population/main.web",
+  "https://www.gimhae.go.kr/population/main.web?",
+  "https://www.gimhae.go.kr/modules/pnb/banner/link.do?sno=157",
+  "https://www.gimhae.go.kr/population/00001/00190.web"
+ ],
+ "경상남도 남해군": [
+  "https://www.namhae.go.kr/modules/welfare/policy/policy.do?cate1=00028&cate2=00030&pageCd=DE0101010000&siteGubun=depart",
+  "https://www.namhae.go.kr/modules/welfare/policy/policy.do?cate1=00028&cate2=00029&pageCd=DE0101010000&siteGubun=depart",
+  "https://www.namhae.go.kr/modules/welfare/policy/policy.do?cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart",
+  "https://www.namhae.go.kr/depart/Index.do?c=DE0110010000",
+  "https://www.namhae.go.kr/depart/Index.do?c=DE0110070000"
+ ],
+ "경상남도 밀양시": [
+  "https://www.miryang.go.kr/web/index.do?mnNo=50802000000",
+  "https://www.miryang.go.kr/hlt/index.do?mnNo=50201000000",
+  "https://www.miryang.go.kr/web/index.do?mnNo=50502020000"
+ ],
+ "경상남도 사천시": [
+  "https://www.sacheon.go.kr/life/03795/03796.web?pgp1=03",
+  "https://www.sacheon.go.kr/00559.web",
+  "https://www.sacheon.go.kr/life/00327/00559.web",
+  "https://www.sacheon.go.kr/minwon/00086/00559.web",
+  "https://www.sacheon.go.kr/life/edu/00559.web",
+  "https://www.sacheon.go.kr/intro/01613/00559.web",
+  "https://www.sacheon.go.kr/life/03795/03796.web?amode=view&idx=21&pgp1=03",
+  "https://www.sacheon.go.kr/life/03795/03796.web?amode=view&idx=18&pgp1=03",
+  "https://www.sacheon.go.kr/life/03795/03796.web?amode=view&idx=15&"
+ ],
+ "경상남도 산청군": [
+  "https://www.sancheong.go.kr/www/contents.do?key=6758",
+  "https://www.sancheong.go.kr/www/contents.do?key=6066",
+  "https://www.sancheong.go.kr/www/contents.do?key=6069"
+ ],
+ "경상남도 양산시": [
+  "https://www.yangsan.go.kr/welfare/contents.do?mid=0101020200",
+  "https://www.yangsan.go.kr/welfare/contents.do?mid=0100000000",
+  "https://www.yangsan.go.kr/welfare/contents.do?mid=0101020000",
+  "https://www.yangsan.go.kr/childcare/main.do",
+  "https://www.yangsan.go.kr/health/contents.do?mid=0301010000",
+  "https://www.yangsan.go.kr/welfare/contents.do?mid=0102020000"
+ ],
+ "경상남도 진주시": [
+  "https://www.jinju.go.kr/05890/05926/06985.web",
+  "https://www.jinju.go.kr/05890/05926.web",
+  "https://www.jinju.go.kr/05926.web",
+  "https://www.jinju.go.kr/care.web",
+  "https://www.jinju.go.kr/06985.web",
+  "https://www.jinju.go.kr/modules/pnb/popupzone/link.do?sno=3459",
+  "https://www.jinju.go.kr/00135/01112/01209.web",
+  "https://www.jinju.go.kr/00134/00614/00735.web",
+  "https://www.jinju.go.kr/00135/01112/01316.web"
+ ],
+ "경상남도 창녕군": [
+  "https://www.cng.go.kr/00596/00769/00775.web",
+  "https://www.cng.go.kr/skin/doc.html?fn=00e40384a7f38779440e4b6cb54a762ae2b7e8ff3baceec9076d3141032bd451&rs=/sn3hcv_convert/202506/",
+  "https://www.cng.go.kr/03516/01549.web?amode=view&gcode=1001&idx=577053"
+ ],
+ "경상남도 창원시": [
+  "https://www.changwon.go.kr/cwportal/ingu/14961/14962/14965.web",
+  "https://www.changwon.go.kr/cwportal/depart/11067/13982/15236.web",
+  "https://www.changwon.go.kr/cwportal/depart/11067/13982/13992.web",
+  "https://www.changwon.go.kr/cwportal/depart/11067/13982/13986.web",
+  "https://www.changwon.go.kr/cwportal/depart/11067/13982/13990.web",
+  "https://www.changwon.go.kr/cwportal/10309/10377/10378.web",
+  "https://www.changwon.go.kr/cwportal/depart/11067/13982.web",
+  "https://www.changwon.go.kr/cwportal/ingu/14961/14962/14964.web",
+  "https://www.changwon.go.kr/cwportal/depart/11067/13982/13993.web"
+ ],
+ "경상남도 통영시": [
+  "https://www.tongyeong.go.kr/health/01635/01905/01644.web",
+  "https://www.tongyeong.go.kr/health/01635/01905/04673.web"
+ ],
+ "경상남도 하동군": [
+  "https://www.hadong.go.kr/specialty/00401/00404.web",
+  "https://www.hadong.go.kr/01866/01888/05159.web",
+  "https://www.hadong.go.kr/01866/01888/04167.web",
+  "https://www.hadong.go.kr/01866/01888/01907.web",
+  "https://www.hadong.go.kr/01866/01888/04964.web",
+  "https://www.hadong.go.kr/board/download.do?gcode=3029&name=%EC%95%8C%EA%B8%B0+%EC%89%AC%EC%9A%B4+%ED%95%98%EB%8F%99%ED%98%95+%EC%9C%A1%EC%95%84%EC%88%98%EB%8B%B9.pdf",
+  "https://www.hadong.go.kr/01865/01874/01879.web",
+  "https://www.hadong.go.kr/board/download.do?gcode=3029&name=%ED%95%98%EB%8F%99%ED%98%95+%EC%9C%A1%EC%95%84%EC%88%98%EB%8B%B9+%EA%B4%80%EB%A0%A8+%EC%84%9C%EC%8B%9D%28%EC%88%98%EC%A0%95%29.hwp",
+  "https://www.hadong.go.kr/01866/01888/01906.web"
+ ],
+ "경상남도 함양군": [
+  "https://www.hygn.go.kr/01659/01675/01758.web",
+  "https://www.hygn.go.kr/01659/01670/01730.web"
+ ],
+ "경상남도 합천군": [
+  "https://www.hc.go.kr/05750/05767/05832.web",
+  "https://www.hc.go.kr/05750/05767/09272.web",
+  "https://www.hc.go.kr/05750/05765/05785.web",
+  "https://www.hc.go.kr/05750/05769/05851.web"
+ ],
+ "경상북도 경산시": [
+  "https://www.gbgs.go.kr/open_content/ko/page.do?mnu_uid=5510",
+  "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=5446&",
+  "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=5824&",
+  "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=5828&",
+  "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=6339&",
+  "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=5336",
+  "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=6190&",
+  "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=6458&",
+  "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=5336&"
+ ],
+ "경상북도 경주시": [
+  "https://www.gyeongju.go.kr/health/page.do?mnu_uid=3082",
+  "https://www.gyeongju.go.kr/health/page.do?mnu_uid=3082&",
+  "https://www.gyeongju.go.kr/health/page.do?mnu_uid=3114&",
+  "https://www.gyeongju.go.kr/area/page.do?mnu_uid=4449&",
+  "https://www.gyeongju.go.kr/area/page.do?mnu_uid=4461&",
+  "https://www.gyeongju.go.kr/area/page.do?mnu_uid=4393&"
+ ],
+ "경상북도 고령군": [
+  "https://www.goryeong.go.kr/kor/contents.do?IDX=372",
+  "https://www.goryeong.go.kr/kor/contents.do?IDX=374",
+  "https://www.goryeong.go.kr/health/contents.do?IDX=49",
+  "https://www.goryeong.go.kr/health/contents.do?IDX=48",
+  "https://www.goryeong.go.kr/kor/contents.do?IDX=373",
+  "http://toy.goryeong.go.kr"
+ ],
+ "경상북도 구미시": [
+  "https://www.gumi.go.kr/policy/main.do",
+  "https://www.gumi.go.kr/well/wfProgrm/view.do?key=2505131319478&wfProgrmSn=34&pageIndex=1&sc=&sw=%EC%B6%9C%EC%82%B0"
+ ],
+ "경상북도 김천시": [
+  "https://www.gc.go.kr/portal/contents.do?mId=2002000000",
+  "http://gc.go.kr/childcare",
+  "https://www.gc.go.kr/health/contents.do?mId=0301000000",
+  "https://www.gc.go.kr/childcare/pages/index.htm",
+  "https://www.gc.go.kr/portal/contents.do?mId=1402140000"
+ ],
+ "경상북도 문경시": [
+  "https://www.gbmg.go.kr/portal/contents.do?mId=0605050202",
+  "https://www.gbmg.go.kr/portal/contents.do?mId=0605050300",
+  "https://www.gbmg.go.kr/portal/contents.do?mId=0405040000",
+  "https://www.gbmg.go.kr/portal/contents.do?mId=0605050200",
+  "https://www.gbmg.go.kr/portal/contents.do?mId=0605050000",
+  "https://www.gbmg.go.kr/portal/contents.do?mId=0605051000"
+ ],
+ "경상북도 봉화군": [
+  "https://www.bonghwa.go.kr/wel/contents.do?mid=0201010000",
+  "https://www.bonghwa.go.kr/health/contents.do?mid=0401020000",
+  "https://www.bonghwa.go.kr/wel/contents.do?mid=0201030000",
+  "https://www.bonghwa.go.kr/health/contents.do?mid=0401030000",
+  "https://www.bonghwa.go.kr/wel/contents.do?mid=0201040000",
+  "https://www.bonghwa.go.kr/health/contents.do?mid=0401000000",
+  "https://www.bonghwa.go.kr/wel/contents.do?mid=0202000000",
+  "https://www.bonghwa.go.kr/wel/contents.do?mid=0201000000",
+  "https://www.bonghwa.go.kr/wel/contents.do?mid=0202010000"
+ ],
+ "경상북도 상주시": [
+  "https://www.sangju.go.kr/page/16645/11786.tc",
+  "https://www.sangju.go.kr/page/link.tc?mn=16645&pageNo=11786",
+  "https://www.sangju.go.kr/page/link.tc?mn=16537&pageNo=11692",
+  "https://www.sangju.go.kr/page/link.tc?mn=16678&pageNo=11787",
+  "https://health.sangju.go.kr/main/main.jsp?code=SERVICE_03_01&home_url=health",
+  "https://www.sangju.go.kr/page/16537/11692.tc"
+ ],
+ "경상북도 성주군": [
+  "https://www.sj.go.kr/S0006/page.do?mnu_uid=1447",
+  "https://www.sj.go.kr/S0006/page.do?mnu_uid=1444&",
+  "https://www.sj.go.kr/programs/board/board_download.do?file_uid=454180",
+  "https://www.sj.go.kr/S0006/page.do?mnu_uid=1446&"
+ ],
+ "경상북도 안동시": [
+  "https://www.andong.go.kr/portal/contents.do?mId=0615030000",
+  "https://www.andong.go.kr/portal/contents.do?mId=0615070000"
+ ],
+ "경상북도 영덕군": [
+  "https://www.yd.go.kr/?p=4685",
+  "https://www.yd.go.kr/?p=1690"
+ ],
+ "경상북도 영양군": [
+  "https://www.yyg.go.kr/www/health/health_work/pregnant_infant/support_childbirth",
+  "https://www.yyg.go.kr/www/health/health_work/pregnant_infant",
+  "https://www.yyg.go.kr/www/health/health_work/pregnant_infant/infant_care"
+ ],
+ "경상북도 영주시": [
+  "https://www.yeongju.go.kr/open_content/main/page.do?mnu_uid=10938",
+  "https://www.yeongju.go.kr/open_content/main/page.do?mnu_uid=10938&",
+  "https://www.yeongju.go.kr/open_content/main/page.do?mnu_uid=4021&"
+ ],
+ "경상북도 영천시": [
+  "https://www.yc.go.kr/depart/contents.do?mId=1001030000",
+  "https://www.yc.go.kr/health/contents.do?mId=0807000000",
+  "https://www.yc.go.kr/depart/contents.do?mId=0602150000",
+  "https://www.yc.go.kr/depart/contents.do?mId=1001050000",
+  "https://www.yc.go.kr/health/contents.do?mId=0807030000",
+  "http://www.yc.go.kr/docviewer/index.jsp?atchFileId=4be4ca8d2371e9be13c5aaa71f7c285bc070768eec0926d854b1869475077f15&fileSn=f9a1967c526603d17ab488b9d2747cda&docName=%EB%8B%A4%ED%95%A8%EA%BB%98%EB%8F%8C%EB%B4%84%EC%84%BC%ED%84%B05%ED%98%B8%EC%A0%90%2B%ED%99%8D%EB%B3%B4%EC%A7%80-1"
+ ],
+ "경상북도 예천군": [
+  "https://www.ycg.kr/open.content/health/health.business.info/support/childbirth.support/maternity.subsidy.support/",
+  "https://www.ycg.kr/open.content/health/health.business.info/support/mternal.child/pregnant.management/"
+ ],
+ "경상북도 울릉군": [
+  "https://www.ulleung.go.kr/ko/page.do?mnu_uid=1720",
+  "https://www.ulleung.go.kr/ko/page.do?mnu_uid=1837&"
+ ],
+ "경상북도 울진군": [
+  "https://www.uljin.go.kr/health/index.uljin?menuCd=DOM_000000904005000000",
+  "https://www.uljin.go.kr/index.uljin?menuCd=DOM_000000904005000000",
+  "https://www.uljin.go.kr/index.uljin?menuCd=DOM_000000904005002000",
+  "https://www.uljin.go.kr/index.uljin?menuCd=DOM_000000904005001000"
+ ],
+ "경상북도 청도군": [
+  "https://www.cheongdo.go.kr/health/contents.do?mid=0408261300",
+  "https://www.cheongdo.go.kr/health/contents.do?mid=0408260000",
+  "https://www.cheongdo.go.kr/health/contents.do?mid=0406000000",
+  "https://www.cheongdo.go.kr/health/contents.do?mid=0408000000"
+ ],
+ "경상북도 청송군": [
+  "https://www.cs.go.kr/health/00007104/00007153/00007165.web",
+  "https://www.cs.go.kr/specialty/00003169/00004020.web",
+  "https://www.cs.go.kr/00007165.web",
+  "https://www.cs.go.kr/portal_bunya/00003169/00003177.web",
+  "https://www.cs.go.kr/00007169.web",
+  "https://www.cs.go.kr/specialty/00003169/00007504.web",
+  "https://www.cs.go.kr/specialty/00003169/00007503.web"
+ ],
+ "경상북도 칠곡군": [
+  "https://www.chilgok.go.kr/portal/contents.do?mId=0901010000",
+  "https://www.chilgok.go.kr/health/contents.do?mId=0302200000",
+  "https://www.chilgok.go.kr/portal/contents.do?mId=0906000000",
+  "https://www.chilgok.go.kr/health/contents.do?mId=0302160000",
+  "https://www.chilgok.go.kr/portal/contents.do?mId=0906010000"
+ ],
+ "경상북도 포항시": [
+  "https://www.pohang.go.kr/dept/contents.do?mid=0114010000",
+  "https://www.pohang.go.kr/health/contents.do?mid=0308090000",
+  "https://www.pohang.go.kr/health/contents.do?mid=0308000000",
+  "https://www.pohang.go.kr/health/contents.do?mid=0308010000",
+  "https://www.pohang.go.kr/health/contents.do?mid=0308020200",
+  "https://www.pohang.go.kr/health/contents.do?mid=0419000000",
+  "https://www.pohang.go.kr/health/contents.do?mid=0202040000",
+  "https://www.pohang.go.kr/health/contents.do?mid=0308030000",
+  "https://www.pohang.go.kr/dept/contents.do?mid=0104280000"
+ ],
+ "대구광역시 군위군": [
+  "https://www.gunwi.go.kr/health/page.do?mnu_uid=451",
+  "https://www.gunwi.go.kr/health/page.do?mnu_uid=448&",
+  "https://www.gunwi.go.kr/health/page.do?mnu_uid=451&",
+  "https://www.gunwi.go.kr/health/page.do?mnu_uid=450&",
+  "https://www.gunwi.go.kr/health/page.do?mnu_uid=448",
+  "https://www.gunwi.go.kr/ko/page.do?mnu_uid=789&",
+  "https://www.gunwi.go.kr/ko/page.do?mnu_uid=790&",
+  "https://igunwi.gunwi.go.kr",
+  "https://igunwi.gunwi.go.kr/"
+ ],
+ "대구광역시 남구": [
+  "https://www.nam.daegu.kr/health/index.do?menu_id=00001377",
+  "https://www.nam.daegu.kr/health/index.do?menu_id=00001371",
+  "https://www.nam.daegu.kr/health/index.do;jsessionid=4B129A4742FFB82472CF043ACDF83BE6.tomcat2?menu_id=00001632",
+  "https://www.nam.daegu.kr/imom/",
+  "http://nam.daegu.kr/imom/",
+  "https://www.nam.daegu.kr/index.do?menu_id=00000631",
+  "https://www.nam.daegu.kr/index.do?menu_id=00001121",
+  "https://www.nam.daegu.kr/index.do?menu_id=00204961"
+ ],
+ "대구광역시 달서구": [
+  "https://www.dalseo.daegu.kr/index.do?menu_id=00004494",
+  "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=30001063",
+  "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=00004421",
+  "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=30001040",
+  "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=30001049",
+  "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=00003311",
+  "https://www.dalseo.daegu.kr/index.do?menu_id=00004507",
+  "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=30001062",
+  "https://www.dalseo.daegu.kr/healthcenter/index.do?menu_id=30001079"
+ ],
+ "대구광역시 달성군": [
+  "https://www.dalseong.daegu.kr/healthcenter/index.do?menu_id=00002320",
+  "https://www.dalseong.daegu.kr/healthcenter/index.do?menu_id=00001050",
+  "https://www.dalseong.daegu.kr/healthcenter/index.do?menu_id=00001604",
+  "https://www.dalseong.daegu.kr/healthcenter/index.do?menu_id=00005110",
+  "https://www.dalseong.daegu.kr/healthcenter/index.do?menu_id=00002309",
+  "https://www.dalseong.daegu.kr/healthcenter/index.do?menu_id=00001041&menu_link=/icms/bbs/selectBoardArticle.do&bbsId=BBS_00094&nttId=54771&bbsTyCode=BBST03&bbsAttrbCode=BBSA03",
+  "https://www.dalseong.daegu.kr/healthcenter/index.do?menu_id=00001041&menu_link=/icms/bbs/selectBoardArticle.do&bbsId=BBS_00094&nttId=54770&bbsTyCode=BBST03&bbsAttrbCode=BBSA03"
+ ],
+ "대구광역시 동구": [
+  "https://www.dong.daegu.kr/health/contents.do?mid=0408020000",
+  "https://www.dong.daegu.kr/health/contents.do?mid=0408010000",
+  "https://www.dong.daegu.kr/health/contents.do?mid=0408000000",
+  "https://www.dong.daegu.kr/dgicare/main.do",
+  "https://www.dong.daegu.kr/portal/contents.do?mid=0301100000"
+ ],
+ "대구광역시 북구": [
+  "https://www.buk.daegu.kr/health/index.do?menu_id=00000629",
+  "https://www.buk.daegu.kr/health/index.do?menu_id=00000550"
+ ],
+ "대구광역시 서구": [
+  "https://www.dgs.go.kr/portal/contents.do?mid=0303100000",
+  "https://www.dgs.go.kr/health/contents.do?mid=0405080000",
+  "https://www.dgs.go.kr/health/contents.do?mid=0405090000",
+  "https://www.dgs.go.kr/health/contents.do?mid=0405000000",
+  "https://www.dgs.go.kr/health/contents.do?mid=0405060000",
+  "https://www.dgs.go.kr/health/contents.do?mid=0409110000",
+  "https://www.dgs.go.kr/health/contents.do?mid=0405040000",
+  "https://www.dgs.go.kr/portal/contents.do?mid=0303000000",
+  "https://www.dgs.go.kr/health/contents.do?mid=0409050000"
+ ],
+ "대구광역시 수성구": [
+  "https://www.suseong.kr/baby/index.do",
+  "https://www.suseong.kr/health/index.do?menu_id=00042280",
+  "https://www.suseong.kr/health/index.do?menu_id=00042150",
+  "https://www.suseong.kr/health/index.do?menu_id=00042171",
+  "https://www.suseong.kr/childcare",
+  "https://www.suseong.kr/health/index.do?menu_id=00000871",
+  "https://www.suseong.kr/health/index.do?menu_id=00042440",
+  "https://www.suseong.kr/attachFilePreview.do?fn=/cmsh/suseong.kr/images/contents/happy_2603.pdf",
+  "https://www.suseong.kr/index.do?menu_id=00000600"
+ ],
+ "대전광역시 대덕구": [
+  "https://www.daedeok.go.kr/dpt/goContents.do?link=%2Fdpt%2Fdpt06%2FDPT06020204&menuId=DPT06020204",
+  "https://mom.daedeok.go.kr"
+ ],
+ "대전광역시 서구": [
+  "https://www.seogu.go.kr/kor/sub06_04_02_01.do",
+  "https://www.seogu.go.kr/health/sub03_08_03.do",
+  "https://www.seogu.go.kr/kor/sub06_02_01_01.do",
+  "https://www.seogu.go.kr/health/sub03_03_02.do"
+ ],
+ "대전광역시 유성구": [
+  "https://www.yuseong.go.kr/kor/sub07_02_02_02.do",
+  "https://www.yuseong.go.kr/kor/sub07_03_08.do"
+ ],
+ "대전광역시 중구": [
+  "https://www.djjunggu.go.kr/health/sub04_07_01.do",
+  "https://www.djjunggu.go.kr/kr/sub06_01_03_01.do",
+  "https://djjunggu.go.kr/bbs/BBSMSTR_000000000893/view.do?nttId=B000000224804Am5dO9"
+ ],
+ "부산광역시 강서구": [
+  "https://www.bsgangseo.go.kr/welfare/contents.do?mid=0404000000",
+  "https://www.bsgangseo.go.kr/health/contents.do?mid=0304050000",
+  "https://www.bsgangseo.go.kr/health/contents.do?mid=0304000000",
+  "https://www.bsgangseo.go.kr/health/contents.do?mid=0304020000",
+  "https://www.bsgangseo.go.kr/health/contents.do?mid=0304090000",
+  "https://www.bsgangseo.go.kr/health/contents.do?mid=0304010000",
+  "https://www.bsgangseo.go.kr/health/contents.do?mid=0304080000",
+  "https://www.bsgangseo.go.kr/health/contents.do?mid=0304040000",
+  "https://www.bsgangseo.go.kr/welfare/contents.do?mid=0400000000"
+ ],
+ "부산광역시 기장군": [
+  "https://www.gijang.go.kr/index.gijang?menuCd=DOM_000000103001002000",
+  "https://www.gijang.go.kr/index.gijang?menuCd=DOM_000000103001002001"
+ ],
+ "부산광역시 남구": [
+  "https://www.bsnamgu.go.kr/index.namgu?menuCd=DOM_000000102013000000",
+  "https://www.bsnamgu.go.kr/index.namgu?menuCd=DOM_000000102013002000",
+  "https://www.bsnamgu.go.kr/index.namgu?menuCd=DOM_000000102013001000"
+ ],
+ "부산광역시 동구": [
+  "https://www.bsdonggu.go.kr/welfare/index.donggu?menuCd=DOM_000000203002004000",
+  "https://www.bsdonggu.go.kr/health/index.donggu?menuCd=DOM_000000404007000000",
+  "https://www.bsdonggu.go.kr/health/index.donggu?menuCd=DOM_000000404007003000",
+  "https://www.bsdonggu.go.kr/health/index.donggu?menuCd=DOM_000000404007005000",
+  "https://www.bsdonggu.go.kr/health/index.donggu?menuCd=DOM_000000404007008000",
+  "https://www.bsdonggu.go.kr/health/index.donggu?menuCd=DOM_000000404007002000",
+  "https://www.bsdonggu.go.kr/health/index.donggu?menuCd=DOM_000000404007014000",
+  "https://www.bsdonggu.go.kr/health/index.donggu?menuCd=DOM_000000404007015000",
+  "https://www.bsdonggu.go.kr/health/index.donggu?menuCd=DOM_000000404007006000"
+ ],
+ "부산광역시 동래구": [
+  "https://www.dongnae.go.kr/welfare/index.dongnae?menuCd=DOM_000000504002003000",
+  "https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000504004000000",
+  "https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000504004001000",
+  "https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000504004002000"
+ ],
+ "부산광역시 북구": [
+  "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005006000",
+  "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005011000",
+  "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005001000",
+  "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005000000"
+ ],
+ "부산광역시 사상구": [
+  "https://www.sasang.go.kr/index.sasang?menuCd=DOM_000000103008003001",
+  "https://www.sasang.go.kr/health/index.sasang?menuCd=DOM_000000404003003000",
+  "https://www.sasang.go.kr/health/index.sasang?menuCd=DOM_000000404003007000",
+  "https://www.sasang.go.kr/health/index.sasang?menuCd=DOM_000000404003000000",
+  "https://www.sasang.go.kr/health/index.sasang?menuCd=DOM_000000404003001000",
+  "https://www.sasang.go.kr/health/index.sasang?menuCd=DOM_000000404003001002",
+  "https://www.sasang.go.kr/index.sasang?menuCd=DOM_000000103004003003",
+  "https://www.sasang.go.kr/index.sasang?menuCd=DOM_000000103008003002",
+  "https://www.sasang.go.kr/index.sasang?menuCd=DOM_000000103004003001"
+ ],
+ "부산광역시 사하구": [
+  "https://www.saha.go.kr/portal/contents.do?mId=0510070000",
+  "https://www.saha.go.kr/portal/contents.do?mId=0510070100"
+ ],
+ "부산광역시 서구": [
+  "https://www.bsseogu.go.kr/welfare/index.bsseogu?menuCd=DOM_000000903001003000",
+  "https://www.bsseogu.go.kr/health/index.bsseogu?menuCd=DOM_000000404007000000",
+  "https://www.bsseogu.go.kr/health/index.bsseogu?menuCd=DOM_000000404007006000",
+  "https://www.bsseogu.go.kr/health/index.bsseogu?menuCd=DOM_000000404007004000",
+  "https://www.bsseogu.go.kr/health/index.bsseogu?menuCd=DOM_000000404007011000",
+  "https://www.bsseogu.go.kr/health/index.bsseogu?menuCd=DOM_000000404007001000",
+  "https://www.bsseogu.go.kr/index.bsseogu?menuCd=DOM_000000404007000000",
+  "https://www.bsseogu.go.kr/health/index.bsseogu?menuCd=DOM_000000404007005000",
+  "https://www.bsseogu.go.kr/index.bsseogu?menuCd=DOM_000000404007001000"
+ ],
+ "부산광역시 수영구": [
+  "https://www.suyeong.go.kr/index.suyeong?menuCd=DOM_000000118005001002",
+  "https://www.suyeong.go.kr/health/index.suyeong?menuCd=DOM_000001504007012000",
+  "https://www.suyeong.go.kr/health/index.suyeong?menuCd=DOM_000001504007003000",
+  "https://www.suyeong.go.kr/health/index.suyeong?menuCd=DOM_000001504007000000",
+  "https://www.suyeong.go.kr/health/index.suyeong?menuCd=DOM_000001504007002000",
+  "https://www.suyeong.go.kr/health/index.suyeong?menuCd=DOM_000001504007009000",
+  "https://www.suyeong.go.kr/health/index.suyeong?menuCd=DOM_000001504007005000",
+  "https://www.suyeong.go.kr/index.suyeong?menuCd=DOM_000000118005000000",
+  "https://www.suyeong.go.kr/index.suyeong?menuCd=DOM_000000118005001000"
+ ],
+ "부산광역시 연제구": [
+  "https://www.yeonje.go.kr/welfare/contents.do?mId=0303010000",
+  "https://www.yeonje.go.kr/health/contents.do?mId=0233050000",
+  "https://www.yeonje.go.kr/welfare/contents.do?mId=0303030000",
+  "https://www.yeonje.go.kr/health/contents.do?mId=0233050100",
+  "https://www.yeonje.go.kr/health/contents.do?mId=0233010000",
+  "https://www.yeonje.go.kr/health/contents.do?mId=0233100000",
+  "https://www.yeonje.go.kr/health/contents.do?mId=0233050200",
+  "https://www.yeonje.go.kr/health/contents.do?mId=0409000000",
+  "https://www.yeonje.go.kr/health/contents.do?mId=0233000000"
+ ],
+ "부산광역시 영도구": [
+  "https://www.yeongdo.go.kr/02418/00771/01045.web",
+  "https://www.yeongdo.go.kr/health/01568/01585/01586.web",
+  "https://www.yeongdo.go.kr/01591.web",
+  "https://www.yeongdo.go.kr/health/01568/01585/04432.web",
+  "https://www.yeongdo.go.kr/health/01568/01605/03465.web",
+  "https://www.yeongdo.go.kr/health/01568/01585/03451.web",
+  "https://www.yeongdo.go.kr/health/01568/01585/01593.web"
+ ],
+ "부산광역시 해운대구": [
+  "https://www.haeundae.go.kr/index.do?menuCd=DOM_000000103001005000",
+  "https://www.haeundae.go.kr/index.do?menuCd=DOM_000000103001005001",
+  "https://www.haeundae.go.kr/index.do?menuCd=DOM_000000103001005003",
+  "https://www.haeundae.go.kr/index.do?menuCd=DOM_000000103014003000"
+ ],
+ "서울특별시 강남구": [
+  "https://health.gangnam.go.kr/web/business/moja/pregnant/sub01.do",
+  "https://health.gangnam.go.kr/web/business/moja/infant/sub01.do",
+  "https://health.gangnam.go.kr/web/business/moja/sub01.do",
+  "https://www.gangnam.go.kr/board/nursing/list.do",
+  "https://www.gangnam.go.kr/board/nursing/list.do?mid=ID02_010502"
+ ],
+ "서울특별시 강동구": [
+  "https://www.gangdong.go.kr/web/newportal/contents/gdp_005_001_005_002_003",
+  "https://health.gangdong.go.kr/health/site/main/content/GD20010400",
+  "https://health.gangdong.go.kr/health/site/main/content/GD20010110",
+  "https://www.gangdong.go.kr/web/newportal/contents/gdp_005_001_005_002_001",
+  "https://health.gangdong.go.kr/health/site/main/content/GD20010300",
+  "https://health.gangdong.go.kr/health/site/main/content/GD20010610",
+  "https://health.gangdong.go.kr/health/site/main/content/GD20031600",
+  "https://health.gangdong.go.kr/health/site/main/content/GD20010100",
+  "https://www.gangdong.go.kr/web/newportal/contents/gdp_005_001_005_001_001"
+ ],
+ "서울특별시 강북구": [
+  "https://www.gangbuk.go.kr/portal/main/contents.do?menuNo=200640",
+  "https://www.gangbuk.go.kr/health/main/contents.do?menuNo=400150",
+  "https://www.gangbuk.go.kr/health/main/contents.do?menuNo=400153",
+  "https://www.gangbuk.go.kr/health/main/contents.do?menuNo=400151",
+  "https://www.gangbuk.go.kr/health/main/contents.do?menuNo=400079",
+  "https://www.gangbuk.go.kr/health/welfare/choiceWelfare/healthList.do?menuNo=400193&ty=2",
+  "https://www.gangbuk.go.kr/health/welfare/choiceWelfare/healthList.do?menuNo=400193&ty=1",
+  "https://www.gangbuk.go.kr/health/main/contents.do?menuNo=400226",
+  "https://www.gangbuk.go.kr/portal/bbs/B0000100/list.do?menuNo=200323&nttId=85314"
+ ],
+ "서울특별시 강서구": [
+  "https://www.gangseo.seoul.kr/welfare/wel100601",
+  "https://www.gangseo.seoul.kr/health/ht020218",
+  "https://www.gangseo.seoul.kr/welfare/wel100100",
+  "https://www.gangseo.seoul.kr/health/ht020231",
+  "https://www.gangseo.seoul.kr/health/ht020227",
+  "https://www.gangseo.seoul.kr/health/ht020222",
+  "https://www.gangseo.seoul.kr/health/ht020223",
+  "https://www.gangseo.seoul.kr/gs050301",
+  "https://www.gangseo.seoul.kr/welfare/wel040506"
+ ],
+ "서울특별시 관악구": [
+  "https://www.gwanak.go.kr/site/gwanak/06/10614011300002025051402.jsp",
+  "https://www.gwanak.go.kr/site/health/05/10502040600002024072201.jsp",
+  "https://www.gwanak.go.kr/site/health/04/10402020000002016051301.jsp",
+  "https://www.gwanak.go.kr/site/health/04/10402010000002016051301.jsp",
+  "https://www.gwanak.go.kr/site/health/05/10502010400002023021511.jsp",
+  "https://www.gwanak.go.kr/site/gwanak/06/10614012900002025051402.jsp",
+  "https://www.gwanak.go.kr/site/health/05/10502010600002024101710.jsp",
+  "https://www.gwanak.go.kr/site/health/05/10502140000002016080910.jsp",
+  "https://www.gwanak.go.kr/site/gwanak/04/10407010200002016051205.jsp"
+ ],
+ "서울특별시 광진구": [
+  "https://www.gwangjin.go.kr/portal/bbs/B0000384/list.do?menuNo=201870",
+  "https://www.gwangjin.go.kr/health/main/contents.do?menuNo=300086",
+  "https://www.gwangjin.go.kr/health/main/contents.do?menuNo=300085",
+  "https://www.gwangjin.go.kr/health/main/contents.do?menuNo=300123",
+  "https://www.gwangjin.go.kr/health/main/contents.do?menuNo=300339",
+  "https://www.gwangjin.go.kr/health/main/contents.do?menuNo=300080",
+  "https://www.gwangjin.go.kr/health/main/contents.do?menuNo=300081",
+  "https://www.gwangjin.go.kr/portal/main/contents.do?menuNo=200306",
+  "https://www.gwangjin.go.kr/health/main/contents.do?menuNo=300290"
+ ],
+ "서울특별시 구로구": [
+  "https://www.guro.go.kr/health/contents.do?key=4460",
+  "https://www.guro.go.kr/health/contents.do?key=1354&",
+  "https://www.guro.go.kr/health/contents.do?key=1329",
+  "https://www.guro.go.kr/health/contents.do?key=1320&",
+  "https://www.guro.go.kr/health/contents.do?key=1320",
+  "https://www.guro.go.kr/health/contents.do?key=1357&",
+  "https://www.guro.go.kr/www/sub.do?key=1849&",
+  "https://www.guro.go.kr/health/contents.do?key=1328",
+  "https://www.guro.go.kr/health/null?"
+ ],
+ "서울특별시 노원구": [
+  "https://www.nowon.kr/health/healthIncrz/healthIncrz1/healthIncrz1_01.jsp",
+  "https://www.nowon.kr/health/healthIncrz/healthIncrz1/healthIncrz1_04.jsp",
+  "https://www.nowon.kr/health/healthIncrz/healthIncrz1/healthIncrz1_07.jsp",
+  "https://www.nowon.kr/www/info/info2/info2_05/info2_05_02/info2_05_02_01/info2_05_02_01_01.jsp",
+  "https://www.nowon.kr/www/info/info2/info2_05/info2_05_01/info2_05_01_01/info2_05_01_01_01.jsp",
+  "https://www.nowon.kr/health/healthIncrz/healthIncrz1/healthIncrz1_02.jsp",
+  "https://www.nowon.kr/health/clnic/clnic4/clnic4_01.jsp"
+ ],
+ "서울특별시 도봉구": [
+  "https://www.dobong.go.kr/Contents.asp?code=10010077",
+  "https://www.dobong.go.kr/Contents.asp?code=10009195"
+ ],
+ "서울특별시 동대문구": [
+  "https://www.ddm.go.kr/www/selectBbsNttList.do?bbsNo=357&key=3753",
+  "https://www.ddm.go.kr/health/contents.do?key=1260",
+  "https://www.ddm.go.kr/health/contents.do?key=3686",
+  "https://www.ddm.go.kr/www/contents.do?key=756",
+  "https://www.ddm.go.kr/health/contents.do?key=1263",
+  "https://www.ddm.go.kr/health/selectWelfareWebList.do?key=2067&searchWelfareSe=WLFARE02",
+  "https://www.ddm.go.kr/health/contents.do?key=1264",
+  "https://www.ddm.go.kr/health/sub.do?key=1257",
+  "https://www.ddm.go.kr/health/contents.do?key=3757"
+ ],
+ "서울특별시 동작구": [
+  "https://www.dongjak.go.kr/portal/main/contents.do?menuNo=200286",
+  "https://www.dongjak.go.kr/healthcare/main/contents.do?menuNo=300047",
+  "https://www.dongjak.go.kr/healthcare/main/contents.do?menuNo=300341",
+  "https://www.dongjak.go.kr/portal/main/contents.do?menuNo=200281",
+  "https://www.dongjak.go.kr/portal/main/contents.do?menuNo=200292",
+  "https://www.dongjak.go.kr/healthcare/main/contents.do?menuNo=300048",
+  "https://www.dongjak.go.kr/healthcare/main/contents.do?menuNo=300372",
+  "https://www.dongjak.go.kr/portal/main/contents.do?menuNo=200287",
+  "https://www.dongjak.go.kr/healthcare/main/contents.do?menuNo=300342"
+ ],
+ "서울특별시 서대문구": [
+  "https://www.sdm.go.kr/health/contents/healthbiz/maternal/maternalHealth",
+  "https://www.sdm.go.kr/welfare/woman/birth.do",
+  "https://www.sdm.go.kr/health/contents/healthbiz/maternal/pregnancy",
+  "https://www.sdm.go.kr/health/htmlView/html.jsp?fileId=1a041aac3fc16&fileSeq=1&useSecurity=true&fileMask=202608271a041ab7c50450",
+  "https://www.sdm.go.kr/health/contents/healthbiz/maternal/prebabysup",
+  "https://www.sdm.go.kr/htmlView/html.jsp?path=/board/428&saveFileNm=879450B0-9209-3EA6-3C8D-B1C681EA1C59.pdf&oriFileNm=20250819_97327732550572553.pdf"
+ ],
+ "서울특별시 서초구": [
+  "https://www.seocho.go.kr/site/sh/03/10304020100002020031909.jsp",
+  "https://www.seocho.go.kr/site/seocho/04/10403081900002024123110.jsp",
+  "https://www.seocho.go.kr/site/seocho/04/10402010302002015070605.jsp",
+  "https://www.seocho.go.kr/site/seocho/04/10402010101002015062601.jsp",
+  "https://www.seocho.go.kr/site/seocho/04/10402010301002015070605.jsp",
+  "https://www.seocho.go.kr/site/seocho/04/10403081800002024022604.jsp",
+  "https://www.seocho.go.kr/site/seocho/04/10402010200002015070605.jsp",
+  "https://www.seocho.go.kr/site/seocho/04/10402061300002015082504.jsp",
+  "https://www.seocho.go.kr/site/sh/03/10304010100002020031805.jsp"
+ ],
+ "서울특별시 성동구": [
+  "https://www.sd.go.kr/main/contents.do?key=5070",
+  "https://www.sd.go.kr/health/contents.do?key=4816&",
+  "https://www.sd.go.kr/health/contents.do?key=2308&",
+  "https://www.sd.go.kr/health/contents.do?key=2310&",
+  "https://www.sd.go.kr/main/sub.do?key=5070",
+  "https://www.sd.go.kr/health/contents.do?key=2305&",
+  "https://www.sd.go.kr/health/contents.do?key=2312&",
+  "https://www.sd.go.kr/health/contents.do?key=2313&",
+  "https://www.sd.go.kr/health/contents.do?key=5126&"
+ ],
+ "서울특별시 성북구": [
+  "https://www.sb.go.kr/www/contents.do?key=7302",
+  "https://www.sb.go.kr/bogunso/contents.do?key=243",
+  "https://www.sb.go.kr/www/contents.do?key=7302&tabType=0&dataDepth=임신·출산",
+  "https://www.sb.go.kr/bogunso/contents.do?key=6742",
+  "https://www.sb.go.kr/bogunso/contents.do?key=230",
+  "https://www.sb.go.kr/bogunso/contents.do?key=236",
+  "https://www.sb.go.kr/bogunso/contents.do?key=240",
+  "https://www.sb.go.kr/bogunso/contents.do?key=7263",
+  "https://www.sb.go.kr/bogunso/contents.do?key=195"
+ ],
+ "서울특별시 송파구": [
+  "https://www.songpa.go.kr/ehealth/contents.do?key=4568",
+  "https://www.songpa.go.kr/www/contents.do?key=5645&",
+  "https://www.songpa.go.kr/www/contents.do?key=5645",
+  "https://www.songpa.go.kr/www/contents.do?key=2939&",
+  "https://www.songpa.go.kr/ehealth/selectUserMenuView.do?key=5013&tags=%ec%9e%84%ec%8b%a0%ec%b6%9c%ec%82%b0&searchKrwd=",
+  "https://www.songpa.go.kr/ehealth/selectUserMenuView.do?key=5013&tags=%ec%98%81%ec%9c%a0%ec%95%84&searchKrwd=",
+  "https://www.songpa.go.kr/www/contents.do?key=2939",
+  "https://www.songpa.go.kr/ehealth/contents.do?key=4568&",
+  "https://www.songpa.go.kr/www/contents.do?key=2150"
+ ],
+ "서울특별시 양천구": [
+  "https://www.yangcheon.go.kr/site/health/ex/bbs/List.do?cbIdx=715",
+  "https://www.yangcheon.go.kr/site/yangcheon/05/10503021100002022062411.jsp",
+  "https://www.yangcheon.go.kr/site/yangcheon/05/10505021600002025041404.jsp",
+  "https://www.yangcheon.go.kr/site/yangcheon/05/10504021500002024020711.jsp",
+  "https://www.yangcheon.go.kr/site/yangcheon/05/10501020400002016081013.jsp",
+  "https://www.yangcheon.go.kr/health/health/01/10115010000002021032904.jsp",
+  "https://www.yangcheon.go.kr/health/health/01/10106050000002017022706.jsp",
+  "https://www.yangcheon.go.kr/site/yangcheon/05/10501020500002016081013.jsp",
+  "https://www.yangcheon.go.kr/health/health/02/10203010000002016100717.jsp"
+ ],
+ "서울특별시 영등포구": [
+  "https://www.ydp.go.kr/www/contents.do?key=3307",
+  "https://www.ydp.go.kr/www/contents.do?key=3307&",
+  "https://www.ydp.go.kr/health/contents.do?key=6073&",
+  "https://www.ydp.go.kr/health/contents.do?key=3524&",
+  "https://www.ydp.go.kr/health/contents.do?key=3540&",
+  "https://www.ydp.go.kr/health/contents.do?key=5952&",
+  "https://www.ydp.go.kr/health/contents.do?key=3535&",
+  "https://www.ydp.go.kr/health/contents.do?key=3543&",
+  "https://www.ydp.go.kr/health/contents.do?key=3542&"
+ ],
+ "서울특별시 용산구": [
+  "https://www.yongsan.go.kr/health/main/contents.do?menuNo=300099",
+  "https://www.yongsan.go.kr/portal/main/contents.do?menuNo=200409",
+  "https://www.yongsan.go.kr/health/main/contents.do?menuNo=300137",
+  "https://www.yongsan.go.kr/health/main/contents.do?menuNo=300136"
+ ],
+ "서울특별시 종로구": [
+  "https://www.jongno.go.kr/Main.do?menuId=401420&menuNo=401420",
+  "https://www.jongno.go.kr/Main.do?menuId=400946&menuNo=400946",
+  "https://www.jongno.go.kr/Health.do?menuId=401290&menuNo=401290",
+  "https://www.jongno.go.kr/Health.do?menuId=401296&menuNo=401296",
+  "https://www.jongno.go.kr/Health.do?menuId=401281&menuNo=401281",
+  "https://www.jongno.go.kr/Health.do?menuId=401409&menuNo=401409",
+  "https://www.jongno.go.kr/Health.do?menuId=401284&menuNo=401284",
+  "https://www.jongno.go.kr/Main.do?menuNo=110627",
+  "https://www.jongno.go.kr/Health.do?menuId=401271&menuNo=401271"
+ ],
+ "서울특별시 중구": [
+  "https://www.junggu.seoul.kr/content.do?cmsid=14386&sf_text4=B",
+  "https://www.junggu.seoul.kr:443/health/content.do?cmsid=15845",
+  "https://www.junggu.seoul.kr:443/health/content.do?cmsid=15849",
+  "https://www.junggu.seoul.kr:443/health/content.do?cmsid=15827",
+  "https://www.junggu.seoul.kr:443/health/content.do?cmsid=15825",
+  "https://www.junggu.seoul.kr:443/health/content.do?cmsid=16361",
+  "https://www.junggu.seoul.kr:443/health/content.do?cmsid=16006",
+  "https://www.junggu.seoul.kr:443/health/content.do?cmsid=16919",
+  "https://www.junggu.seoul.kr/content.do?cmsid=14386&sf_text4=C"
+ ],
+ "서울특별시 중랑구": [
+  "https://www.jungnang.go.kr/portal/main/contents.do?menuNo=201504",
+  "https://www.jungnang.go.kr/health/main/contents.do?menuNo=400321",
+  "https://www.jungnang.go.kr/health/main/contents.do?menuNo=400523",
+  "https://www.jungnang.go.kr/health/main/contents.do?menuNo=400406",
+  "https://www.jungnang.go.kr/health/main/contents.do?menuNo=400331",
+  "https://www.jungnang.go.kr/health/main/contents.do?menuNo=400360",
+  "https://www.jungnang.go.kr/health/main/contents.do?menuNo=400533",
+  "https://www.jungnang.go.kr/health/main/contents.do?menuNo=400390",
+  "https://www.jungnang.go.kr/health/main/contents.do?menuNo=400367"
+ ],
+ "울산광역시 남구": [
+  "https://www.ulsannamgu.go.kr/fieldInfo/policy/population01.jsp",
+  "https://www.ulsannamgu.go.kr/fieldInfo/familyFriendly01.jsp",
+  "https://www.ulsannamgu.go.kr/cmm/fms/FileDown.do?atchFileId=FILE_000000000215011&fileSn=1"
+ ],
+ "울산광역시 동구": [
+  "https://www.donggu.ulsan.kr/donggu/contents/contents.do?mId=3030601",
+  "https://www.donggu.ulsan.kr/health/contents/contents.do?mId=2040900",
+  "https://www.donggu.ulsan.kr/health/contents/contents.do?mId=2040100",
+  "https://www.donggu.ulsan.kr/health/contents/contents.do?mId=2030500",
+  "https://www.donggu.ulsan.kr/health/contents/contents.do?mId=2040300",
+  "https://www.donggu.ulsan.kr/health/contents/contents.do?mId=2041600",
+  "https://www.donggu.ulsan.kr/health/contents/contents.do?mId=2041300",
+  "https://www.donggu.ulsan.kr/donggu/contents/contents.do?mId=3040501",
+  "https://www.donggu.ulsan.kr/health/contents/contents.do?mId=2041400"
+ ],
+ "울산광역시 북구": [
+  "https://www.bukgu.ulsan.kr/lay1/S1T243C425/contents.do",
+  "https://www.bukgu.ulsan.kr/health/pageCont.do?menuNo=4110100",
+  "https://www.bukgu.ulsan.kr/health/pageCont.do?menuNo=4100600",
+  "https://www.bukgu.ulsan.kr/health/pageCont.do;jsessionid=C5SKcvBuEuMNKHt93KoRAwf3MEHF5N2iaUtZWA18zVsVQnbaTY4sBXY8ngbgXETY.www_ap_servlet_engine6?menuNo=4110130",
+  "https://www.bukgu.ulsan.kr/health/pageCont.do;jsessionid=C5SKcvBuEuMNKHt93KoRAwf3MEHF5N2iaUtZWA18zVsVQnbaTY4sBXY8ngbgXETY.www_ap_servlet_engine6?menuNo=4110100"
+ ],
+ "울산광역시 울주군": [
+  "https://www.ulju.ulsan.kr/ulju/contents.do?mId=0902020000",
+  "https://www.ulju.ulsan.kr/ulju/contents.do?mId=0902070000",
+  "https://www.ulju.ulsan.kr/ulju/contents.do?mId=0904000000"
+ ],
+ "울산광역시 중구": [
+  "https://www.junggu.ulsan.kr/index.ulsan?menuCd=DOM_000000105001013001",
+  "https://www.junggu.ulsan.kr/health/index.ulsan?menuCd=DOM_000000705002001000",
+  "https://www.junggu.ulsan.kr/index.ulsan?menuCd=DOM_000000105001013000",
+  "https://www.junggu.ulsan.kr/index.ulsan?menuCd?=DOM_000000105001013000",
+  "https://www.junggu.ulsan.kr/health/index.ulsan?menuCd=DOM_000000705001002000",
+  "https://www.junggu.ulsan.kr/health/index.ulsan?menuCd=DOM_000000707004000000",
+  "https://www.junggu.ulsan.kr/health/index.ulsan?menuCd=DOM_000000702007003000",
+  "https://www.junggu.ulsan.kr/index.ulsan?menuCd?=DOM_000000105001013001",
+  "https://www.junggu.ulsan.kr/health/index.ulsan?menuCd=DOM_000000706001000000&boardId=BBS_0000074"
+ ],
+ "인천광역시 강화군": [
+  "https://www.ganghwa.go.kr/open_content/welfare/life/pregnancy/delivery.jsp",
+  "https://www.ganghwa.go.kr/open_content/clinic/business/infants.jsp",
+  "https://www.ganghwa.go.kr/open_content/welfare/life/pregnancy/pregnant.jsp",
+  "https://www.ganghwa.go.kr/open_content/welfare/life/baby/business/support.jsp",
+  "https://www.ganghwa.go.kr/open_content/welfare/life/baby/etc_baby.jsp",
+  "https://www.ganghwa.go.kr/open_content/clinic/business/prepare.jsp",
+  "https://www.ganghwa.go.kr/open_content/clinic/open/mother.jsp",
+  "https://www.ganghwa.go.kr/open_content/welfare/life/pregnancy/infertility.jsp",
+  "https://www.ganghwa.go.kr/open_content/clinic/schedule/scheduleDetail.do?year=2026&month=10&day=07&scd_div=5&site_div=clinic"
+ ],
+ "인천광역시 검단구": [
+  "https://www.geomdan.go.kr/main/part/welfare/family_childbirth.jsp",
+  "https://www.geomdan.go.kr/main/part/welfare/family_childcare.jsp",
+  "https://www.geomdan.go.kr/clinic/business/mathernal_child/healthcare.jsp",
+  "https://www.geomdan.go.kr/clinic/business/mathernal_child/development.jsp",
+  "https://www.geomdan.go.kr/clinic/business/mathernal_child/prepregnancy.jsp",
+  "https://www.geomdan.go.kr/main/part/welfare/infantse_fee.jsp",
+  "https://www.geomdan.go.kr/clinic/business/mathernal_child/healthservice.jsp",
+  "https://www.geomdan.go.kr/clinic/business/mathernal_child/oriental.jsp",
+  "https://www.geomdan.go.kr/clinic/business/mathernal_child/infertility.jsp"
+ ],
+ "인천광역시 계양구": [
+  "https://www.gyeyang.go.kr/open_content/childbirth/",
+  "https://www.gyeyang.go.kr/open_content/clinic/business/mother/baby.jsp",
+  "https://www.gyeyang.go.kr/open_content/clinic/business/mother/pre-pregnancy.jsp",
+  "https://www.gyeyang.go.kr/open_content/clinic/business/mother/development.jsp",
+  "https://www.gyeyang.go.kr/open_content/welfare/nursery/rearing/allowance.jsp",
+  "https://www.gyeyang.go.kr/open_content/clinic/business/mother/infant_inborn.jsp",
+  "https://www.gyeyang.go.kr/open_content/clinic/business/mother/before_early.jsp",
+  "https://www.gyeyang.go.kr/open_content/clinic/business/mother/after_puerperium.jsp",
+  "https://www.gyeyang.go.kr/childbirth"
+ ],
+ "인천광역시 남동구": [
+  "https://www.namdong.go.kr/welfare/visitors/birth/parentinfo.jsp",
+  "https://www.namdong.go.kr/clinic/business/child/newborn.jsp",
+  "https://www.namdong.go.kr/clinic/business/child/pregnant.jsp",
+  "https://www.namdong.go.kr/clinic/business/child/infants_disability.jsp",
+  "https://www.namdong.go.kr/clinic/business/child/newborn_charge.jsp",
+  "https://www.namdong.go.kr/clinic/business/child/pre-pregnancy.jsp",
+  "https://www.namdong.go.kr/welfare/life/infants/support.jsp",
+  "https://www.namdong.go.kr/clinic/business/child/pregnant_registration.jsp",
+  "https://www.namdong.go.kr/clinic/business/child/infants.jsp"
+ ],
+ "인천광역시 미추홀구": [
+  "https://www.michuhol.go.kr/welfare/content.do?sq=1659",
+  "https://www.michuhol.go.kr/clinic/content.do?sq=616",
+  "https://www.michuhol.go.kr/welfare/content.do?sq=1637",
+  "https://www.michuhol.go.kr/clinic/content.do?sq=538",
+  "https://www.michuhol.go.kr/welfare/content.do?sq=1388",
+  "https://www.michuhol.go.kr/clinic/content.do?sq=527",
+  "https://www.michuhol.go.kr/clinic/content.do?sq=520"
+ ],
+ "인천광역시 부평구": [
+  "https://www.icbp.go.kr/clinic/business/mother.jsp",
+  "https://www.icbp.go.kr/welfare/life/baby/business/support.jsp",
+  "https://www.icbp.go.kr/main/administration/charter/field22.jsp",
+  "https://www.icbp.go.kr/main/mypage/parenting.jsp",
+  "https://www.icbp.go.kr/clinic/health/inoculate.jsp"
+ ],
+ "인천광역시 서해구": [
+  "https://www.seohae.go.kr/open_content/welfare/life/pregnancy_3.do",
+  "https://www.seohae.go.kr/open_content/clinic/business/mathernal_child/prepregnancy.jsp",
+  "https://www.seohae.go.kr/open_content/clinic/business/mathernal_child/healthcare.jsp",
+  "https://www.seohae.go.kr/open_content/clinic/business/mathernal_child/healthservice.jsp",
+  "https://www.seohae.go.kr/open_content/clinic/business/mathernal_child/development.jsp",
+  "https://www.seohae.go.kr/open_content/welfare/life/pregnancy_1.do",
+  "https://www.seohae.go.kr/open_content/clinic/business/mathernal_child/pregnancy_benefits.jsp",
+  "https://www.seohae.go.kr/open_content/welfare/life/pregnancy.do",
+  "https://www.seohae.go.kr/open_content/clinic/business/mathernal_child/infertility.jsp"
+ ],
+ "인천광역시 연수구": [
+  "https://www.yeonsu.go.kr/welfare/user/birth/kid.asp",
+  "https://www.yeonsu.go.kr/clinic/health/mathernal_child/pregnancy.asp",
+  "https://www.yeonsu.go.kr/clinic/health/mathernal_child/mother_check.asp",
+  "https://www.yeonsu.go.kr/clinic/health/mathernal_child/guide/info.asp",
+  "https://www.yeonsu.go.kr/clinic/health/mathernal_child/health.asp",
+  "https://www.yeonsu.go.kr/clinic/health/mathernal_child/mother_sign.asp",
+  "https://www.yeonsu.go.kr/clinic/health/mathernal_child/mother.asp",
+  "https://www.yeonsu.go.kr/clinic/health/mathernal_child/baby.asp",
+  "https://www.yeonsu.go.kr/clinic/health/mathernal_child/depression.asp"
+ ],
+ "인천광역시 영종구": [
+  "https://www.yeongjong.go.kr/health/content/view.do?sn=565",
+  "https://www.yeongjong.go.kr/health/content/view.do?sn=564"
+ ],
+ "인천광역시 옹진군": [
+  "https://www.ongjin.go.kr/open_content/main/environment/welfare/population.jsp",
+  "https://www.ongjin.go.kr/open_content/clinic/business/pregnant.jsp",
+  "https://www.ongjin.go.kr/open_content/clinic/business/mother.jsp",
+  "https://www.ongjin.go.kr/open_content/main/environment/welfare/population_edu.jsp"
+ ],
+ "인천광역시 제물포구": [
+  "https://www.jemulpo.go.kr/main/area/welfare/family_childbirth.jsp",
+  "https://www.jemulpo.go.kr/clinic/health/motherbaby_health.jsp",
+  "https://www.jemulpo.go.kr/clinic/health/prepregnancy.jsp",
+  "https://www.jemulpo.go.kr/clinic/health/infant.jsp",
+  "https://www.jemulpo.go.kr/clinic/health/motherbaby_program.jsp",
+  "https://www.jemulpo.go.kr/main/area/welfare/infantse_fee.jsp",
+  "https://www.jemulpo.go.kr/clinic/health/pregnant.jsp",
+  "https://www.jemulpo.go.kr/clinic/health/acyesis.jsp",
+  "https://www.jemulpo.go.kr/main/community/experience/kkumteo.jsp"
+ ],
+ "전남광주통합특별시 강진군": [
+  "https://www.gangjin.go.kr/www/part/welfare/population_youth/childbirth",
+  "https://www.gangjin.go.kr/hospital/health_service/mother_child",
+  "https://www.gangjin.go.kr/www/civil_complaint/civil_policy/happy_onestop",
+  "https://www.gangjin.go.kr/hospital/health_service/mother_child/children"
+ ],
+ "전남광주통합특별시 광산구": [
+  "https://www.gwangsan.go.kr/contentsView.do?pageId=www287",
+  "https://www.gwangsan.go.kr/health/contentsView.do?pageId=health47",
+  "https://www.gwangsan.go.kr/health/contentsView.do?pageId=health46",
+  "https://www.gwangsan.go.kr/health/contentsView.do?pageId=health50",
+  "https://www.gwangsan.go.kr/health/contentsView.do?pageId=health53",
+  "https://www.gwangsan.go.kr/health/pgBirthCal.do?action=L&pageId=health32",
+  "https://www.gwangsan.go.kr/health/pgBirthCal.do?pageId=health32&action=L"
+ ],
+ "전남광주통합특별시 광양시": [
+  "https://gwangyang.go.kr/menu.es?mid=a11204060000",
+  "https://gwangyang.go.kr/menu.es?mid=a11204070100",
+  "https://childcare.gwangyang.go.kr/",
+  "https://gwangyang.go.kr/attachPreview.es?bid=ATT&list_no=179140&seq=1",
+  "https://gwangyang.go.kr/menu.es?mid=a11204040000"
+ ],
+ "전남광주통합특별시 구례군": [
+  "https://www.gurye.go.kr/health/subPage.do?menuNo=133009007000",
+  "https://www.gurye.go.kr/health/subPage.do?menuNo=133009001001",
+  "https://www.gurye.go.kr/kr/subPage.do?menuNo=117013003002",
+  "https://www.gurye.go.kr/kr/subPage.do?menuNo=117013004001"
+ ],
+ "전남광주통합특별시 나주시": [
+  "https://www.naju.go.kr/health/business/maternal",
+  "https://www.naju.go.kr/www/field_info/life/society/baby",
+  "http://www.naju.go.kr/www/field_info/life/society/baby",
+  "https://www.naju.go.kr/health/business/maternal/before_childbirth",
+  "https://www.naju.go.kr/health/business/maternal/after_childbirth",
+  "https://naju.go.kr/naju_helper/"
+ ],
+ "전남광주통합특별시 남구": [
+  "https://www.namgu.gwangju.kr/menu.es?mid=a10407040000",
+  "https://www.namgu.gwangju.kr/menu.es?mid=a10613030000",
+  "https://www.namgu.gwangju.kr/menu.es?mid=a10613020000",
+  "https://www.namgu.gwangju.kr/menu.es?mid=a81002030000",
+  "https://www.namgu.gwangju.kr/menu.es?mid=a10613010000",
+  "https://www.namgu.gwangju.kr/menu.es?mid=a10409010000",
+  "https://www.namgu.gwangju.kr/menu.es?mid=a10409000000"
+ ],
+ "전남광주통합특별시 동구": [
+  "https://www.donggu.kr/menu.es?mid=a10401090100",
+  "https://www.donggu.kr/menu.es?mid=a70504020000",
+  "https://www.donggu.kr/menu.es?mid=a10401090000",
+  "https://www.donggu.kr/menu.es?mid=a70504010000",
+  "https://www.donggu.kr/menu.es?mid=a70504140000",
+  "https://www.donggu.kr/scc/",
+  "http://www.donggu.kr/scc/",
+  "https://www.donggu.kr/menu.es?mid=a70504030000",
+  "https://www.donggu.kr/menu.es?mid=a70504120000"
+ ],
+ "전남광주통합특별시 목포시": [
+  "https://www.mokpo.go.kr/health/medical_expense/promote_childbirth",
+  "https://www.mokpo.go.kr/www/life_welfare/welfare/women/support_family/child_work",
+  "https://www.mokpo.go.kr/www/life_welfare/welfare/youth/nurture_business/support"
+ ],
+ "전남광주통합특별시 무안군": [
+  "https://www.muan.go.kr/health/business/woman_child/child_birth",
+  "https://www.muan.go.kr/www/information/welfare/population/childbirth",
+  "https://www.muan.go.kr/www/information/welfare/woman/service",
+  "https://www.muan.go.kr/health/business/woman_child/babies"
+ ],
+ "전남광주통합특별시 보성군": [
+  "https://www.boseong.go.kr/www/life_welfare/population_policy",
+  "https://www.boseong.go.kr/www/life_welfare/child_welfare",
+  "https://www.boseong.go.kr/www/life_welfare/child_welfare/care_policy"
+ ],
+ "전남광주통합특별시 북구": [
+  "https://bukgu.gwangju.kr/menu.es?mid=a10308060000",
+  "https://bukgu.gwangju.kr/menu.es?mid=a60301010000",
+  "https://bukgu.gwangju.kr/menu.es?mid=a60304040000",
+  "https://bukgu.gwangju.kr/menu.es?mid=a60301020100",
+  "https://bukgu.gwangju.kr/menu.es?mid=a60310080000",
+  "https://bukgu.gwangju.kr/menu.es?mid=a60301010100",
+  "https://bukgu.gwangju.kr/menu.es?mid=a10308000000",
+  "https://bukgu.gwangju.kr/menu.es?mid=a60301050000",
+  "https://bukgu.gwangju.kr/menu.es?mid=a10308020100"
+ ],
+ "전남광주통합특별시 서구": [
+  "https://www.seogu.gwangju.kr/menu.es?mid=b30405050000",
+  "https://www.seogu.gwangju.kr/menu.es?mid=b30405010000",
+  "https://www.seogu.gwangju.kr/menu.es?mid=b30405020100",
+  "https://www.seogu.gwangju.kr/menu.es?mid=b30405030100",
+  "https://www.seogu.gwangju.kr/menu.es?mid=b30405000000"
+ ],
+ "전남광주통합특별시 순천시": [
+  "https://www.suncheon.go.kr/kr/welfare/0005/0001/",
+  "https://www.suncheon.go.kr/kr/welfare/0005/0001",
+  "https://www.suncheon.go.kr/kr/welfare/0005/0002;jsessionid=33622FB4EEDB981D8472643FFF0DAEDD",
+  "https://www.suncheon.go.kr/kr/welfare/0005/0001;jsessionid=DCACCFA268174AD5774AA83581A111F1",
+  "https://www.suncheon.go.kr/kr/welfare/0005/0001;jsessionid=33622FB4EEDB981D8472643FFF0DAEDD",
+  "https://www.suncheon.go.kr/kr/welfare/0005/0002;jsessionid=DCACCFA268174AD5774AA83581A111F1",
+  "http://www.suncheon.go.kr/childcare",
+  "https://www.suncheon.go.kr/childcare/",
+  "http://main.suncheon.go.kr/childcare/"
+ ],
+ "전남광주통합특별시 여수시": [
+  "https://www.yeosu.go.kr/www/yeosu/insentive/population/pregnant",
+  "https://www.yeosu.go.kr/health/service/support/childbirth",
+  "https://www.yeosu.go.kr/health/service/support/mother",
+  "https://www.yeosu.go.kr/health/service/support",
+  "http://www.yeosu.go.kr/www/sphere/welfare/child/care_support",
+  "https://www.yeosu.go.kr/www/yeosu/insentive/population/childcare",
+  "http://www.yeosu.go.kr/www/yeosu/insentive/population/pregnant",
+  "https://www.yeosu.go.kr/health/service/support/baby",
+  "http://www.yeosu.go.kr/www/yeosu/insentive/population/childcare"
+ ],
+ "전남광주통합특별시 영광군": [
+  "https://www.yeonggwang.go.kr/subpage/?site=headquarter_new&mn=9359",
+  "https://www.yeonggwang.go.kr/subpage/?site=headquarter_new&mn=9308"
+ ],
+ "전남광주통합특별시 완도군": [
+  "https://www.wando.go.kr/wando/sub.cs?m=1181",
+  "https://www.wando.go.kr/wando/sub.cs?m=374",
+  "https://www.wando.go.kr/wando/sub.cs?m=1180"
+ ],
+ "전남광주통합특별시 장성군": [
+  "https://www.jangseong.go.kr/home/www/openinfo/health/maternal_child",
+  "https://www.jangseong.go.kr/home/www/openinfo/health/maternal_child/maternal_child_01",
+  "https://www.jangseong.go.kr/home/www/openinfo/welfare/welfare_04"
+ ],
+ "전남광주통합특별시 장흥군": [
+  "https://www.jangheung.go.kr/www/life_welfare/population_plan/info/child_birth_arenting",
+  "https://www.jangheung.go.kr/health/business/childbirth",
+  "http://www.jangheung.go.kr/www/life_welfare/population_plan/info/child_birth_arenting",
+  "https://www.jangheung.go.kr/health/business/childbirth/antenatal",
+  "https://www.jangheung.go.kr/www/life_welfare/women_info/childcare",
+  "http://www.jangheung.go.kr/www/life_welfare/women_info/childcare",
+  "https://www.jangheung.go.kr/health/business/childbirth/pregnancy",
+  "https://www.jangheung.go.kr/health/business/childbirth/pregnancy_preparation"
+ ],
+ "전남광주통합특별시 함평군": [
+  "https://www.hampyeong.go.kr/health/contentsView.do?pageId=health38",
+  "https://www.hampyeong.go.kr/health/contentsView.do?pageId=health39"
+ ],
+ "전남광주통합특별시 해남군": [
+  "https://www.haenam.go.kr/index.9is?contentUid=18e3368f86922f2f0186ca0ed3c01078",
+  "https://www.haenam.go.kr/index.9is?contentUid=8ae590de8ef59d97018f84e0f52d5ecb",
+  "https://www.haenam.go.kr/index.9is?contentUid=18e3368f86922f2f0186ca138fc6114d",
+  "https://www.haenam.go.kr/index.9is?contentUid=8ae590de8ef59d97018f854a93dd6f89",
+  "https://www.haenam.go.kr/index.9is?contentUid=18e3368f86922f2f0186ca13ef4f1163",
+  "https://www.haenam.go.kr/index.9is?contentUid=18e3368f5d745106015e3c3f41c83217",
+  "https://www.haenam.go.kr/index.9is?contentUid=18e3368f86922f2f0186ca0f067e1081",
+  "https://www.haenam.go.kr/index.9is?contentUid=18e3368f5fb80fdc0160431f95681dc0"
+ ],
+ "전남광주통합특별시 화순군": [
+  "https://www.hwasun.go.kr/health/contents.do?S=S06&M=050501000000",
+  "https://www.hwasun.go.kr/contents.do?S=S06&M=050500000000",
+  "https://www.hwasun.go.kr/health/contents.do?S=S06&M=050500000000",
+  "https://www.hwasun.go.kr/health/contents.do?S=S06&M=050400000000",
+  "https://www.hwasun.go.kr/contents.do?S=S01&M=060202000000"
+ ],
+ "전북특별자치도 고창군": [
+  "https://www.gochang.go.kr/health/index.gochang?menuCd=DOM_000001504008000000",
+  "https://www.gochang.go.kr/index.gochang?menuCd=DOM_000001504008000000",
+  "https://www.gochang.go.kr/childcare/index.gochang"
+ ],
+ "전북특별자치도 군산시": [
+  "https://www.gunsan.go.kr/main/m190",
+  "https://www.gunsan.go.kr/main/m176"
+ ],
+ "전북특별자치도 김제시": [
+  "https://www.gimje.go.kr/index.gimje?menuCd=DOM_000000106006003000",
+  "https://www.gimje.go.kr/health/index.gimje?menuCd=DOM_000000804003000000",
+  "https://www.gimje.go.kr/index.gimje?menuCd=DOM_000000103002010000",
+  "https://www.gimje.go.kr/health/index.gimje?menuCd=DOM_000000804003003000",
+  "https://www.gimje.go.kr/index.gimje?menuCd=DOM_000000109002000000",
+  "https://www.gimje.go.kr/health/index.gimje?menuCd=DOM_000000804003002000",
+  "https://www.gimje.go.kr/index.gimje?menuCd=DOM_000000109003000000",
+  "https://www.gimje.go.kr/index.gimje?menuCd=DOM_000000804003003015",
+  "https://www.gimje.go.kr/health/index.gimje?menuCd=DOM_000000804003001000"
+ ],
+ "전북특별자치도 남원시": [
+  "https://www.namwon.go.kr/population/index.do?menuUid=ff80808190e53d890190e8f568fc0d1e",
+  "https://www.namwon.go.kr/population/index.do?menuUid=ff8080819012242e019029be84320d88",
+  "https://www.namwon.go.kr/population/index.do?menuUid=ff8080819012242e019029bb8e9e0d83"
+ ],
+ "전북특별자치도 부안군": [
+  "https://www.buan.go.kr/index.buan?menuCd=DOM_000000104009003000",
+  "https://www.buan.go.kr/index.buan?menuCd=DOM_000000104009004000",
+  "https://www.buan.go.kr/index.buan?menuCd=DOM_000000104009002000"
+ ],
+ "전북특별자치도 순창군": [
+  "https://www.sunchang.go.kr/index.do?menuUid=ff8080819a2f0e3b019ac93d5c5d48b4",
+  "https://www.sunchang.go.kr/index.do?menuUid=ff8080819a2f0e3b019ac93d96d948b8"
+ ],
+ "전북특별자치도 완주군": [
+  "https://www.wanju.go.kr/health/index.9is?contentUid=ff808081898ba9ba018a216a91740623",
+  "https://www.wanju.go.kr/health/index.9is?contentUid=ff808081898ba9ba018a216a91980624"
+ ],
+ "전북특별자치도 익산시": [
+  "https://www.iksan.go.kr/index.do?menuUid=ff80808198eafcbd0198f95e0bf4250f",
+  "https://www.iksan.go.kr/index.do?menuUid=ff80808198eafcbd0198f95d6f8f2503",
+  "https://childcare.iksan.go.kr/",
+  "https://www.iksan.go.kr/index.9is?menuUid=ff80808198eafcbd0198f95e0bf4250f",
+  "https://www.iksan.go.kr/index.do?menuUid=ff80808198eafcbd0198f962d7c5257f",
+  "https://www.iksan.go.kr/index.do?menuUid=ff8080819904153301990481de740620&dept_category=ff80808199dd1d7d0199e1e3bbd80f00",
+  "https://www.iksan.go.kr/index.do?menuUid=ff80808198eafcbd0198f962a9cd257b",
+  "https://www.iksan.go.kr/index.do?menuUid=ff808081990415330199045dcfe503c4",
+  "https://www.iksan.go.kr/index.do?menuUid=ff80808198eafcbd0198f9617b3e2557"
+ ],
+ "전북특별자치도 전주시": [
+  "https://www.jeonju.go.kr/index.9is?contentUid=9be517b68e3c3450018e3c6afb8603ff",
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004002003",
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004002006",
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004010000",
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004000000",
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004002008",
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004004000",
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004004004",
+  "https://www.jeonju.go.kr/index.9is?contentUid=9be517a7914528ce0195277b6195062f"
+ ],
+ "전북특별자치도 전주시 덕진구": [
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004000000",
+  "https://www.jeonju.go.kr/deokjingu/index.9is?contentUid=ff8080818990c349018acafdfa2a29e3",
+  "https://www.jeonju.go.kr/deokjingu/index.9is?contentUid=ff8080818990c349018acafdfa1629e2"
+ ],
+ "전북특별자치도 전주시 완산구": [
+  "https://health.jeonju.go.kr/index.jeonju?menuCd=DOM_000000204004000000",
+  "https://www.jeonju.go.kr/wansangu/index.9is?contentUid=ff8080818990c349018acafadb682962",
+  "https://www.jeonju.go.kr/wansangu/index.9is?contentUid=ff8080818990c349018acafadb572961"
+ ],
+ "전북특별자치도 정읍시": [
+  "https://www.jeongeup.go.kr/index.jeongeup?menuCd=DOM_000000103003002000",
+  "https://www.jeongeup.go.kr/index.jeongeup?menuCd=DOM_000000704010003000",
+  "https://www.jeongeup.go.kr/index.jeongeup?menuCd=DOM_000000704010004000",
+  "https://www.jeongeup.go.kr/index.jeongeup?menuCd=DOM_000000704007000000",
+  "https://www.jeongeup.go.kr/index.jeongeup?menuCd=DOM_000000103003002016",
+  "https://www.jeongeup.go.kr/index.jeongeup?menuCd=DOM_000000704010002000",
+  "https://www.jeongeup.go.kr/index.jeongeup?menuCd=DOM_000000704010001000",
+  "https://www.jeongeup.go.kr/index.jeongeup?menuCd=DOM_000000704010009000",
+  "http://www.jeongeup.go.kr/health/index.jeongeup?menuCd=DOM_000000704010004000"
+ ],
+ "제주특별자치도 서귀포시": [
+  "https://www.jeju.go.kr/wel/child/childPolicy/childPolicy.htm",
+  "https://www.jeju.go.kr/wel/child/childPolicy.htm",
+  "https://www.seogwipo.go.kr/group/health/east/notice.htm?act=view&seq=155410225",
+  "https://www.jeju.go.kr/wel/child/childPolicy/byAgeSupport.htm",
+  "https://www.jeju.go.kr/wel/child.htm",
+  "https://www.jeju.go.kr/wel/woman/womanPolicy/pregnancyPlan.htm"
+ ],
+ "제주특별자치도 제주시": [
+  "https://www.jejusi.go.kr/chc/guideBusiness/jeju/mch.do",
+  "https://www.jejusi.go.kr/chc/guideBusiness/wjeju/mch.do",
+  "https://www.jejusi.go.kr/chc/guideBusiness/wjeju/infant.do",
+  "https://www.jejusi.go.kr/chc/guideBusiness/ejeju/mch.do"
+ ],
+ "충청남도 계룡시": [
+  "https://gyeryong.go.kr/health/html/sub03/03030107.html",
+  "https://gyeryong.go.kr/kr/html/sub05/05020307.html",
+  "https://gyeryong.go.kr/health/html/sub03/03030101.html",
+  "https://gyeryong.go.kr/kr/html/sub05/05020107.html"
+ ],
+ "충청남도 공주시": [
+  "https://www.gongju.go.kr/health/sub03_02_01.do",
+  "https://www.gongju.go.kr/health/sub03_02_21_01.do",
+  "https://www.gongju.go.kr/health/sub03_02_01_01.do"
+ ],
+ "충청남도 금산군": [
+  "https://www.geumsan.go.kr/kr/html/sub05/05100102.html",
+  "https://www.geumsan.go.kr/kr/html/sub05/05030303.html",
+  "https://www.geumsan.go.kr/kr/html/sub05/05030101.html",
+  "https://www.geumsan.go.kr/kr/html/sub05/05100103.html"
+ ],
+ "충청남도 논산시": [
+  "https://www.nonsan.go.kr/kor/html/sub05/051202.html",
+  "https://www.nonsan.go.kr/site/kor/html/sub05/051202.html",
+  "https://www.nonsan.go.kr/health/html/sub06/060111.html",
+  "https://www.nonsan.go.kr/health/html/sub06/060112.html",
+  "https://www.nonsan.go.kr/kor/html/sub05/051203.html",
+  "https://www.nonsan.go.kr/health/html/sub06/060113.html",
+  "https://www.nonsan.go.kr/health/html/sub06/06020101.html",
+  "https://www.nonsan.go.kr/health/html/sub06/06020201.html",
+  "https://www.nonsan.go.kr/site/kor/html/sub05/051204.html"
+ ],
+ "충청남도 당진시": [
+  "https://www.dangjin.go.kr/kor/sub05_04_02_01.do",
+  "https://www.dangjin.go.kr/health/sub03_06_01.do",
+  "https://www.dangjin.go.kr/health/sub03_06_04.do",
+  "https://www.dangjin.go.kr/health/sub03_06_13.do",
+  "https://www.dangjin.go.kr/health/sub03_06_11.do",
+  "https://www.dangjin.go.kr/health/sub03_06_02.do",
+  "https://www.dangjin.go.kr/health/sub03_06_10.do",
+  "https://www.dangjin.go.kr/health/sub03_06_05.do",
+  "https://www.dangjin.go.kr/html/kor/service/info2.jsp"
+ ],
+ "충청남도 서산시": [
+  "https://www.seosan.go.kr/welfare/contents.do?key=8879",
+  "https://www.seosan.go.kr/health/contents.do?key=2390",
+  "https://www.seosan.go.kr/health/contents.do?key=9570",
+  "https://www.seosan.go.kr/health/contents.do?key=5830",
+  "https://www.seosan.go.kr/health/contents.do?key=4674",
+  "https://www.seosan.go.kr/health/contents.do?key=2393",
+  "https://www.seosan.go.kr/www/contents.do?key=2461",
+  "https://www.seosan.go.kr/health/contents.do?key=5570",
+  "https://www.seosan.go.kr/health/contents.do?key=2386"
+ ],
+ "충청남도 서천군": [
+  "https://www.seocheon.go.kr/kor/sub06_02_03_02.do",
+  "https://www.seocheon.go.kr/kor/sub06_02_03_02.do;jsessionid=D580F96C471D1BB96B4348A9A29C0EAE",
+  "https://www.seocheon.go.kr/health/sub03_04_08.do;jsessionid=1C15E12067F3622008658D771E1117D7",
+  "https://www.seocheon.go.kr/kor/sub06_02_03_02.do;jsessionid=21F1358537D0B779E41084EA4245E168",
+  "https://www.seocheon.go.kr/health/sub03_04_02.do;jsessionid=1C15E12067F3622008658D771E1117D7",
+  "https://www.seocheon.go.kr/health/sub03_04_03.do;jsessionid=1C15E12067F3622008658D771E1117D7",
+  "https://www.seocheon.go.kr/health/sub03_04_09.do;jsessionid=1C15E12067F3622008658D771E1117D7",
+  "https://www.seocheon.go.kr/kor/sub06_02_03_08.do;jsessionid=B757DD8AD0786BF880EA63FCB43D0196",
+  "https://www.seocheon.go.kr/kor/sub06_02_03_10.do;jsessionid=B757DD8AD0786BF880EA63FCB43D0196"
+ ],
+ "충청남도 아산시": [
+  "https://www.asan.go.kr/main/cms/?no=432",
+  "https://www.asan.go.kr/main/board/preview.php?file_nm=ukncdv1y.pdf&folder_nm=city_news_notice"
+ ],
+ "충청남도 예산군": [
+  "https://www.yesan.go.kr/kor/sub06_06_02_03.do",
+  "https://www.yesan.go.kr/kor/sub06_06_02_02.do",
+  "https://www.yesan.go.kr/kor/sub06_06_03_01.do",
+  "https://www.yesan.go.kr/kor/sub06_06_02_01.do",
+  "https://www.yesan.go.kr/kor/sub06_02_01.do"
+ ],
+ "충청남도 천안시": [
+  "https://www.cheonan.go.kr/kor/sub06_05_04.do",
+  "https://www.cheonan.go.kr/shealth/sub03_06_01_01.do",
+  "https://www.cheonan.go.kr/kor/sub06_05_06.do",
+  "https://www.cheonan.go.kr/shealth/sub03_06_02_01.do",
+  "https://www.cheonan.go.kr/shealth/sub03_06_03_01.do",
+  "https://www.cheonan.go.kr/shealth/sub03_06_04_01.do",
+  "https://www.cheonan.go.kr/shealth/sub04_05.do",
+  "https://www.cheonan.go.kr/dhealth/sub03_06_03_01.do",
+  "https://www.cheonan.go.kr/kor/sub06_05_07.do"
+ ],
+ "충청남도 청양군": [
+  "https://www.cheongyang.go.kr/health/sub03_11_06.do",
+  "https://www.cheongyang.go.kr/health/sub03_11_01_01.do",
+  "https://www.cheongyang.go.kr/health/sub03_11_03_01.do",
+  "https://www.cheongyang.go.kr/health/sub03_14.do",
+  "https://www.cheongyang.go.kr/kor/sub06_01_10.do"
+ ],
+ "충청남도 태안군": [
+  "https://www.taean.go.kr/life/sub02_06_05_01.do",
+  "http://www.taean.go.kr/cop/bbs/BBSMSTR_000000000058/selectBoardArticle.do?nttId=1514307310"
+ ],
+ "충청남도 홍성군": [
+  "https://www.hongseong.go.kr/kor/sub05_140103.do",
+  "https://www.hongseong.go.kr/kor/sub05_010301.do"
+ ],
+ "충청북도 단양군": [
+  "https://www.danyang.go.kr/dy21/2016",
+  "https://www.danyang.go.kr/dy21/2189",
+  "https://www.danyang.go.kr/dy21/2032",
+  "https://www.danyang.go.kr/dy21/2009"
+ ],
+ "충청북도 보은군": [
+  "https://www.boeun.go.kr/health/contents.do?key=687",
+  "https://www.boeun.go.kr/idolbom/www/index.do",
+  "https://www.boeun.go.kr/www/contents.do?key=493",
+  "https://www.boeun.go.kr/www/contents.do?key=490"
+ ],
+ "충청북도 영동군": [
+  "https://www.yd21.go.kr/kr/html/sub04/0409.html",
+  "https://www.yd21.go.kr/health/html/sub05/050405.html",
+  "https://www.yd21.go.kr/health/html/sub05/050504.html",
+  "https://www.yd21.go.kr/kr/html/sub05/0501010102.html",
+  "https://www.yd21.go.kr/health/html/sub05/050503.html",
+  "https://www.yd21.go.kr/health/html/sub05/050501.html",
+  "https://www.yd21.go.kr/health/html/sub05/050401.html",
+  "https://www.yd21.go.kr/health/html/sub05/050402.html",
+  "https://www.yd21.go.kr/health/html/sub04/040202.html"
+ ],
+ "충청북도 옥천군": [
+  "https://www.oc.go.kr/www/contents.do?key=4841",
+  "https://www.oc.go.kr/www/contents.do?key=4841&",
+  "https://www.oc.go.kr/health/contents.do?key=1484&",
+  "https://www.oc.go.kr/health/contents.do?key=1483&",
+  "https://www.oc.go.kr/health/contents.do?key=1470&",
+  "https://www.oc.go.kr/health/contents.do?key=1408&",
+  "https://www.oc.go.kr/health/contents.do?key=1469&"
+ ],
+ "충청북도 음성군": [
+  "https://www.eumseong.go.kr/www/contents.do?key=515",
+  "https://www.eumseong.go.kr/health/contents.do?key=842",
+  "https://www.eumseong.go.kr/health/contents.do?key=2064",
+  "https://www.eumseong.go.kr/health/contents.do?key=2065",
+  "https://www.eumseong.go.kr/health/contents.do?key=1869",
+  "https://www.eumseong.go.kr/health/contents.do?key=1929",
+  "https://www.eumseong.go.kr/health/contents.do?key=1926",
+  "https://www.eumseong.go.kr/health/contents.do?key=841",
+  "https://www.eumseong.go.kr/health/contents.do?key=1925"
+ ],
+ "충청북도 제천시": [
+  "https://www.jecheon.go.kr/www/contents.do?key=5407",
+  "https://www.jecheon.go.kr/www/contents.do?key=50242",
+  "https://www.jecheon.go.kr/www/contents.do?key=5411",
+  "https://www.jecheon.go.kr/www/contents.do?key=50607",
+  "https://www.jecheon.go.kr/www/contents.do?key=49140",
+  "https://www.jecheon.go.kr/www/contents.do?key=5440"
+ ],
+ "충청북도 증평군": [
+  "https://www.jp.go.kr/kor/sub05_10_04.do",
+  "https://www.jp.go.kr/health/sub04_09_01.do",
+  "https://www.jp.go.kr/health/sub04_09_04.do",
+  "https://www.jp.go.kr/health/sub04_09_07.do",
+  "https://www.jp.go.kr/health/sub04_09_03.do",
+  "https://www.jp.go.kr/kor/cop/bbs/BBSMSTR_000000000134/selectBoardArticle.do?nttId=B00000061311nu3jE0ct",
+  "https://www.jp.go.kr/health/sub04_09_05.do"
+ ],
+ "충청북도 진천군": [
+  "https://www.jincheon.go.kr/health/sub.do?menukey=4164",
+  "https://www.jincheon.go.kr/health/sub.do?menukey=697"
+ ],
+ "충청북도 청주시": [
+  "https://www.cheongju.go.kr/www/contents.do?key=23472",
+  "https://www.cheongju.go.kr/www/childbirthCal.do?key=23880"
+ ],
+ "충청북도 충주시": [
+  "https://www.chungju.go.kr/www/contents.do?key=3495",
+  "https://www.chungju.go.kr/www/contents.do?key=3483"
  ]
 }
