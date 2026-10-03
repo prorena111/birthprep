@@ -219,6 +219,43 @@ FIELD = re.compile(r"^\s*(\d+\s*[).]|[①-⑳]|[가-하]\s*[.)])|:|^\s*(지원|�
                    r"안내|주의|기타|관련|문의처|연락처)\s*(대상|내용|방법|기간|기한|금액|절차|기준|사항|서류|처|개요|"
                    r"목적|혜택|시기|요건|장소|부서)?\s*$")
 
+PROGRAM_WORD = re.compile(r"지원|사업|수당|운영|서비스|검진|검사|대여|교실|장려금|축하|바우처|용품|"
+                          r"보육료|이용권|급여|감면|클리닉|센터|나눔터|도서관|꾸러미")
+
+def table_sections(soup):
+    """표의 줄마다 [(첫 칸 = 사업 이름, 그 줄 글)]. 첫 칸이 여러 줄을 묶으면(rowspan) 그 줄들을 한 사업으로.
+    머리 줄(「사업명」「지원내용」)은 FIELD·GENERIC_TITLE과 TypeSafe 판정이 걸러 낸다."""
+    out, seen = [], set()
+    for table in soup.find_all("table"):
+        # 첫 칸이 사업 이름처럼 생긴 표만(예방접종 병명·「시간제/종일제」 같은 표는 사업 목록이 아니다).
+        firsts = [re.sub(r"\s+", " ", c.get_text(" ", strip=True)) for c in
+                  (tr.find(["th", "td"]) for tr in table.find_all("tr")) if c]
+        named = [f for f in firsts if PROGRAM_WORD.search(f)]
+        if len(named) < 3 or len(named) < len(firsts) * 0.5:
+            continue
+        span_left, cur = 0, None
+        for tr in table.find_all("tr"):
+            cells = tr.find_all(["th", "td"], recursive=False)
+            if not cells:
+                continue
+            row_text = re.sub(r"\s+", " ", tr.get_text(" ", strip=True))
+            if span_left > 0 and cur is not None:
+                cur[1] += " " + row_text
+                span_left -= 1
+                continue
+            first = re.sub(r"\s+", " ", cells[0].get_text(" ", strip=True))
+            if len(cells) < 2 or not (3 <= len(first) <= 45) or FIELD.search(first) or first in seen:
+                cur = None
+                continue
+            seen.add(first)
+            cur = [first, row_text]
+            out.append(cur)
+            try:
+                span_left = max(0, int(cells[0].get("rowspan", 1)) - 1)
+            except ValueError:
+                span_left = 0
+    return [(t, b[:3000]) for t, b in out]
+
 def sections_of(html):
     """한 쪽에 여러 사업을 풀어 적은 누리집(담양군 등) — 가장 많이 쓰인 제목 태그(h3·h4·h5)로 본문을
     잘라 [(제목, 그 아래 글)]. 제목에서 다음 제목 앞까지, 3,000자까지."""
@@ -229,6 +266,11 @@ def sections_of(html):
                    if 3 <= len(x) <= 45 and not FIELD.search(x)]
              for tag in ("h3", "h4", "h5")}
     titles = max(cands.values(), key=len)
+    if len(titles) < 3:
+        # 제목 태그 없이 표 한 장에 사업을 몰아 적은 누리집(정선·안동·양양·고령 — 2026-10-03).
+        rows = table_sections(soup)
+        if len(rows) >= 3:
+            return rows
     text = re.sub(r"\s+", " ", soup.get_text(" ", strip=True))
     out, pos = [], 0
     for i, t in enumerate(titles):
@@ -558,7 +600,7 @@ def split_programs(place, page_title, pg):
         seen_t[t] = seen_t.get(t, 0) + 1
     # 한 쪽에 같은 제목이 되풀이되면(영월 「이용방법」×7) 사업 이름이 아니라 칸 제목이다.
     secs = [(t, b) for t, b in all_secs
-            if len(b) >= 80 and len(t) >= 3 and seen_t[t] == 1 and not GENERIC_TITLE.search(t)]
+            if len(b) >= 50 and len(t) >= 3 and seen_t[t] == 1 and not GENERIC_TITLE.search(t)]
     if len(secs) < 3:
         return []
     base = (pg.get("final") or "").split("#")[0]
@@ -585,10 +627,18 @@ def run_district(site):
     place = f"{sido} {d}"
     rec = {"sido": sido, "district": d, "hub": site["birth"], "hub_title_saved": site.get("birth_title")}
     sections = {}
+    extra = []  # seeds가 있는 곳에서 출발 쪽을 훑어 새로 본 링크(아래에서 TypeSafe가 사업인지 거른다)
     if site.get("seeds"):
-        # 메뉴를 스크립트로 그리는 누리집 — 웹 검색으로 찾아 둔 혜택별 쪽을 바로 판정한다(hubs.json).
+        # 사람(에이전트)이 찾아 둔 혜택별 쪽을 바로 판정한다(hubs.json).
         hub = {"ok": True, "status": 200, "final": site["seeds"][0][1], "title": f"{place} 출산·육아 지원"}
         links = [{"text": t, "url": u} for t, u in site["seeds"]]
+        # 출발 쪽도 같이 훑는다 — seeds만 보면 지자체가 새 쪽에 올린 새 사업을 못 찾는다(사장님 2026-10-03
+        # 「출발 쪽도 같이 훑기 넣어줘」). 판정 기록(cache)이 있어 매달 새 링크만 TypeSafe에 묻는다.
+        if site.get("birth"):
+            h2 = fetch(site["birth"])
+            if h2.get("ok"):
+                have = {u.split("#")[0] for _, u in site["seeds"]}
+                extra = [l for l in collect_links(h2, site["birth"]) if l["url"] not in have][:60]
     elif site.get("render"):
         # 목록을 스크립트로 불러오는 누리집(성남시 등) — 처음부터 브라우저로 연다(hubs.json).
         got = _browser_html(site["render"])
@@ -627,9 +677,11 @@ def run_district(site):
                 seen_u.add(l["url"])
                 uniq.append(l)
         links = uniq
-    rec["n_candidates"] = len(links)
+    rec["n_candidates"] = len(links) + len(extra)
     if site.get("seeds") or site.get("sections"):
         judged = [{**l, "p_program": 1.0} for l in links]
+        if extra:
+            judged += judge_links(place, hub["title"], extra)
     else:
         judged = judge_links(place, hub["title"], links) if links else []
         # 「임산부」「영유아」처럼 메뉴 이름이라 떨어진 링크는 한 단계 더 들어가 그 안의 사업 링크를
@@ -709,6 +761,16 @@ def run_district(site):
     rec["rejected"] = [l for l in judged if l["p_program"] < 0.5]
     return rec
 
+def part_name(sido, districts):
+    """몇 곳만 돌린 결과 파일 이름 — links_<시도>_<곳들>.json. 곳 이름을 이은 것이 길면(서울 25개 구)
+    파일 이름 한도에 걸리니 곳 수와 지문으로(merge.py도 같은 규칙)."""
+    if not districts:
+        return f"links_{sido}.json"
+    joined = "_".join(districts)
+    if len(joined) <= 60:
+        return f"links_{sido}_{joined}.json"
+    return f"links_{sido}_n{len(districts)}_{hashlib.sha1(joined.encode()).hexdigest()[:8]}.json"
+
 def run_sites(sites, workers=5):
     results = []
     with cf.ThreadPoolExecutor(workers) as ex:
@@ -765,15 +827,17 @@ if __name__ == "__main__":
             a2 = again.get((r["sido"], r["district"]))
             return a2 if a2 and (a2.get("hub_status") or {}).get("ok") else r
         results = [better(r) for r in results]
-    for sido in sorted({r["sido"] for r in results}):
-        part = [r for r in results if r["sido"] == sido]
-        name = f"links_{sido}" + ("_" + "_".join(a.districts) if a.districts else "") + ".json"
-        usage = USAGE if not a.all else {"input": 0, "output": 0, "calls": 0}
-        (OUT / name).write_text(json.dumps({"usage": usage, "results": part}, ensure_ascii=False, indent=1),
-                                encoding="utf-8")
+    # 판정 기록을 먼저 쓴다 — 결과 파일 쓰기에서 죽어도(2026-10-03 서울 25개 구 이름을 이은 파일 이름이
+    # 너무 길어 실패) 다시 돌릴 때 TypeSafe에 다시 묻지 않게.
     if CACHE_PATH:
         # 이번에 쓴 판정만 남긴다(없어진 쪽·바뀐 쪽은 버린다).
         pathlib.Path(CACHE_PATH).write_text(json.dumps(NEW_CACHE, ensure_ascii=False, separators=(",", ":")),
                                             encoding="utf-8")
+    for sido in sorted({r["sido"] for r in results}):
+        part = [r for r in results if r["sido"] == sido]
+        name = part_name(sido, a.districts)
+        usage = USAGE if not a.all else {"input": 0, "output": 0, "calls": 0}
+        (OUT / name).write_text(json.dumps({"usage": usage, "results": part}, ensure_ascii=False, indent=1),
+                                encoding="utf-8")
     (OUT / "usage.json").write_text(json.dumps({**USAGE, "hits": HITS}), encoding="utf-8")
     print("USAGE", USAGE, "약 $%.3f" % (USAGE["input"] / 1e6 * 0.042), "· 다시 안 물은 것", HITS)
