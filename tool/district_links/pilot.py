@@ -33,8 +33,16 @@ def _clean_key(raw):
     words = raw.split()
     return words[-1] if words else ""
 
-KEY = _clean_key(os.environ.get("TYPESAFE_API_KEY") or
-                 (pathlib.Path.home() / "OneDrive" / "타입세이프 api 키.txt").read_text(encoding="utf-8-sig"))
+def _key_file():
+    # 2026-10-03 작업 폴더를 구글 드라이브(G:\내 드라이브)로 옮겼다 — 그 맨 위를 먼저, 옛 OneDrive는 그다음.
+    for p in (ROOT.parents[2] / "타입세이프 api 키.txt", pathlib.Path.home() / "OneDrive" / "타입세이프 api 키.txt"):
+        try:
+            return p.read_text(encoding="utf-8-sig")
+        except OSError:
+            continue
+    raise SystemExit("타입세이프 키 파일을 못 읽었다(TYPESAFE_API_KEY 또는 「타입세이프 api 키.txt」)")
+
+KEY = _clean_key(os.environ.get("TYPESAFE_API_KEY") or _key_file())
 UA = {"User-Agent": "Mozilla/5.0 (Linux; Android 14; SM-S948N) AppleWebKit/537.36 Chrome/128 Mobile Safari/537.36"}
 USAGE = {"input": 0, "output": 0, "calls": 0}
 
@@ -99,6 +107,17 @@ def fetch(url, _again=True):
         enc = r.apparent_encoding or "utf-8"
     html = r.content.decode(enc, errors="replace")
     final, status = r.url, r.status_code
+    sab = re.search(r"sabSignature=([0-9A-Fa-f]+)", html) if len(html) < 2000 else None
+    if sab and _again:
+        # 쿠키를 심고 새로 고치게 하는 쪽만 주는 누리집(대구 중구 — 2026-10-03). 그 값을 쿠키로 돌려준다.
+        try:
+            r = requests.get(url, headers=UA, timeout=25, verify=False, allow_redirects=True, cookies={
+                "sabFingerPrint": f"1280,720,{urlparse(url).hostname}", "sabSignature": sab.group(1)})
+            enc = r.encoding if r.encoding and r.encoding.lower() not in ("iso-8859-1", "ascii") else (
+                r.apparent_encoding or "utf-8")
+            html, final, status = r.content.decode(enc, errors="replace"), r.url, r.status_code
+        except requests.RequestException as e:
+            return {"ok": False, "error": type(e).__name__, "final": url}
     if status == 200 and len(html) < 2000:
         # 프로그램에는 빈 쪽(스크립트로 브라우저인지 보는 쪽)만 주는 누리집 — 강북구 등.
         # 화면 없는 크롬으로 다시 연다(playwright가 없으면 그대로).

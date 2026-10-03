@@ -145,16 +145,24 @@
  "부산광역시 중구": {
   "seeds": [
    [
-    "임산부건강관리",
+    "임산부건강관리(맘편한 임신·임신축하금 등)",
     "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001001"
+   ],
+   [
+    "난임부부 시술비 지원",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001002"
+   ],
+   [
+    "영유아건강관리(예방접종)",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001003"
    ],
    [
     "산모신생아건강관리지원사업",
     "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001004"
    ],
    [
-    "한의 난임부부 치료비 지원",
-    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001009"
+    "임신 사전건강관리 지원",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001005"
    ],
    [
     "부산형 산후조리경비 지원",
@@ -163,14 +171,86 @@
    [
     "영구 불임 예상 난자·정자 냉동 지원",
     "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001007"
+   ],
+   [
+    "가임력 보존 지원사업",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001008"
+   ],
+   [
+    "한의 난임부부 치료비 지원",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001009"
+   ],
+   [
+    "유축기 대여(수유정보 알리미)",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603001001010"
+   ],
+   [
+    "영양플러스",
+    "https://www.bsjunggu.go.kr/health/index.junggu?menuCd=DOM_000000603003006000"
+   ],
+   [
+    "생애주기별 맞춤형 인구시책(결혼·임신·출산·보육 사업 표)",
+    "https://www.bsjunggu.go.kr/welfare/index.junggu?menuCd=DOM_000000403004000000"
+   ],
+   [
+    "저소득 한부모가족 지원",
+    "https://www.bsjunggu.go.kr/welfare/index.junggu?menuCd=DOM_000000403001003000"
    ]
   ]
  },
  "대구광역시 중구": {
   "seeds": [
    [
+    "영유아 건강관리(난청·대사이상 검사 지원)",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0899"
+   ],
+   [
+    "임산부 건강관리(태아기형아검사 등)",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0900"
+   ],
+   [
+    "영유아 예방접종 사업",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0901"
+   ],
+   [
+    "난임부부 시술비 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0904"
+   ],
+   [
+    "난임부부 진단검사비 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=2414"
+   ],
+   [
     "산모신생아 건강관리 지원",
     "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0905"
+   ],
+   [
+    "대구형 산모건강관리사 파견사업",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=2266"
+   ],
+   [
+    "출산축하금 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0906"
+   ],
+   [
+    "청소년산모 지원·출산준비교실·고위험임산부 의료비 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0907"
+   ],
+   [
+    "예비신부검진·임신사전건강관리 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=2464"
+   ],
+   [
+    "저소득층 기저귀·조제분유 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=1738"
+   ],
+   [
+    "첫만남이용권 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=2413"
+   ],
+   [
+    "영구 불임 예상 난자·정자 냉동 지원",
+    "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=2485"
    ],
    [
     "미숙아 및 선천성이상아 의료비 지원",
@@ -179,18 +259,138 @@
    [
     "영양플러스",
     "https://www.jung.daegu.kr/new/healthcenter/pages/business/page.html?mc=0891"
+   ],
+   [
+    "보육료 지원",
+    "https://www.jung.daegu.kr/new/pages/welfare/page.html?mc=0648"
+   ],
+   [
+    "부모급여 및 가정양육수당 지원",
+    "https://www.jung.daegu.kr/new/pages/welfare/page.html?mc=0649"
+   ],
+   [
+    "어린이집 신입생 입학준비금 지원",
+    "https://www.jung.daegu.kr/new/pages/welfare/page.html?mc=2416"
+   ],
+   [
+    "아동수당 지원",
+    "https://www.jung.daegu.kr/new/pages/welfare/page.html?mc=2056"
+   ],
+   [
+    "청소년부모 아동양육 지원",
+    "https://www.jung.daegu.kr/new/pages/welfare/page.html?mc=2371"
+   ],
+   [
+    "드림스타트",
+    "https://www.jung.daegu.kr/new/pages/welfare/page.html?mc=1260"
+   ],
+   [
+    "한부모가족 지원사업",
+    "https://www.jung.daegu.kr/new/pages/welfare/page.html?mc=2180"
    ]
   ]
  },
  "전남광주통합특별시 영암군": {
   "seeds": [
    [
-    "출산장려금 지급 안내",
-    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_03/yeongam.go"
+    "난임부부 시술비 지원(정부형)",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_18/business_08_15/yeongam.go"
+   ],
+   [
+    "난임부부 시술비 지원(전남형)",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_18/business_08_18_02/yeongam.go"
+   ],
+   [
+    "한의 난임치료 지원사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_18/business_08_18_07/yeongam.go"
+   ],
+   [
+    "난자 냉동 시술 지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_18/business_08_18_03/yeongam.go"
+   ],
+   [
+    "신혼(예비)부부 건강검진 지원사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_18/business_08_18_05/yeongam.go"
+   ],
+   [
+    "임신 사전건강관리 지원 사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_18/business_08_18_06/yeongam.go"
+   ],
+   [
+    "난임진단검진비 지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_18/business_08_18_08/yeongam.go"
+   ],
+   [
+    "정관·난관 복원 시술비 지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_18/business_08_18_09/yeongam.go"
+   ],
+   [
+    "임산부 등록 및 관리(엽산제·철분제)",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_19/business_08_16/yeongam.go"
+   ],
+   [
+    "찾아가는 산부인과 운영",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_19/business_08_19_02/yeongam.go"
+   ],
+   [
+    "청소년 산모 의료비 지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_19/business_08_19_03/yeongam.go"
    ],
    [
     "고위험임산부 의료비지원",
-    "https://www.yeongam.go.kr/home/health/business/business_08/business_09_04/yeongam.go"
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_19/business_08_19_04/yeongam.go"
+   ],
+   [
+    "출산장려금 지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_17/yeongam.go"
+   ],
+   [
+    "첫만남이용권 지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_02/yeongam.go"
+   ],
+   [
+    "다둥이 육아용품 구입비 지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_03/yeongam.go"
+   ],
+   [
+    "신생아 출산용품 지원",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_04/yeongam.go"
+   ],
+   [
+    "전동식 모유 유축기 대여",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_05/yeongam.go"
+   ],
+   [
+    "산모·신생아 건강관리 지원사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_06/yeongam.go"
+   ],
+   [
+    "공공산후조리원 지원사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_08/yeongam.go"
+   ],
+   [
+    "영암군 출산가정 산후조리비 지원사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_09/yeongam.go"
+   ],
+   [
+    "생애초기 건강관리사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_10/yeongam.go"
+   ],
+   [
+    "저소득층 기저귀 조제분유 지원사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_100/yeongam.go"
+   ],
+   [
+    "영아가정 기저귀 확대지원사업",
+    "https://www.yeongam.go.kr/home/health/business/business_08/business_08_20/business_08_20_11/yeongam.go"
+   ],
+   [
+    "아동보육료지원",
+    "https://www.yeongam.go.kr/home/www/info_area/life_welfare/life_welfare_04/life_welfare_04_04/yeongam.go"
+   ],
+   [
+    "행복출산원스톱서비스",
+    "https://www.yeongam.go.kr/home/www/civil_information/civil_information_02_02/civil_information_02_02_13/yeongam.go"
    ]
   ]
  },
@@ -319,7 +519,108 @@
   "sections": "https://www.damyang.go.kr/menu/goToContentsPage?contentsSid=113&domainId=DOM_0000001&menuCd=DOM_000000190004011000&activeSid=901"
  },
  "경기도 성남시": {
-  "render": "https://www.seongnam.go.kr/wf-pm020101?arrWlfCrrCyclCd=WLF_CRR_CYCL_1"
+  "seeds": [
+   [
+    "출산장려금",
+    "https://www.seongnam.go.kr/wf-pm020101/19011"
+   ],
+   [
+    "성남시 산후조리비 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/12070"
+   ],
+   [
+    "산모·신생아 건강관리 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/3004"
+   ],
+   [
+    "임산부 등록관리",
+    "https://www.seongnam.go.kr/health/ht-pm020101/11007"
+   ],
+   [
+    "유축기 대여",
+    "https://www.seongnam.go.kr/health/ht-pm020101/11009"
+   ],
+   [
+    "임산부·영유아 교육 프로그램",
+    "https://www.seongnam.go.kr/health/ht-pm020101/11011"
+   ],
+   [
+    "임산부 구강건강관리",
+    "https://www.seongnam.go.kr/health/ht-pm020101/11002"
+   ],
+   [
+    "신혼부부 예비부부 건강검진",
+    "https://www.seongnam.go.kr/health/ht-pm020101/11006"
+   ],
+   [
+    "난임부부 시술비 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/13004"
+   ],
+   [
+    "한방 난임 시술비 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/13009"
+   ],
+   [
+    "영구 불임 예상 난자·정자 냉동 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/13007"
+   ],
+   [
+    "생애초기 건강관리",
+    "https://www.seongnam.go.kr/health/ht-pm020101/13003"
+   ],
+   [
+    "청소년산모 임신출산 의료비 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/12064"
+   ],
+   [
+    "고위험 임산부 의료비 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/12067"
+   ],
+   [
+    "영양플러스사업",
+    "https://www.seongnam.go.kr/health/ht-pm020101/7015"
+   ],
+   [
+    "신생아 보청기 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/12072"
+   ],
+   [
+    "기저귀·조제분유 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/13001"
+   ],
+   [
+    "미숙아·선천성 이상아 의료비 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/12076"
+   ],
+   [
+    "신생아 난청검사 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/12071"
+   ],
+   [
+    "선천성대사이상 선별검사지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/12073"
+   ],
+   [
+    "영유아 발달 정밀검사비 지원",
+    "https://www.seongnam.go.kr/health/ht-pm020101/13005"
+   ],
+   [
+    "어린이 예방접종",
+    "https://www.seongnam.go.kr/health/ht-pm020101/6004"
+   ],
+   [
+    "다자녀 아동 양육수당",
+    "https://www.seongnam.go.kr/wf-pm020101/19012"
+   ],
+   [
+    "아이돌봄서비스",
+    "https://www.seongnam.go.kr/wf-pm020101/19009"
+   ],
+   [
+    "장애인가정 출산장려금",
+    "https://www.seongnam.go.kr/wf-pm020101/21003"
+   ]
+  ]
  },
  "서울특별시 마포구": [
   "https://www.mapo.go.kr/site/health/content/health04020101",
@@ -328,11 +629,62 @@
   "https://www.mapo.go.kr/site/main/content/mapo0511",
   "https://www.mapo.go.kr/site/mll/edu/lecture_list?lgtSeq=LG004&lgtGubun=1&listType=list&pcd=&sv=출산준비교실"
  ],
- "강원특별자치도 고성군": [
-  "https://www.gwgs.go.kr/kor/sub01_0501.do",
-  "https://www.gwgs.go.kr/health/sub03_040801.do",
-  "https://www.gwgs.go.kr/kor/sub02_010101.do"
- ],
+ "강원특별자치도 고성군": {
+  "seeds": [
+   [
+    "전입·정착·출산양육 지원 안내",
+    "https://www.gwgs.go.kr/kor/sub01_0501.do"
+   ],
+   [
+    "가임기 여성 및 임산부 건강관리(엽산·철분·유축기·찾아가는 산부인과)",
+    "https://www.gwgs.go.kr/health/sub03_040801.do"
+   ],
+   [
+    "산후 건강관리",
+    "https://www.gwgs.go.kr/health/sub03_040802.do"
+   ],
+   [
+    "산후조리비 지원",
+    "https://www.gwgs.go.kr/health/sub03_040806.do"
+   ],
+   [
+    "산후건강관리·고위험 임산부 의료비 지원",
+    "https://www.gwgs.go.kr/health/sub03_040803.do"
+   ],
+   [
+    "기저귀·조제분유 지원",
+    "https://www.gwgs.go.kr/health/sub03_040804.do"
+   ],
+   [
+    "난임부부 지원",
+    "https://www.gwgs.go.kr/health/sub03_040805.do"
+   ],
+   [
+    "영구 불임 예상 난자·정자 냉동 지원 사업",
+    "https://www.gwgs.go.kr/health/sub03_040807.do"
+   ],
+   [
+    "영양플러스사업",
+    "https://www.gwgs.go.kr/health/sub03_0403.do"
+   ],
+   [
+    "어린이 국가예방접종",
+    "https://www.gwgs.go.kr/health/sub03_0303.do"
+   ],
+   [
+    "보육료 지원안내",
+    "https://www.gwgs.go.kr/kor/sub02_010101.do"
+   ],
+   [
+    "양육수당지원",
+    "https://www.gwgs.go.kr/kor/sub02_010102.do"
+   ],
+   [
+    "강원특별자치도 육아기본수당 지원",
+    "https://www.gwgs.go.kr/kor/sub02_010104.do"
+   ]
+  ]
+ },
  "강원특별자치도 동해시": [
   "https://www.dh.go.kr/www/contents.do?key=2050",
   "https://www.dh.go.kr/health/contents.do?key=946",
@@ -461,12 +813,34 @@
    ]
   ]
  },
- "강원특별자치도 양양군": [
-  "https://www.yangyang.go.kr/gw/healthcenter/service_mchealth",
-  "https://www.yangyang.go.kr/gw/healthcenter/info_mahealth",
-  "https://childcare.yangyang.go.kr/",
-  "https://www.yangyang.go.kr/gw/portal/yyc_yyintro_cguide_business?searchGroup=43510440000"
- ],
+ "강원특별자치도 양양군": {
+  "seeds": [
+   [
+    "모자보건 지원사업 안내(임산부 등록·엽산·철분·유축기·고위험 임산부·산모신생아·산후 의료비·미숙아·기저귀·난임)",
+    "https://www.yangyang.go.kr/gw/healthcenter/service_mchealth"
+   ],
+   [
+    "영양플러스사업",
+    "https://www.yangyang.go.kr/gw/healthcenter/service_plusbusiness"
+   ],
+   [
+    "영·유아 예방접종",
+    "https://www.yangyang.go.kr/gw/healthcenter/clinic_hvaccination"
+   ],
+   [
+    "아이돌봄서비스",
+    "https://www.yangyang.go.kr/gw/portal/yyc_partinfo_child_care"
+   ],
+   [
+    "드림스타트",
+    "https://www.yangyang.go.kr/gw/portal/yyc_partinfo_child_dream"
+   ],
+   [
+    "한부모가족 아동양육비 지원",
+    "https://www.yangyang.go.kr/gw/portal/yyc_partinfo_women_wo"
+   ]
+  ]
+ },
  "강원특별자치도 영월군": {
   "seeds": [
    [
@@ -522,10 +896,30 @@
   "https://www.inje.go.kr/health/business/maternalchildhealth",
   "https://www.inje.go.kr/egf/bp/board/article/download?fileSeq=121596"
  ],
- "강원특별자치도 정선군": [
-  "https://www.jeongseon.go.kr/portal/partinfo/lifewelfare/populationpolicy/pregnancy",
-  "https://www.jeongseon.go.kr/portal/partinfo/lifewelfare/populationpolicy/childcare"
- ],
+ "강원특별자치도 정선군": {
+  "seeds": [
+   [
+    "임신·출산 지원 안내(인구·청년 정책 표)",
+    "https://www.jeongseon.go.kr/portal/partinfo/lifewelfare/populationpolicy/pregnancy"
+   ],
+   [
+    "보육·돌봄 지원 안내(인구·청년 정책 표)",
+    "https://www.jeongseon.go.kr/portal/partinfo/lifewelfare/populationpolicy/childcare"
+   ],
+   [
+    "모자보건사업 안내(엽산·철분제·출산육아용품·산후조리비·임신 사전건강관리 등)",
+    "https://www.jeongseon.go.kr/portal/jeongseongun/healthcenter/healthpromotion/motherchild"
+   ],
+   [
+    "국가예방접종사업(어린이)",
+    "https://www.jeongseon.go.kr/portal/jeongseongun/healthcenter/diseasecontrol/immunization"
+   ],
+   [
+    "가족복지서비스(한부모·다자녀 가족 지원)",
+    "https://www.jeongseon.go.kr/portal/partinfo/lifewelfare/residentsupport/family"
+   ]
+  ]
+ },
  "강원특별자치도 춘천시": [
   "https://www.chuncheon.go.kr/new-welfare/life/infant/childcare-subsidy/",
   "https://www.chuncheon.go.kr/health/business/maternal-and-child-health/pregnancy-support/",
@@ -937,19 +1331,214 @@
    ]
   ]
  },
- "경상남도 김해시": [
-  "https://www.gimhae.go.kr/population/main.web",
-  "https://www.gimhae.go.kr/population/main.web?",
-  "https://www.gimhae.go.kr/modules/pnb/banner/link.do?sno=157",
-  "https://www.gimhae.go.kr/population/00001/00190.web"
- ],
- "경상남도 남해군": [
-  "https://www.namhae.go.kr/modules/welfare/policy/policy.do?cate1=00028&cate2=00030&pageCd=DE0101010000&siteGubun=depart",
-  "https://www.namhae.go.kr/modules/welfare/policy/policy.do?cate1=00028&cate2=00029&pageCd=DE0101010000&siteGubun=depart",
-  "https://www.namhae.go.kr/modules/welfare/policy/policy.do?cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart",
-  "https://www.namhae.go.kr/depart/Index.do?c=DE0110010000",
-  "https://www.namhae.go.kr/depart/Index.do?c=DE0110070000"
- ],
+ "경상남도 김해시": {
+  "seeds": [
+   [
+    "김해시 출산축하금 지원",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=378"
+   ],
+   [
+    "2차 태아 기형아 검사비 지원",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=473"
+   ],
+   [
+    "유축기 대여 지원 사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=812"
+   ],
+   [
+    "임산부 엽산제 지원사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=366"
+   ],
+   [
+    "임산부 철분제 지원사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=365"
+   ],
+   [
+    "임신초기 검사",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=367"
+   ],
+   [
+    "임신준비 부부 엽산제 지급",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=368"
+   ],
+   [
+    "임신 사전건강관리 지원사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=907"
+   ],
+   [
+    "난임부부 난임진단검사비 지원",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=938"
+   ],
+   [
+    "난임부부 한의치료 지원사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=939"
+   ],
+   [
+    "난임부부 시술비 지원사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=371"
+   ],
+   [
+    "산모·신생아 건강관리 서비스 지원사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=71"
+   ],
+   [
+    "산모·신생아건강관리 서비스 본인부담금 지원",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=73"
+   ],
+   [
+    "공공산후조리원 취약계층 감면료 지원",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=912"
+   ],
+   [
+    "생애초기 건강관리 서비스",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=941"
+   ],
+   [
+    "고위험 임산부 의료비 지원사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=360"
+   ],
+   [
+    "셋째아 이상 아동 양육수당 지원",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=109"
+   ],
+   [
+    "출산가정 영양꾸러미 바우처 사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=956"
+   ],
+   [
+    "친환경농산물 꾸러미 지원사업(임산부)",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=952"
+   ],
+   [
+    "임산부 바우처택시 운영",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=793"
+   ],
+   [
+    "임산부 건강교실 운영",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=364"
+   ],
+   [
+    "장난감 도서관 운영",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=804"
+   ],
+   [
+    "장난감은행 운영",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=111"
+   ],
+   [
+    "손주돌봄 지원사업",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=819"
+   ],
+   [
+    "아이돌봄서비스 본인부담금 추가지원",
+    "https://www.gimhae.go.kr/population/00002/00011.web?amode=view&sno=818"
+   ]
+  ]
+ },
+ "경상남도 남해군": {
+  "seeds": [
+   [
+    "어린이 국가 예방접종 안내",
+    "https://www.namhae.go.kr/depart/Index.do?c=DE0103030600"
+   ],
+   [
+    "영유아발달지원서비스",
+    "https://www.namhae.go.kr/depart/Index.do?c=DE0108050300"
+   ],
+   [
+    "아동노인 연극교육서비스",
+    "https://www.namhae.go.kr/depart/Index.do?c=DE0108050700"
+   ],
+   [
+    "출산장려금 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1393&amode=view&cate1=00028&cate2=00030&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "남해군 출산가정 건강관리 지원사업(산후조리비·임산부 교통카드·기형아 검사비)",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1478&amode=view&cate1=00028&cate2=00030&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "산모신생아 건강관리지원 확대",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1477&amode=view&cate1=00028&cate2=00030&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "생애초기 건강관리 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1484&amode=view&cate1=00028&cate2=00030&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "영양플러스 사업",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1486&amode=view&cate1=00028&cate2=00030&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "고위험 임산부 의료비 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1474&amode=view&cate1=00028&cate2=00029&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "난임 진단 및 난임 부부 시술비 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1475&amode=view&cate1=00028&cate2=00029&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "난임부부 한의치료 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1476&amode=view&cate1=00028&cate2=00029&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "임신 사전 건강관리 지원사업",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1487&amode=view&cate1=00028&cate2=00029&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "청소년 산모 임신·출산 의료비 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1473&amode=view&cate1=00028&cate2=00029&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "친환경농산물 꾸러미 지원사업(임산부)",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1537&amode=view&cate1=00028&cate2=00029&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "남해군 출생아 이유식지원 사업",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1401&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "영유아 친환경이유식 영양꾸러미 지원사업",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1485&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "둘째아 이상 영유아 양육수당 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1407&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "남해형 아이돌봄 본인부담금 추가지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1400&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "경상남도 아이돌봄서비스 본인부담금 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1399&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "공동육아나눔터 운영",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1402&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "어린이집 신입생 입학준비금 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1397&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "저소득층 기저귀 조제분유 지원사업",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1483&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "미숙아 및 선천성 이상아 의료비 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1480&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "영유아 발달장애 정밀검사비 지원",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1482&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ],
+   [
+    "영유아 북스타트 프로그램 운영",
+    "https://www.namhae.go.kr/modules/welfare/policy/policy.do?sno=1374&amode=view&cate1=00028&cate2=00031&pageCd=DE0101010000&siteGubun=depart"
+   ]
+  ]
+ },
  "경상남도 밀양시": [
   "https://www.miryang.go.kr/web/index.do?mnNo=50802000000",
   "https://www.miryang.go.kr/hlt/index.do?mnNo=50201000000",
@@ -990,11 +1579,110 @@
   "https://www.jinju.go.kr/00134/00614/00735.web",
   "https://www.jinju.go.kr/00135/01112/01316.web"
  ],
- "경상남도 창녕군": [
-  "https://www.cng.go.kr/00596/00769/00775.web",
-  "https://www.cng.go.kr/skin/doc.html?fn=00e40384a7f38779440e4b6cb54a762ae2b7e8ff3baceec9076d3141032bd451&rs=/sn3hcv_convert/202506/",
-  "https://www.cng.go.kr/03516/01549.web?amode=view&gcode=1001&idx=577053"
- ],
+ "경상남도 창녕군": {
+  "seeds": [
+   [
+    "인구증가 지원 시책안내",
+    "https://www.cng.go.kr/00596/00769/00775.web"
+   ],
+   [
+    "아이돌봄 서비스",
+    "https://www.cng.go.kr/00596/00759/00800.web"
+   ],
+   [
+    "어린이국가예방접종",
+    "https://www.cng.go.kr/03312/00881/00882.web"
+   ],
+   [
+    "여성장애인 출산비용지원",
+    "https://www.cng.go.kr/00596/00734/00799.web"
+   ],
+   [
+    "가임여성 건강지원(임신 사전건강관리·산전검사·엽산제·풍진)",
+    "https://www.cng.go.kr/03312/00638/03407.web"
+   ],
+   [
+    "임산부 등록 및 건강관리",
+    "https://www.cng.go.kr/03312/00638/03408.web"
+   ],
+   [
+    "고위험 임산부 의료비 지원",
+    "https://www.cng.go.kr/03312/00638/03409.web"
+   ],
+   [
+    "난임부부지원사업",
+    "https://www.cng.go.kr/03312/00638/03404.web"
+   ],
+   [
+    "산모신생아 건강관리 지원사업",
+    "https://www.cng.go.kr/03312/00638/03410.web"
+   ],
+   [
+    "생애초기건강관리사업",
+    "https://www.cng.go.kr/03312/00638/03411.web"
+   ],
+   [
+    "유축기 대여",
+    "https://www.cng.go.kr/03312/00638/03412.web"
+   ],
+   [
+    "청소년 산모 임신·출산 의료비 지원",
+    "https://www.cng.go.kr/03312/00638/03413.web"
+   ],
+   [
+    "기저귀·조제분유 지원",
+    "https://www.cng.go.kr/03312/00638/03414.web"
+   ],
+   [
+    "미숙아 및 선천성 이상아 의료비 지원",
+    "https://www.cng.go.kr/03312/00638/03415.web"
+   ],
+   [
+    "선천성 대사이상 검사 및 환아 관리",
+    "https://www.cng.go.kr/03312/00638/03416.web"
+   ],
+   [
+    "신생아 청각선별검사",
+    "https://www.cng.go.kr/03312/00638/03417.web"
+   ],
+   [
+    "산모 신생아 건강관리 본인부담금 지원",
+    "https://www.cng.go.kr/00596/00637.web?sno=11&amode=view&"
+   ],
+   [
+    "셋째이상아동 양육수당",
+    "https://www.cng.go.kr/00596/00637.web?sno=27&amode=view&"
+   ],
+   [
+    "임산부 산전검사 지원",
+    "https://www.cng.go.kr/00596/00637.web?sno=10&amode=view&"
+   ],
+   [
+    "임신 축하 물품 지원",
+    "https://www.cng.go.kr/00596/00637.web?sno=8&amode=view&"
+   ],
+   [
+    "출산장려금 지원사업",
+    "https://www.cng.go.kr/00596/00637.web?sno=26&amode=view&"
+   ],
+   [
+    "태아 기형 검사 비용 지원",
+    "https://www.cng.go.kr/00596/00637.web?sno=9&amode=view&"
+   ],
+   [
+    "가정양육수당 지원",
+    "https://www.cng.go.kr/00596/00637.web?sno=31&amode=view&"
+   ],
+   [
+    "부모급여 지원",
+    "https://www.cng.go.kr/00596/00637.web?sno=30&amode=view&"
+   ],
+   [
+    "시간제보육서비스 제공지원",
+    "https://www.cng.go.kr/00596/00637.web?sno=32&amode=view&"
+   ]
+  ]
+ },
  "경상남도 창원시": [
   "https://www.changwon.go.kr/cwportal/ingu/14961/14962/14965.web",
   "https://www.changwon.go.kr/cwportal/depart/11067/13982/15236.web",
@@ -1069,16 +1757,214 @@
   "https://www.hadong.go.kr/board/download.do?gcode=3029&name=%ED%95%98%EB%8F%99%ED%98%95+%EC%9C%A1%EC%95%84%EC%88%98%EB%8B%B9+%EA%B4%80%EB%A0%A8+%EC%84%9C%EC%8B%9D%28%EC%88%98%EC%A0%95%29.hwp",
   "https://www.hadong.go.kr/01866/01888/01906.web"
  ],
- "경상남도 함양군": [
-  "https://www.hygn.go.kr/01659/01675/01758.web",
-  "https://www.hygn.go.kr/01659/01670/01730.web"
- ],
- "경상남도 합천군": [
-  "https://www.hc.go.kr/05750/05767/05832.web",
-  "https://www.hc.go.kr/05750/05767/09272.web",
-  "https://www.hc.go.kr/05750/05765/05785.web",
-  "https://www.hc.go.kr/05750/05769/05851.web"
- ],
+ "경상남도 함양군": {
+  "seeds": [
+   [
+    "영유아 보육료 지원",
+    "https://www.hygn.go.kr/01659/01670/01735.web"
+   ],
+   [
+    "경남 아이 다누리카드 안내",
+    "https://www.hygn.go.kr/01659/01670/01760.web"
+   ],
+   [
+    "아동발달지원계좌",
+    "https://www.hygn.go.kr/01659/01670/01732.web"
+   ],
+   [
+    "인구늘리기 시책안내",
+    "https://www.hygn.go.kr/01659/01675/01758.web"
+   ],
+   [
+    "함양군 출산/양육지원시책(영유아 양육비·보육료 등)",
+    "https://www.hygn.go.kr/01659/01670/01730.web"
+   ],
+   [
+    "장난감도서관 대여방법",
+    "https://www.hygn.go.kr/06072/06081.web"
+   ],
+   [
+    "임산부관리(임산부 등록·축하선물·엽산제·철분제·임신 초기 검사)",
+    "https://www.hygn.go.kr/01889/01926/02153.web"
+   ],
+   [
+    "찾아가는 산부인과 순회 검진",
+    "https://www.hygn.go.kr/01889/01926/02155.web"
+   ],
+   [
+    "산모신생아 건강관리사 지원사업",
+    "https://www.hygn.go.kr/01889/01926/02156.web"
+   ],
+   [
+    "청소년산모 임신·출산 의료비 지원사업",
+    "https://www.hygn.go.kr/01889/01926/02157.web"
+   ],
+   [
+    "고위험 임산부 의료비 지원사업",
+    "https://www.hygn.go.kr/01889/01926/02159.web"
+   ],
+   [
+    "저소득층 기저귀·조제분유 지원",
+    "https://www.hygn.go.kr/01889/01926/02160.web"
+   ],
+   [
+    "예비·신혼부부 건강검진비 지원",
+    "https://www.hygn.go.kr/01889/01926/02161.web"
+   ],
+   [
+    "산모신생아 건강관리 본인부담금 지원",
+    "https://www.hygn.go.kr/01889/01926/02163.web"
+   ],
+   [
+    "공공산후조리원 취약계층 감면료 지원",
+    "https://www.hygn.go.kr/01889/01926/02166.web"
+   ],
+   [
+    "임신 사전건강관리 지원사업",
+    "https://www.hygn.go.kr/01889/01926/06204.web"
+   ],
+   [
+    "출산장려금·입양장려금 지원",
+    "https://www.hygn.go.kr/01889/01926/02182.web"
+   ],
+   [
+    "셋째아 이상 출생아 보장성보험 지원",
+    "https://www.hygn.go.kr/01889/01926/02184.web"
+   ],
+   [
+    "산후 건강관리비 지원",
+    "https://www.hygn.go.kr/01889/01926/06773.web"
+   ],
+   [
+    "난임부부지원사업",
+    "https://www.hygn.go.kr/01889/01926/02190.web"
+   ],
+   [
+    "난임부부지원사업(한의치료)",
+    "https://www.hygn.go.kr/01889/01926/02193.web"
+   ],
+   [
+    "난임부부 난임진단비 지원 사업",
+    "https://www.hygn.go.kr/01889/01926/02195.web"
+   ],
+   [
+    "영구적 불임예상 생식세포 동결·보존지원",
+    "https://www.hygn.go.kr/01889/01926/06783.web"
+   ],
+   [
+    "영양플러스사업",
+    "https://www.hygn.go.kr/01889/01926/02122.web"
+   ],
+   [
+    "출산가정 영양꾸러미 바우처 지원사업",
+    "https://www.hygn.go.kr/01889/01926/06784.web"
+   ]
+  ]
+ },
+ "경상남도 합천군": {
+  "seeds": [
+   [
+    "행복출산 원스톱 서비스",
+    "https://www.hc.go.kr/05750/05769/05862.web"
+   ],
+   [
+    "아이돌보미지원사업",
+    "https://www.hc.go.kr/05750/05767/05839.web"
+   ],
+   [
+    "출산장려지원",
+    "https://www.hc.go.kr/05750/05769/05861.web"
+   ],
+   [
+    "출산장려금",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=3&"
+   ],
+   [
+    "임산부 등록 및 산전 검사비 지원사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=5&"
+   ],
+   [
+    "가임기 여성 및 임산부 풍진검사비 지원(경상남도)",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=6&"
+   ],
+   [
+    "청소년 산모 임신·출산 의료비 지원사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=7&"
+   ],
+   [
+    "고위험 임산부 의료비 지원사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=8&"
+   ],
+   [
+    "산후조리비 지원사업(합천군)",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=11&"
+   ],
+   [
+    "산모·신생아 건강관리 본인부담금 지원사업(합천군)",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=13&"
+   ],
+   [
+    "산모·신생아 건강관리사 교통비 지원사업(합천군)",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=14&"
+   ],
+   [
+    "난임부부 진단검진비 지원사업(합천군)",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=16&"
+   ],
+   [
+    "난임부부 시술비 확대 지원(합천군)",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=18&"
+   ],
+   [
+    "난임부부 한의 치료비 지원사업(경상남도)",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=19&"
+   ],
+   [
+    "임산부/영유아 영양플러스 사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=21&"
+   ],
+   [
+    "미숙아 및 선천성 이상아 의료비 지원",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=22&"
+   ],
+   [
+    "생애 초기 건강관리 지원사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=23&"
+   ],
+   [
+    "선천성 난청검사 및 보청기 지원",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=24&"
+   ],
+   [
+    "저소득층 기저귀/조제분유 지원사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=25&"
+   ],
+   [
+    "임산부 친환경 농산물 지원사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=27&"
+   ],
+   [
+    "아이돌봄 본인부담금 지원사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=33&"
+   ],
+   [
+    "공동육아 나눔터 운영",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=34&"
+   ],
+   [
+    "시간제 보육서비스 운영",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=36&"
+   ],
+   [
+    "다자녀 지원금",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=110&"
+   ],
+   [
+    "임신 사전건강 관리 지원사업",
+    "https://www.hc.go.kr/05750/05769/09770.web?amode=view&sno=162&"
+   ]
+  ]
+ },
  "경상북도 경산시": [
   "https://www.gbgs.go.kr/open_content/ko/page.do?mnu_uid=5510",
   "https://www.gbgs.go.kr/open_content/health/page.do?mnu_uid=5446&",
@@ -1098,14 +1984,54 @@
   "https://www.gyeongju.go.kr/area/page.do?mnu_uid=4461&",
   "https://www.gyeongju.go.kr/area/page.do?mnu_uid=4393&"
  ],
- "경상북도 고령군": [
-  "https://www.goryeong.go.kr/kor/contents.do?IDX=372",
-  "https://www.goryeong.go.kr/kor/contents.do?IDX=374",
-  "https://www.goryeong.go.kr/health/contents.do?IDX=49",
-  "https://www.goryeong.go.kr/health/contents.do?IDX=48",
-  "https://www.goryeong.go.kr/kor/contents.do?IDX=373",
-  "http://toy.goryeong.go.kr"
- ],
+ "경상북도 고령군": {
+  "seeds": [
+   [
+    "결혼·출산 지원(출산장려금·출생아 건강보험료·행복출산·출산가정 기념물품 등)",
+    "https://www.goryeong.go.kr/kor/contents.do?IDX=372"
+   ],
+   [
+    "임산부·영유아 지원(찾아가는 산부인과·임산부 영양제·출산육아용품 대여·영유아 영양제·산모신생아·난임 등)",
+    "https://www.goryeong.go.kr/kor/contents.do?IDX=374"
+   ],
+   [
+    "양육 지원(가정양육수당·농어촌양육수당 등)",
+    "https://www.goryeong.go.kr/kor/contents.do?IDX=375"
+   ],
+   [
+    "다자녀가정 양육 지원",
+    "https://www.goryeong.go.kr/kor/contents.do?IDX=449"
+   ],
+   [
+    "출산지원사업(산모 산후조리비·출산장려금·출생아건강보험료)",
+    "https://www.goryeong.go.kr/health/contents.do?IDX=48"
+   ],
+   [
+    "모자보건사업(임산부 지원·찾아가는 산부인과·산모신생아)",
+    "https://www.goryeong.go.kr/health/contents.do?IDX=49"
+   ],
+   [
+    "영양플러스사업",
+    "https://www.goryeong.go.kr/health/contents.do?IDX=47"
+   ],
+   [
+    "어린이 예방접종",
+    "https://www.goryeong.go.kr/health/contents.do?IDX=16"
+   ],
+   [
+    "B형간염 주산기감염 예방사업",
+    "https://www.goryeong.go.kr/health/contents.do?IDX=19"
+   ],
+   [
+    "아동 치과주치의 의료비지원 사업",
+    "https://www.goryeong.go.kr/health/contents.do?IDX=69"
+   ],
+   [
+    "아이누리 장난감도서관 대여안내",
+    "https://toy.goryeong.go.kr/front/index.php?g_page=guide&m_page=guide02"
+   ]
+  ]
+ },
  "경상북도 구미시": [
   "https://www.gumi.go.kr/policy/main.do",
   "https://www.gumi.go.kr/well/wfProgrm/view.do?key=2505131319478&wfProgrmSn=34&pageIndex=1&sc=&sw=%EC%B6%9C%EC%82%B0"
@@ -1117,14 +2043,110 @@
   "https://www.gc.go.kr/childcare/pages/index.htm",
   "https://www.gc.go.kr/portal/contents.do?mId=1402140000"
  ],
- "경상북도 문경시": [
-  "https://www.gbmg.go.kr/portal/contents.do?mId=0605050202",
-  "https://www.gbmg.go.kr/portal/contents.do?mId=0605050300",
-  "https://www.gbmg.go.kr/portal/contents.do?mId=0405040000",
-  "https://www.gbmg.go.kr/portal/contents.do?mId=0605050200",
-  "https://www.gbmg.go.kr/portal/contents.do?mId=0605050000",
-  "https://www.gbmg.go.kr/portal/contents.do?mId=0605051000"
- ],
+ "경상북도 문경시": {
+  "seeds": [
+   [
+    "임산부 및 의료비 지원사업(인구시책)",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0605050201"
+   ],
+   [
+    "출산축하용품·출산장려금 지원",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0605050202"
+   ],
+   [
+    "출산장려금",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0605050205"
+   ],
+   [
+    "산모·신생아 건강관리 확대 지원(산후조리)",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0605050206"
+   ],
+   [
+    "출산농가 영농도우미 지원",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0605050207"
+   ],
+   [
+    "공동육아나눔터 운영",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0605050306"
+   ],
+   [
+    "아이돌봄서비스 본인부담금 지원",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0605050308"
+   ],
+   [
+    "아이돌보미지원사업",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0405040300"
+   ],
+   [
+    "영유아 보육사업(보육료)",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0405040600"
+   ],
+   [
+    "육아종합지원센터",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0405040200"
+   ],
+   [
+    "아동수당 등 아동복지",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0405040400"
+   ],
+   [
+    "난임부부 시술비 지원사업",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604073000"
+   ],
+   [
+    "한의약 난임치료지원사업",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604073100"
+   ],
+   [
+    "임신사전건강관리 지원",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072700"
+   ],
+   [
+    "임산부 지원(맘편한 임신, 엽산·철분제 등)",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072301"
+   ],
+   [
+    "출산지원(행복출산 원스톱 등)",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072302"
+   ],
+   [
+    "산모신생아 건강관리 지원사업",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072303"
+   ],
+   [
+    "생애초기건강관리",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072304"
+   ],
+   [
+    "영유아 용품지원(영양제·출산육아용품 대여)",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072401"
+   ],
+   [
+    "미숙아·선천성이상아 의료비 지원",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072402"
+   ],
+   [
+    "영유아 건강검진",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072403"
+   ],
+   [
+    "영양플러스사업",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072000"
+   ],
+   [
+    "어린이 국가예방접종",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604040100"
+   ],
+   [
+    "둘째아 이상 건강보험료 지원",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072501"
+   ],
+   [
+    "세자녀이상 가족진료비 지원",
+    "https://www.gbmg.go.kr/portal/contents.do?mId=0604072502"
+   ]
+  ]
+ },
  "경상북도 봉화군": {
   "seeds": [
    [
@@ -1243,10 +2265,42 @@
   "https://www.sj.go.kr/programs/board/board_download.do?file_uid=454180",
   "https://www.sj.go.kr/S0006/page.do?mnu_uid=1446&"
  ],
- "경상북도 안동시": [
-  "https://www.andong.go.kr/portal/contents.do?mId=0615030000",
-  "https://www.andong.go.kr/portal/contents.do?mId=0615070000"
- ],
+ "경상북도 안동시": {
+  "seeds": [
+   [
+    "임신·출산 지원 안내(인구정책)",
+    "https://www.andong.go.kr/portal/contents.do?mId=0615030000"
+   ],
+   [
+    "육아·교육 지원 안내(인구정책)",
+    "https://www.andong.go.kr/portal/contents.do?mId=0615070000"
+   ],
+   [
+    "다자녀 가정 지원 안내",
+    "https://www.andong.go.kr/portal/contents.do?mId=0615050000"
+   ],
+   [
+    "임산부 지원(엽산·철분제, 산전검사, 기형아검사 쿠폰)",
+    "https://www.andong.go.kr/health/contents.do?mId=0302010000"
+   ],
+   [
+    "영유아 지원(정장제, 출산육아용품 대여)",
+    "https://www.andong.go.kr/health/contents.do?mId=0302020000"
+   ],
+   [
+    "난임부부 지원(시술비·약제비)",
+    "https://www.andong.go.kr/health/contents.do?mId=0302030000"
+   ],
+   [
+    "영양플러스사업",
+    "https://www.andong.go.kr/health/contents.do?mId=0307020000"
+   ],
+   [
+    "어린이 국가예방접종",
+    "https://www.andong.go.kr/health/contents.do?mId=0204000000"
+   ]
+  ]
+ },
  "경상북도 영덕군": [
   "https://www.yd.go.kr/?p=4685",
   "https://www.yd.go.kr/?p=1690"
@@ -1534,12 +2588,86 @@
   "https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000504004001000",
   "https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000504004002000"
  ],
- "부산광역시 북구": [
-  "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005006000",
-  "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005011000",
-  "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005001000",
-  "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005000000"
- ],
+ "부산광역시 북구": {
+  "seeds": [
+   [
+    "북구 출산장려금·부산시 출산지원금·첫만남이용권(출산장려 시책)",
+    "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005006000"
+   ],
+   [
+    "보육료 및 양육수당",
+    "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005001002"
+   ],
+   [
+    "시간제보육 안내",
+    "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104005001004"
+   ],
+   [
+    "드림스타트",
+    "https://www.bsbukgu.go.kr/index.bsbukgu?menuCd=DOM_000000104003005000"
+   ],
+   [
+    "영양플러스 사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503001005000"
+   ],
+   [
+    "임신부 관리·지원사업(예비부모 검진·임산부 등록·엽산·철분)",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002002000"
+   ],
+   [
+    "산모 신생아 건강관리 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002007000"
+   ],
+   [
+    "난임부부 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002003000"
+   ],
+   [
+    "가임력보존 지원 사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002008000"
+   ],
+   [
+    "영유아 건강검진 사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002004000"
+   ],
+   [
+    "저소득층 기저귀, 조제분유 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002005000"
+   ],
+   [
+    "생애 초기 건강관리 사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002006000"
+   ],
+   [
+    "임신 사전건강관리 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002009000"
+   ],
+   [
+    "부산형 산후조리경비 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002011000"
+   ],
+   [
+    "영구 불임 예상 난자·정자 냉동 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002012000"
+   ],
+   [
+    "고위험 임산부 의료비 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002013000"
+   ],
+   [
+    "고위험 임산부 가사도우미 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002014000"
+   ],
+   [
+    "영유아 발달 정밀검사비 지원 등 영유아 관리·지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503002000000"
+   ],
+   [
+    "국가예방접종 지원사업",
+    "https://www.bsbukgu.go.kr/health/index.bsbukgu?menuCd=DOM_000000503003003000"
+   ]
+  ]
+ },
  "부산광역시 사상구": [
   "https://www.sasang.go.kr/index.sasang?menuCd=DOM_000000103008003001",
   "https://www.sasang.go.kr/health/index.sasang?menuCd=DOM_000000404003003000",
@@ -1949,12 +3077,74 @@
   "https://www.yeongjong.go.kr/health/content/view.do?sn=565",
   "https://www.yeongjong.go.kr/health/content/view.do?sn=564"
  ],
- "인천광역시 옹진군": [
-  "https://www.ongjin.go.kr/open_content/main/environment/welfare/population.jsp",
-  "https://www.ongjin.go.kr/open_content/clinic/business/pregnant.jsp",
-  "https://www.ongjin.go.kr/open_content/clinic/business/mother.jsp",
-  "https://www.ongjin.go.kr/open_content/main/environment/welfare/population_edu.jsp"
- ],
+ "인천광역시 옹진군": {
+  "seeds": [
+   [
+    "결혼·임신·출산정책(출생장려금·임산부 교통비·산후건강관리비 등)",
+    "https://www.ongjin.go.kr/open_content/main/environment/welfare/population.jsp"
+   ],
+   [
+    "보육·교육정책(보육료·영유아 단체보험·다자녀양육비·천사지원금)",
+    "https://www.ongjin.go.kr/open_content/main/environment/welfare/population_edu.jsp"
+   ],
+   [
+    "임산부 지원사업(등록관리·산모신생아·고위험 임산부)",
+    "https://www.ongjin.go.kr/open_content/clinic/business/pregnant.jsp"
+   ],
+   [
+    "가임기 여성 지원(난임부부·임신 사전건강관리·임신진단시약)",
+    "https://www.ongjin.go.kr/open_content/clinic/business/preparation.jsp"
+   ],
+   [
+    "영유아 지원사업(기저귀·조제분유·선천성 대사이상·미숙아)",
+    "https://www.ongjin.go.kr/open_content/clinic/business/baby.jsp"
+   ],
+   [
+    "난임부부 시술비지원",
+    "https://www.ongjin.go.kr/open_content/welfare/life/pregnancy.jsp"
+   ],
+   [
+    "I-Mom 방문건강관리사업",
+    "https://www.ongjin.go.kr/open_content/welfare/life/pregnancy_imom.jsp"
+   ],
+   [
+    "임산부 등록관리(엽산제·철분제·임신축하선물·유축기 대여)",
+    "https://www.ongjin.go.kr/open_content/welfare/life/pregnancy_other.jsp"
+   ],
+   [
+    "보육료 지원사업",
+    "https://www.ongjin.go.kr/open_content/welfare/life/infants.jsp"
+   ],
+   [
+    "양육수당 지원사업",
+    "https://www.ongjin.go.kr/open_content/welfare/life/infants_rear.jsp"
+   ],
+   [
+    "저소득층 기저귀·조제분유 지원",
+    "https://www.ongjin.go.kr/open_content/welfare/life/infants_support.jsp"
+   ],
+   [
+    "도담도담 장난감월드",
+    "https://www.ongjin.go.kr/open_content/welfare/life/infants_toy.jsp"
+   ],
+   [
+    "6세이하 영유아건강검진",
+    "https://www.ongjin.go.kr/open_content/welfare/life/infants_checkup.jsp"
+   ],
+   [
+    "드림스타트",
+    "https://www.ongjin.go.kr/open_content/welfare/life/child.jsp"
+   ],
+   [
+    "국내입양지원",
+    "https://www.ongjin.go.kr/open_content/welfare/life/child_adopt.jsp"
+   ],
+   [
+    "디딤씨앗통장(아동발달지원계좌)",
+    "https://www.ongjin.go.kr/open_content/welfare/life/child_support.jsp"
+   ]
+  ]
+ },
  "인천광역시 제물포구": [
   "https://www.jemulpo.go.kr/main/area/welfare/family_childbirth.jsp",
   "https://www.jemulpo.go.kr/clinic/health/motherbaby_health.jsp",
@@ -2033,11 +3223,50 @@
   "https://www.muan.go.kr/www/information/welfare/woman/service",
   "https://www.muan.go.kr/health/business/woman_child/babies"
  ],
- "전남광주통합특별시 보성군": [
-  "https://www.boseong.go.kr/www/life_welfare/population_policy",
-  "https://www.boseong.go.kr/www/life_welfare/child_welfare",
-  "https://www.boseong.go.kr/www/life_welfare/child_welfare/care_policy"
- ],
+ "전남광주통합특별시 보성군": {
+  "seeds": [
+   [
+    "인구정책 지원사업 안내(보육·양육, 임신·출산 등)",
+    "https://www.boseong.go.kr/www/life_welfare/population_policy"
+   ],
+   [
+    "임신준비기간 지원사업",
+    "https://www.boseong.go.kr/health/health_service/mother_child/pregnancy_preparation"
+   ],
+   [
+    "임신기간 지원사업",
+    "https://www.boseong.go.kr/health/health_service/mother_child/maintenance_pregnancy"
+   ],
+   [
+    "출산후양육기간 지원사업",
+    "https://www.boseong.go.kr/health/health_service/mother_child/child_rearing"
+   ],
+   [
+    "영유아 지원사업",
+    "https://www.boseong.go.kr/health/health_service/mother_child/young_children"
+   ],
+   [
+    "영유아 국가필수예방접종",
+    "https://www.boseong.go.kr/health/vaccination/essential"
+   ],
+   [
+    "영유아 보육지원(보육료·양육수당)",
+    "https://www.boseong.go.kr/www/life_welfare/child_welfare/care_policy"
+   ],
+   [
+    "아이돌봄",
+    "https://www.boseong.go.kr/www/life_welfare/child_welfare/care_child"
+   ],
+   [
+    "임산부 할인음식점 운영",
+    "https://www.boseong.go.kr/www/open_data/hygiene/pregnant_dc"
+   ],
+   [
+    "입양아동 양육수당 지원",
+    "https://www.boseong.go.kr/www/life_welfare/child_welfare/adoption"
+   ]
+  ]
+ },
  "전남광주통합특별시 북구": [
   "https://bukgu.gwangju.kr/menu.es?mid=a10308060000",
   "https://bukgu.gwangju.kr/menu.es?mid=a60301010000",
@@ -2092,16 +3321,46 @@
   "https://www.jangseong.go.kr/home/www/openinfo/health/maternal_child/maternal_child_01",
   "https://www.jangseong.go.kr/home/www/openinfo/welfare/welfare_04"
  ],
- "전남광주통합특별시 장흥군": [
-  "https://www.jangheung.go.kr/www/life_welfare/population_plan/info/child_birth_arenting",
-  "https://www.jangheung.go.kr/health/business/childbirth",
-  "http://www.jangheung.go.kr/www/life_welfare/population_plan/info/child_birth_arenting",
-  "https://www.jangheung.go.kr/health/business/childbirth/antenatal",
-  "https://www.jangheung.go.kr/www/life_welfare/women_info/childcare",
-  "http://www.jangheung.go.kr/www/life_welfare/women_info/childcare",
-  "https://www.jangheung.go.kr/health/business/childbirth/pregnancy",
-  "https://www.jangheung.go.kr/health/business/childbirth/pregnancy_preparation"
- ],
+ "전남광주통합특별시 장흥군": {
+  "seeds": [
+   [
+    "출산·양육 지원(출산장려금·출생기본소득 등)",
+    "https://www.jangheung.go.kr/www/life_welfare/population_plan/info/child_birth_arenting"
+   ],
+   [
+    "임신준비 지원(예비엄마 엽산제·풍진검사·임신 사전건강관리·신혼부부 검진)",
+    "https://www.jangheung.go.kr/health/business/childbirth/pregnancy_preparation"
+   ],
+   [
+    "임신 지원(임산부 등록·축하용품·기형아검사비·고위험 임산부)",
+    "https://www.jangheung.go.kr/health/business/childbirth/pregnancy"
+   ],
+   [
+    "출산 전·후 지원(탄생축하용품·출산장려금 등)",
+    "https://www.jangheung.go.kr/health/business/childbirth/antenatal"
+   ],
+   [
+    "행복 양육 지원(기저귀·다둥이 육아용품·미숙아·난청 등)",
+    "https://www.jangheung.go.kr/health/business/childbirth/child_birth"
+   ],
+   [
+    "난임 지원",
+    "https://www.jangheung.go.kr/health/business/childbirth/infertility"
+   ],
+   [
+    "어린이예방접종",
+    "https://www.jangheung.go.kr/health/disease/inoculate_child"
+   ],
+   [
+    "보육정책(보육료·양육수당·아이돌봄·본인부담금 지원)",
+    "https://www.jangheung.go.kr/www/life_welfare/women_info/childcare"
+   ],
+   [
+    "저소득 한부모가족 지원",
+    "https://www.jangheung.go.kr/www/life_welfare/women_info/low_income"
+   ]
+  ]
+ },
  "전남광주통합특별시 함평군": [
   "https://www.hampyeong.go.kr/health/contentsView.do?pageId=health38",
   "https://www.hampyeong.go.kr/health/contentsView.do?pageId=health39"
@@ -2162,10 +3421,110 @@
   "https://www.gochang.go.kr/index.gochang?menuCd=DOM_000001504008000000",
   "https://www.gochang.go.kr/childcare/index.gochang"
  ],
- "전북특별자치도 군산시": [
-  "https://www.gunsan.go.kr/main/m190",
-  "https://www.gunsan.go.kr/main/m176"
- ],
+ "전북특별자치도 군산시": {
+  "seeds": [
+   [
+    "출산지원금·셋째아 육아용품 구입비 지원",
+    "https://www.gunsan.go.kr/main/m190"
+   ],
+   [
+    "아이돌봄서비스(본인부담금 지원 포함)",
+    "https://www.gunsan.go.kr/main/m188"
+   ],
+   [
+    "임산부 건강관리(기초검사·엽산제·철분제)",
+    "https://www.gunsan.go.kr/health/m1575"
+   ],
+   [
+    "선천성 난청검사 지원",
+    "https://www.gunsan.go.kr/health/m1576"
+   ],
+   [
+    "산모·신생아 건강관리 지원",
+    "https://www.gunsan.go.kr/health/m1577"
+   ],
+   [
+    "난임부부 시술비 지원",
+    "https://www.gunsan.go.kr/health/m1578"
+   ],
+   [
+    "미숙아·선천성 이상아 의료비 지원",
+    "https://www.gunsan.go.kr/health/m1579"
+   ],
+   [
+    "선천성 대사이상 검사·환아관리",
+    "https://www.gunsan.go.kr/health/m1580"
+   ],
+   [
+    "청소년 산모 임신·출산 의료비 지원",
+    "https://www.gunsan.go.kr/health/m1581"
+   ],
+   [
+    "맘맘맘 출산육아 교실",
+    "https://www.gunsan.go.kr/health/m1582"
+   ],
+   [
+    "고위험 임산부 의료비 지원",
+    "https://www.gunsan.go.kr/health/m1583"
+   ],
+   [
+    "예비맘 건강검진 및 엽산제 지원",
+    "https://www.gunsan.go.kr/health/m1584"
+   ],
+   [
+    "저소득층 기저귀·조제분유 지원",
+    "https://www.gunsan.go.kr/health/m1586"
+   ],
+   [
+    "유축기 대여",
+    "https://www.gunsan.go.kr/health/m1588"
+   ],
+   [
+    "산후 조리비용 지원",
+    "https://www.gunsan.go.kr/health/m1589"
+   ],
+   [
+    "한방 난임부부 지원사업",
+    "https://www.gunsan.go.kr/health/m1590"
+   ],
+   [
+    "산후건강관리 지원사업",
+    "https://www.gunsan.go.kr/health/m2401"
+   ],
+   [
+    "영유아 건강검진",
+    "https://www.gunsan.go.kr/health/m1602"
+   ],
+   [
+    "영유아 발달장애 정밀진단비",
+    "https://www.gunsan.go.kr/health/m1621"
+   ],
+   [
+    "난임 진단검사비 지원",
+    "https://www.gunsan.go.kr/health/m2812"
+   ],
+   [
+    "난임부부 시술비 추가 지원",
+    "https://www.gunsan.go.kr/health/m2811"
+   ],
+   [
+    "남성 난임 시술비 지원",
+    "https://www.gunsan.go.kr/health/m2984"
+   ],
+   [
+    "임신사전건강관리 지원사업",
+    "https://www.gunsan.go.kr/health/m2828"
+   ],
+   [
+    "영양플러스",
+    "https://www.gunsan.go.kr/health/m3007"
+   ],
+   [
+    "어린이 국가예방접종",
+    "https://www.gunsan.go.kr/health/m1560"
+   ]
+  ]
+ },
  "전북특별자치도 김제시": [
   "https://www.gimje.go.kr/index.gimje?menuCd=DOM_000000106006003000",
   "https://www.gimje.go.kr/health/index.gimje?menuCd=DOM_000000804003000000",
@@ -2732,6 +4091,378 @@
    [
     "양육·교육 지원",
     "https://www.jangsu.go.kr/index.jangsu?menuCd=DOM_000000106005003000"
+   ]
+  ]
+ },
+ "충청북도 괴산군": {
+  "seeds": [
+   [
+    "임신출산 지원 안내(인구지원정책 표)",
+    "https://www.goesan.go.kr/www/contents.do?key=2296"
+   ],
+   [
+    "양육지원 안내(인구지원정책 표)",
+    "https://www.goesan.go.kr/www/contents.do?key=2297"
+   ],
+   [
+    "출산장려금 지원",
+    "https://www.goesan.go.kr/health/contents.do?key=702"
+   ],
+   [
+    "영양플러스",
+    "https://www.goesan.go.kr/health/contents.do?key=703"
+   ],
+   [
+    "임신부 영양제 지원",
+    "https://www.goesan.go.kr/health/contents.do?key=716"
+   ],
+   [
+    "난임부부 시술비 지원",
+    "https://www.goesan.go.kr/health/contents.do?key=718"
+   ],
+   [
+    "고위험 임산부 의료비 지원",
+    "https://www.goesan.go.kr/health/contents.do?key=721"
+   ],
+   [
+    "청소년 산모 임신·출산 의료비 지원",
+    "https://www.goesan.go.kr/health/contents.do?key=724"
+   ],
+   [
+    "모자건강증진교실",
+    "https://www.goesan.go.kr/health/contents.do?key=725"
+   ],
+   [
+    "산모·신생아 건강관리 지원",
+    "https://www.goesan.go.kr/health/contents.do?key=726"
+   ],
+   [
+    "영유아 건강검진",
+    "https://www.goesan.go.kr/health/contents.do?key=727"
+   ],
+   [
+    "맘편한 임신 원스톱 서비스(유축기 대여 등)",
+    "https://www.goesan.go.kr/health/contents.do?key=1984"
+   ],
+   [
+    "임신 사전건강관리 지원",
+    "https://www.goesan.go.kr/health/contents.do?key=2202"
+   ],
+   [
+    "군 지역 임산부 교통비 지원",
+    "https://www.goesan.go.kr/health/contents.do?key=2203"
+   ],
+   [
+    "괴산아이사랑 교통비 지원",
+    "https://www.goesan.go.kr/welfare/contents.do?key=2123"
+   ],
+   [
+    "아이돌봄 지원",
+    "https://www.goesan.go.kr/welfare/contents.do?key=337"
+   ],
+   [
+    "가정양육수당",
+    "https://www.goesan.go.kr/welfare/contents.do?key=2117"
+   ],
+   [
+    "만0~5세 보육료 지원",
+    "https://www.goesan.go.kr/welfare/contents.do?key=2118"
+   ],
+   [
+    "시간제보육",
+    "https://www.goesan.go.kr/welfare/contents.do?key=2122"
+   ],
+   [
+    "괴산아이사랑 유기농꾸러미 지원",
+    "https://www.goesan.go.kr/welfare/contents.do?key=2124"
+   ],
+   [
+    "괴산아이사랑 꿈터(장난감 도서관)",
+    "https://www.goesan.go.kr/welfare/contents.do?key=2125"
+   ],
+   [
+    "부모급여",
+    "https://www.goesan.go.kr/welfare/contents.do?key=2116"
+   ],
+   [
+    "어린이집 부모부담금 지원(입학축하금)",
+    "https://www.goesan.go.kr/welfare/contents.do?key=2136"
+   ],
+   [
+    "다자녀가정 우대카드",
+    "https://www.goesan.go.kr/welfare/contents.do?key=353"
+   ]
+  ]
+ },
+ "충청남도 부여군": {
+  "seeds": [
+   [
+    "산모신생아 출산 축하물품 지원",
+    "https://www.buyeo.go.kr/html/kr/together/together_03220304.html"
+   ],
+   [
+    "산후조리 도우미 이용 본인부담금 지원",
+    "https://www.buyeo.go.kr/html/kr/together/together_03220305.html"
+   ],
+   [
+    "임산부 산전·산후 건강관리",
+    "https://www.buyeo.go.kr/html/kr/together/together_03220306.html"
+   ],
+   [
+    "출산장려금(출산육아지원금) 지급",
+    "https://www.buyeo.go.kr/html/kr/together/together_03220307.html"
+   ],
+   [
+    "산후조리(원) 비용 지원",
+    "https://www.buyeo.go.kr/html/kr/together/together_03220322.html"
+   ],
+   [
+    "보육지원사업(양육수당·보육료 등)",
+    "https://www.buyeo.go.kr/html/kr/refo/refo_06010509.html"
+   ],
+   [
+    "산모·신생아 건강관리지원 사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040901.html"
+   ],
+   [
+    "선천성대사이상검사 및 환아관리",
+    "https://www.buyeo.go.kr/html/health/work/work_040903.html"
+   ],
+   [
+    "임산부 영유아 등록 및 건강관리",
+    "https://www.buyeo.go.kr/html/health/work/work_040904.html"
+   ],
+   [
+    "임산부 프로그램 운영(모유수유클리닉)",
+    "https://www.buyeo.go.kr/html/health/work/work_040905.html"
+   ],
+   [
+    "영양플러스 사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040906.html"
+   ],
+   [
+    "임산부 분만 교통 경비 지원",
+    "https://www.buyeo.go.kr/html/health/work/work_040908.html"
+   ],
+   [
+    "저소득층 기저귀·조제분유 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040909.html"
+   ],
+   [
+    "신생아 이름지어주기 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040911.html"
+   ],
+   [
+    "냉동난자 사용 보조생식술 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040913.html"
+   ],
+   [
+    "임신 사전건강관리 지원 사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040914.html"
+   ],
+   [
+    "선천성 난청검사 및 보청기 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040915.html"
+   ],
+   [
+    "다자녀 맘 산후건강관리 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040916.html"
+   ],
+   [
+    "난임부부 시술비 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040917.html"
+   ],
+   [
+    "난임부부 한방치료비 지원 사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040918.html"
+   ],
+   [
+    "고위험임산부 의료비지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040919.html"
+   ],
+   [
+    "영구 불임 예상 난자·정자 냉동 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040920.html"
+   ],
+   [
+    "청소년산모 임신출산 의료비 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040921.html"
+   ],
+   [
+    "미숙아 및 선천성이상아 의료비 지원사업",
+    "https://www.buyeo.go.kr/html/health/work/work_040922.html"
+   ],
+   [
+    "영·유아 발달장애 정밀검사비 지원",
+    "https://www.buyeo.go.kr/html/health/work/work_040510.html"
+   ]
+  ]
+ },
+ "전북특별자치도 진안군": {
+  "seeds": [
+   [
+    "임산부 영양제 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001002000"
+   ],
+   [
+    "영양플러스 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001002002"
+   ],
+   [
+    "임신 사전 건강관리 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001002005"
+   ],
+   [
+    "임신축하금 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001002006"
+   ],
+   [
+    "고위험 임산부 의료비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001002007"
+   ],
+   [
+    "청소년산모 임신·출산 의료비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001002008"
+   ],
+   [
+    "출산장려금 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001001000"
+   ],
+   [
+    "출산부 산후조리비용 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001001005"
+   ],
+   [
+    "산후 건강관리 의료비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001001013"
+   ],
+   [
+    "산모·신생아 건강관리 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001001014"
+   ],
+   [
+    "출산취약지역 임신부 이송비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001001002"
+   ],
+   [
+    "유축기·젖병소독기 대여",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001001015"
+   ],
+   [
+    "첫만남이용권 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001003000"
+   ],
+   [
+    "저소득층 기저귀·조제분유 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001003004"
+   ],
+   [
+    "선천성 난청검사 및 보청기 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001003003"
+   ],
+   [
+    "선천성대사이상 검사 및 환아관리",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001003002"
+   ],
+   [
+    "미숙아 및 선천성이상아 의료비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001003001"
+   ],
+   [
+    "영유아 영양제 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001003006"
+   ],
+   [
+    "난임부부 진단검사비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001004000"
+   ],
+   [
+    "정부형·진안형 난임부부 시술비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001004002"
+   ],
+   [
+    "전북형 난임부부 시술비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001004003"
+   ],
+   [
+    "한방 난임부부 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001004004"
+   ],
+   [
+    "난자동결 시술비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001004005"
+   ],
+   [
+    "남성 난임 시술비 지원",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602001004008"
+   ],
+   [
+    "영유아 건강검진",
+    "https://www.jinan.go.kr/health/index.jinan?menuCd=DOM_000000602012008000"
+   ]
+  ]
+ },
+ "경상남도 함안군": {
+  "seeds": [
+   [
+    "인구증가시책현황(출산 지원금·임신축하 용품·기형아 검사비 등)",
+    "https://www.haman.go.kr/00099/00100/00138.web"
+   ],
+   [
+    "다자녀가정지원",
+    "https://www.haman.go.kr/00099/00100/00139.web"
+   ],
+   [
+    "모자보건사업(임산부 등록·산전검사·엽산제·철분제)",
+    "https://www.haman.go.kr/01369/01373/01438.web"
+   ],
+   [
+    "난임부부지원사업",
+    "https://www.haman.go.kr/01369/01373/01439.web"
+   ],
+   [
+    "산모·신생아 건강관리 지원",
+    "https://www.haman.go.kr/01369/01373/01440.web"
+   ],
+   [
+    "청소년산모의료비지원",
+    "https://www.haman.go.kr/01369/01373/01441.web"
+   ],
+   [
+    "고위험임산부의료비지원사업",
+    "https://www.haman.go.kr/01369/01373/01442.web"
+   ],
+   [
+    "저소득층 기저귀·조제분유지원사업",
+    "https://www.haman.go.kr/01369/01373/01443.web"
+   ],
+   [
+    "영유아 사전예방적 건강관리(미숙아·선천성이상아 의료비 등)",
+    "https://www.haman.go.kr/01369/01373/02982.web"
+   ],
+   [
+    "공공산후조리원 취약계층 감면료 지원",
+    "https://www.haman.go.kr/01369/01373/02983.web"
+   ],
+   [
+    "아이돌봄 지원사업",
+    "https://www.haman.go.kr/00989/00995/01065.web"
+   ],
+   [
+    "공동육아나눔터",
+    "https://www.haman.go.kr/00989/00995/01067.web"
+   ],
+   [
+    "장난감은행",
+    "https://www.haman.go.kr/00989/00995/01068.web"
+   ],
+   [
+    "청소년부모 아동양육비 지원 사업",
+    "https://www.haman.go.kr/00989/00995/01069.web"
+   ],
+   [
+    "아동수당",
+    "https://www.haman.go.kr/00989/00996/01075.web"
    ]
   ]
  }
