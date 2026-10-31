@@ -59,7 +59,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v5
 
@@ -84,6 +84,16 @@ jobs:
           PROBE: ${{ github.event.inputs.probe }}
           DUMP: ${{ github.event.inputs.dump == 'true' }}
         run: dart --packages=tool/.dart_tool/package_config.json tool/monthly.dart --root .
+
+      # 지원 목록을 TypeSafe로 한 번 더 거른다 — 임신~만 6세 집이 못 받는 것·주민이 받는 것이
+      # 아닌 것·끝난 사업·같은 사업 두 줄을 빼고, 신청 시기를 적는다(tool/support_judge/judge.py,
+      # 2026-11-01). 글이 그대로인 것은 지난 판정(cache.json)을 쓴다. 안 되면 목록은 그대로.
+      - name: 지원 목록 판정(TypeSafe)
+        if: github.event_name != 'push'
+        continue-on-error: true
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+        run: python3 tool/support_judge/judge.py --root . --workers 10 | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: 올리기
         id: push
