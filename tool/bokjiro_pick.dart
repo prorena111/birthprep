@@ -18,11 +18,33 @@ import 'gov24_pick.dart';
 
 /// 복지로 한 줄의 기관 이름 — 「서울특별시 마포구」·「경기도」. 앱의 기관
 /// 이름 꼴(정부24 소관기관명)에 맞춘다. 지자체가 아니면(교육청 등) null.
+///
+/// 시군구 칸이 비어도 담당 부서가 시군구면 그 시군구다 — 「달성군 출산축하금
+/// 최대 250만원」(담당 「대구광역시 달성군 보건소」)이 대구 전체 칸에 떠 있었다
+/// (2026-10-31 점검, 시·도 칸에 이런 것이 15건).
 String? bokjiroOrg(Map<String, String> row) {
   final ctpv = row['ctpvNm']?.trim();
   if (ctpv == null || !sidoNames.contains(ctpv)) return null;
   final sgg = row['sggNm']?.trim();
-  if (sgg == null || sgg.isEmpty || sgg == '-' || sgg == ctpv) return ctpv;
+  if (sgg == null || sgg.isEmpty || sgg == '-' || sgg == ctpv) {
+    final dept = (row['bizChrDeptNm'] ?? '').trim().split(RegExp(r'\s+'));
+    if (dept.length >= 2 &&
+        dept[0] == ctpv &&
+        RegExp(r'^[가-힣]{1,4}[시군구]$').hasMatch(dept[1])) {
+      // 「경기형 난임부부 시술비」·「부산형 산후조리비」는 시·도 사업을 시군구
+      // 보건소가 올린 것 — 「○○형」이 그 시군구 이름(「화순형」)이거나 이름에
+      // 시군구가 들었을 때(「성북구 서울형 키즈카페」)만 시군구.
+      final name = row['servNm'] ?? '';
+      final stem = dept[1].length > 2
+          ? dept[1].substring(0, dept[1].length - 1)
+          : dept[1];
+      final kind = RegExp(r'([가-힣]{2,3})형').firstMatch(name)?[1];
+      if (kind == null || kind == stem || name.contains(stem)) {
+        return '$ctpv ${dept[1]}';
+      }
+    }
+    return ctpv;
+  }
   if (sgg.endsWith('교육청') || sgg.endsWith('교육지원청')) return null;
   return '$ctpv $sgg';
 }
@@ -48,6 +70,8 @@ String? bokjiroType(String? raw) {
 /// 추가·확대·자체·모든…)과 흔한 꼬리말(지원·사업·지급·금·비…)을 뗀다.
 String serviceKey(String name, String org) {
   var n = name.replaceAll(RegExp(r'\([^)]*\)|\[[^\]]*\]|〔[^〕]*〕'), '');
+  // 「2026년 천사지원금 지급」 ↔ 「천사지원금 지급」(인천, 2026-10-31 점검).
+  n = n.replaceAll(RegExp(r'20\d\d\s*년?\s*'), '');
   n = squash(n).replaceAll(RegExp(r'[「」<>〈〉\-_,.:·~]'), '');
   for (final token in org.split(RegExp(r'\s+'))) {
     for (final v in {
@@ -105,6 +129,7 @@ const _filler = [
   '발급',
   '이용',
   '및',
+  '보편적',
 ];
 
 /// 시군구가 출산하면 주는 돈 — 「출산장려금」·「출산지원금」·「출산양육지원금」·
@@ -126,6 +151,8 @@ bool isBirthBonus(String key) {
     '지원',
     '금',
     '아이',
+    // 가평 「자녀출산·입양축하금」 ↔ 「출산축하금」(2026-10-31 점검).
+    '자녀',
   ]) {
     rest = rest.replaceAll(w, '');
   }
@@ -172,6 +199,57 @@ bool sameService(String keyA, String keyB) {
     extra = extra.replaceAll(w, '');
   }
   return extra.length <= 2;
+}
+
+/// 같은 기관의 두 항목이 금액까지 같은 한 사업인지 — 이름만으로는 못 가른
+/// 것(「다자녀가정 출산축하금 지원(확대)」 ↔ 「달서구 출산축하금 지원」, 둘 다
+/// 최대 500만원 · 「한부모가족 유급 자녀돌봄휴가비」 ↔ 「저소득 한부모가족 유급
+/// 자녀돌봄휴가비」, 둘 다 80만원). 2026-10-31 점검에서 이런 두 줄이 약 35건.
+///
+/// 이름이 한쪽을 품거나 두 글자 조각이 4할 넘게 겹치고, 지원 내용의 가장 큰
+/// 금액(1만원 넘는 것)이 같을 때만. 금액이 없거나, 받는 사람을 가르는 말
+/// ([_targetWords])이 한쪽에만 있으면 둘 다 남긴다 — 「어린이집 신입생
+/// 입학준비금」과 「한부모가족 신입생 입학준비금」은 둘 다 10만원이어도 다르다.
+bool isAmountTwin(Map<String, String> a, Map<String, String> b) {
+  if (a['org'] != b['org']) return false;
+  final won = topWon(a['content']);
+  if (won == null || won != topWon(b['content'])) return false;
+  final na = a['name']!, nb = b['name']!;
+  if (_targetWords.any((w) => na.contains(w) != nb.contains(w))) return false;
+  final ka = serviceKey(a['name']!, a['org']!);
+  final kb = serviceKey(b['name']!, b['org']!);
+  if (ka.length < 2 || kb.length < 2) return false;
+  return ka.contains(kb) || kb.contains(ka) || bigramDice(ka, kb) >= 0.4;
+}
+
+/// 받는 사람을 가르는 말 — [isAmountTwin]에서 한쪽에만 있으면 다른 사업.
+const _targetWords = [
+  '한부모',
+  '장애',
+  '어린이집',
+  '유치원',
+  '다문화',
+  '난임',
+  '입양',
+  '퇴소',
+  '미혼',
+];
+
+/// 글에 든 가장 큰 금액(원) — 「최대 250만원」·「500,000원」·「5천원」. 1만원
+/// 아래거나 없으면 null.
+int? topWon(String? text) {
+  int? top;
+  for (final m in RegExp(r'(\d[\d,]*)\s*(만|천)?\s*원').allMatches(text ?? '')) {
+    final n = int.tryParse(m[1]!.replaceAll(',', ''));
+    if (n == null) continue;
+    final won = switch (m[2]) {
+      '만' => n * 10000,
+      '천' => n * 1000,
+      _ => n,
+    };
+    if (won >= 10000 && (top == null || won > top)) top = won;
+  }
+  return top;
 }
 
 /// 덧붙어도 사업을 가르지 않는 말.
@@ -251,13 +329,21 @@ class BokjiroPick {
 
 /// 복지로 목록에서 정부24 것([gov] — [pickSupports]의 항목)에 없는 지자체의
 /// 임신·출산·육아 지원을 고른다. 복지로 안에서 겹친 것도 하나만.
+///
+/// [closed]는 정부24에서 끝나서 뺀 것([Gov24Pick.closed]) — 복지로에 같은
+/// 사업이 남아 있으면 그것도 뺀다.
 BokjiroPick pickBokjiro(
   List<Map<String, String>> rows,
-  List<Map<String, String>> gov,
-) {
+  List<Map<String, String>> gov, {
+  List<Map<String, String>> closed = const [],
+}) {
   final keysByOrg = <String, List<String>>{};
   for (final g in gov) {
     (keysByOrg[g['org']!] ??= []).add(serviceKey(g['name']!, g['org']!));
+  }
+  final closedByOrg = <String, List<String>>{};
+  for (final c in closed) {
+    (closedByOrg[c['org']!] ??= []).add(serviceKey(c['name']!, c['org']!));
   }
   final out = <Map<String, String>>[];
   final seen = <String>{};
@@ -272,9 +358,23 @@ BokjiroPick pickBokjiro(
     if (org == null) continue;
     if (!isBokjiroAboutBirth(r)) continue;
     if (isCuratedCopy(name)) continue;
+    if (isStaleLocal({'id': 'bokjiro:$id', 'name': name})) continue;
     final key = serviceKey(name, org);
+    // 담당 부서로 시군구를 찾은 것([bokjiroOrg])은 시·도 사업을 시군구가 올린
+    // 것일 때가 많다(「부산형 산후조리비」를 부산진구 보건소가) — 시·도 것과도
+    // 견준다. 아니면 시·도 줄과 시군구 줄에 같은 사업이 두 번 보인다.
+    final ctpv = r['ctpvNm']!.trim();
+    final sgg = r['sggNm']?.trim() ?? '';
+    final orgs = [org, if (org != ctpv && (sgg.isEmpty || sgg == '-')) ctpv];
+    if (orgs.any(
+      (o) => (closedByOrg[o] ?? const []).any((k) => sameService(k, key)),
+    )) {
+      continue;
+    }
     final known = keysByOrg[org] ??= [];
-    if (known.any((k) => sameService(k, key))) {
+    if (orgs.any(
+      (o) => (keysByOrg[o] ?? const []).any((k) => sameService(k, key)),
+    )) {
       duplicates++;
       continue;
     }
@@ -396,6 +496,7 @@ Future<BokjiroRun> runBokjiro({
   required List<Map<String, String>> gov,
   required Map<String, Object?> cache,
   required List<Map<String, String>> previous,
+  List<Map<String, String>> closed = const [],
   String Function(Object)? hide,
   int budget = detailBudget,
 }) async {
@@ -414,7 +515,7 @@ Future<BokjiroRun> runBokjiro({
       error: safe(e),
     );
   }
-  final pick = pickBokjiro(rows, gov);
+  final pick = pickBokjiro(rows, gov, closed: closed);
   final next = <String, Object?>{};
   var fetched = 0;
   var missing = 0;
@@ -443,11 +544,13 @@ Future<BokjiroRun> runBokjiro({
       bokjiroItem(row, detail is Map ? detail.cast<String, Object?>() : null),
     );
   }
+  final twins = items.length;
+  items.removeWhere((i) => gov.any((g) => isAmountTwin(i, g)));
   return BokjiroRun(
     items: items,
     cache: next,
     listed: rows.length,
-    duplicates: pick.duplicates,
+    duplicates: pick.duplicates + twins - items.length,
     fetchedDetails: fetched,
     missingDetails: missing,
   );

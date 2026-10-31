@@ -157,6 +157,7 @@ Future<MonthlyResult> runMonthly({
             gov: pick.items,
             cache: _readJson(file(bokjiroCachePath)) ?? const {},
             previous: _bokjiroItemsOf(file(supportsPath)),
+            closed: pick.closed,
             hide: hide,
           );
           _writeJson(file(bokjiroCachePath), run.cache);
@@ -247,6 +248,12 @@ Future<MonthlyResult> runMonthly({
           }
           items = [...items, ...added];
         }
+        // 끝난 사업은 어디서 왔든 뺀다 — 서울 글, 그리고 목록을 못 받아 지난번
+        // 것을 그대로 쓴 복지로·서울·경기 항목도.
+        items = [
+          for (final i in items)
+            if (!isStaleLocal(i)) i,
+        ];
         items.sort((a, b) {
           final byOrg = a['org']!.compareTo(b['org']!);
           return byOrg != 0 ? byOrg : a['name']!.compareTo(b['name']!);
@@ -483,6 +490,14 @@ Map<String, Object?> mergeData(
     }
   }
   if (published['local'] != null) out['local'] = published['local'];
+  // 구 누리집 링크 머리(links.yml이 적는다) — 2026-10-05 손으로 합칠 때
+  // 지워져 앱이 새 링크 표를 못 받고 있었다(2026-10-31 점검).
+  if (published['links'] != null) out['links'] = published['links'];
+  // 손으로 적은 최소 앱 빌드(앱 `RemoteData.minAppBuildOf`). 앱에서 뽑은
+  // 파일에는 없으니, 합치면서 지우지 않는다.
+  if (published['minAppBuild'] != null && fresh['minAppBuild'] == null) {
+    out['minAppBuild'] = published['minAppBuild'];
+  }
   final pubLinks = (published['coupang'] as Map?) ?? const {};
   final myLinks = (out['coupang'] as Map?) ?? const {};
   if (pubLinks.isNotEmpty) out['coupang'] = {...pubLinks, ...myLinks};

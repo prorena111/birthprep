@@ -77,7 +77,7 @@ const nationOrgPrefixes = ['국민', '국립', '한국', '대한', '근로복지
 /// 실행). 나라 것은 제도 이름이 곧 무엇인지 말해 준다. 입양·선천성 검사·
 /// 해산급여·모자보건·보육료도 이 앱 사람들이 받는 것이라 더한다.
 bool isNationAboutBirth(String name) {
-  if (_notBirthWords.any(name.contains)) return false;
+  if (hasNotBirthWord(name)) return false;
   if (isOffTopic(name, null)) return false;
   final n = _falseFriends(name);
   return _birthWords.any(n.contains) ||
@@ -177,7 +177,7 @@ const _careWords = [
 bool isAboutBirth(String name, String? summary) {
   // 「가정위탁 양육보조금」·「장수수당(1922년 이전 출생)」·「유기동물 입양」은
   // 낱말이 겹쳐도 이 앱 이야기가 아니다.
-  if (_notBirthWords.any(name.contains)) return false;
+  if (hasNotBirthWord(name)) return false;
   if (isOffTopic(name, summary)) return false;
   final text = _falseFriends('$name ${summary ?? ''}');
   return _birthWords.any(text.contains) ||
@@ -265,10 +265,35 @@ const _notBirthWords = [
   '안내책자',
   '센터 냉난방',
   '센터냉난방',
+  // 2026-10-31 점검 — 만 18세 보호종료 아동 자립정착금(최대 1,500만원)이 「많이
+  // 받는 것」 위쪽에 섰고, 학교 다니는 아이 급식·어린이날 행사 예산·어린이병원
+  // 운영비(4,200만원)가 지원금처럼 보였다. 한부모가족복지시설 퇴소자 자립금은
+  // 아기 키우는 한부모 것이라 남긴다.
+  '보호종료',
+  '보호종결',
+  '퇴소아동',
+  '소년소녀가정',
+  '결식',
+  '아동급식',
+  '노숙인',
+  '행사',
+  '달빛어린이병원',
+  '심야어린이병원',
 ];
 
-/// 이름에 빼는 낱말([_notBirthWords])이 있는지 — 복지로 고르기도 같이 쓴다.
-bool hasNotBirthWord(String name) => _notBirthWords.any(name.contains);
+/// 이름에 빼는 낱말([_notBirthWords])이 있거나 중·고등학생만 받는 것인지 —
+/// 복지로·서울 고르기도 같이 쓴다.
+bool hasNotBirthWord(String name) =>
+    _notBirthWords.any(name.contains) || isOlderSchoolOnly(name);
+
+/// 중·고등학생만 받는 것 — 「고등학교 입학축하금」·「중학생 입학준비금」·
+/// 「고교생 수업료」. 이 앱은 만 6세까지라 초등학교가 같이 든 것(「초·중·고
+/// 입학축하금」)만 남긴다([isSchoolEntry]).
+bool isOlderSchoolOnly(String name) {
+  final n = squash(name);
+  if (n.contains('초')) return false;
+  return n.contains('중학') || n.contains('고등') || n.contains('고교');
+}
 
 /// 가축·농사와 대학 학비 — 낱말이 겹쳐도 이 앱(임신부터 만 6세까지) 이야기가
 /// 아니다. 이름이나 목적에 있으면 뺀다.
@@ -308,17 +333,62 @@ const _offTopicWords = [
 /// 이름이 곧 제도 이름일 때만 뺀다 — 「첫만남이용권 추가 지원」처럼 덧붙인 말이
 /// 있으면 지자체가 더 주는 것이라 남긴다. 산모·신생아 건강관리는 지자체 것이
 /// 대부분 본인부담금 추가 지원이라 여기 넣지 않는다.
-/// 끝난 사업 — 서비스ID와 끝난 날. 정부24 글이 늦게 내려가도 이 날부터 뺀다.
+/// 끝난 사업 — 앱 항목 id(정부24는 서비스ID, 복지로는 `bokjiro:…`, 서울은
+/// `seoul:…`)와 끝난 날. 원문 글이 늦게 내려가도 이 날부터 뺀다.
 /// 앱도 같은 표를 갖는다(`LocalSupportBook.ended`) — 둘을 같이 고친다.
+///
+/// 신청기한 칸에 「신청마감」처럼 끝났다고 적힌 것은 표 없이 뺀다
+/// ([isClosedNotice]) — 내년에 글이 다시 열리면 저절로 돌아온다. 이 표는 글에
+/// 끝났다는 말이 없는데 끝난 것만.
 const endedServices = <String, String>{
   // 경기도 산후조리비 — 2026-10-01 종료(9월 30일 신청 건까지), 시·군 누리집 7곳 확인.
   '641000000137': '2026-10-01',
+  // 같은 사업의 복지로 글 — 정부24 것만 막아 10월에도 「꼭 신청 · 50만원」으로
+  // 떠 있었다(2026-10-31 점검).
+  'bokjiro:WLF00001361': '2026-10-01',
+  // 서울 육아 지원 코디네이터 — 몽땅정보통 글에 「2023년에 종료」(찾은 날 2026-11-01부터 뺀다).
+  'seoul:d90a8d782fe1': '2026-11-01',
 };
 
 bool isEndedService(String id, [DateTime? now]) {
   final day = endedServices[id];
   return day != null && !(now ?? DateTime.now()).isBefore(DateTime.parse(day));
 }
+
+/// 신청기한 칸이 끝났다는 말 하나뿐인지 — 「신청마감」·「2025년 대상자 모집
+/// 마감」·「2017년 이후 출생아 신규가입 불가」. 「매해 상반기(2월~6월)
+/// 신청접수 마감」처럼 다시 열리는 때를 적은 것은 아니다.
+bool isClosedNotice(String? deadline) {
+  final d = (deadline ?? '').replaceAll(RegExp(r'\s+'), '');
+  if (d.isEmpty) return false;
+  if (d.contains('신규가입불가')) return true;
+  return RegExp(
+    r'^(\d{4}년)?(대상자)?(모집|신청|접수)(이)?(마감|종료)(됨|되었습니다)?\.?$',
+  ).hasMatch(d);
+}
+
+/// 이름 맨 앞의 사업 연도가 두 해 넘게 지났는지 — 「2024년 난자 동결 시술비
+/// 지원사업」은 2026년에 뺀다. 지난해 것(「2025년 어린이집 교재비」)은 이름만
+/// 안 고친 채 계속하는 일이 많아 남긴다(사장님 「빠지는 게 있어서는 안 돼」).
+/// 「2024년 이후 출생아 …」·「2024년 1월부터 …」처럼 대상을 가르는 연도는 아니다.
+bool isPastYearName(String name, [DateTime? now]) {
+  final m = RegExp(
+    r'^\s*[\[(〔]?\s*(20\d\d)(\s*년|\s*[\])〕]|\s)\s*',
+  ).firstMatch(name);
+  if (m == null) return false;
+  final rest = name.substring(m.end);
+  if (RegExp(r'^(\d+\s*월|이후|이전|출생|생|부터|~|[.\-])').hasMatch(rest)) {
+    return false;
+  }
+  return int.parse(m[1]!) <= (now ?? DateTime.now()).year - 2;
+}
+
+/// 목록에서 뺄 끝난 지역 사업인지 — 표([endedServices])·신청기한 칸·이름 연도.
+/// 정부24·복지로·서울 것 모두 이것으로 본다.
+bool isStaleLocal(Map<String, String> item, [DateTime? now]) =>
+    isEndedService(item['id'] ?? '', now) ||
+    isClosedNotice(item['deadline']) ||
+    isPastYearName(item['name'] ?? '', now);
 
 bool isCuratedCopy(String name) {
   // 임산부 친환경농산물 꾸러미는 농식품부 사업을 지자체가 운영한다 — 이름이
@@ -412,10 +482,16 @@ class Gov24Pick {
     required this.nation,
     required this.curated,
     required this.noUrl,
+    this.closed = const [],
   });
 
   /// 앱 모양으로 추린 것 — 기관·이름 순.
   final List<Map<String, String>> items;
+
+  /// 끝나서 뺀 것(끝난 사업 표·신청기한 「마감」) — 기관·이름만. 복지로에 같은
+  /// 사업이 따로 올라와 있으면 그것도 빼려고 넘긴다(경기도 산후조리비가 그랬다).
+  /// 신청기한 글이 다시 열리면 둘 다 저절로 돌아온다.
+  final List<Map<String, String>> closed;
 
   /// 시·도별 지자체 지원 수.
   final Map<String, int> perSido;
@@ -433,6 +509,7 @@ class Gov24Pick {
 /// 정부24 서비스 목록에서 나라·지자체의 임신·출산·육아 지원을 추린다.
 Gov24Pick pickSupports(List<Map<String, Object?>> services) {
   final items = <Map<String, String>>[];
+  final closed = <Map<String, String>>[];
   final perSido = <String, int>{};
   final seen = <String>{};
   var nation = 0;
@@ -449,15 +526,23 @@ Gov24Pick pickSupports(List<Map<String, Object?>> services) {
     if (!local && !isNationOrg(org)) continue;
     final field = cleanText(row['서비스분야']) ?? '';
     final summary = cleanText(row['서비스목적요약']);
-    // 분야가 「임신·출산」이어도 가축·학비 이야기는 뺀다.
+    // 분야가 「임신·출산」이어도 가축·학비·보호종료 아동 이야기는 뺀다.
     if (isOffTopic(name, local ? summary : null)) continue;
+    if (hasNotBirthWord(name)) continue;
     // 지자체는 이름·목적으로, 나라는 이름으로 본다([isNationAboutBirth]).
     final aboutBirth = local
         ? isAboutBirth(name, summary)
         : isNationAboutBirth(name);
     if (!aboutBirth && !field.contains('임신')) continue;
     if (!isForPeople(row['사용자구분'])) continue;
-    if (isEndedService(id)) continue;
+    final deadline = cleanText(row['신청기한']);
+    if (isEndedService(id) || isClosedNotice(deadline)) {
+      closed.add({'org': org, 'name': name});
+      continue;
+    }
+    // 이름 연도로 뺀 것은 복지로 짝까지 빼지 않는다 — 올해 것을 복지로에만
+    // 새 이름으로 올렸을 수 있다.
+    if (isPastYearName(name)) continue;
     if (local
         ? isCuratedCopy(name)
         : curatedPrograms.any((p) => p.matches(id, name))) {
@@ -504,6 +589,7 @@ Gov24Pick pickSupports(List<Map<String, Object?>> services) {
     nation: nation,
     curated: curated,
     noUrl: noUrl,
+    closed: closed,
   );
 }
 
@@ -587,6 +673,7 @@ String explainPick(Map<String, Object?> row) {
   final field = cleanText(row['서비스분야']) ?? '';
   final summary = cleanText(row['서비스목적요약']);
   if (isOffTopic(name, local ? summary : null)) return '빠짐: 가축·농사·학비';
+  if (hasNotBirthWord(name)) return '빠짐: 빼는 낱말(보호종료·급식·중고교 등)';
   final aboutBirth = local
       ? isAboutBirth(name, summary)
       : isNationAboutBirth(name);
@@ -597,6 +684,8 @@ String explainPick(Map<String, Object?> row) {
     return '빠짐: 사람이 받는 것이 아니다(${row['사용자구분']})';
   }
   if (isEndedService(id)) return '빠짐: 끝난 사업(endedServices)';
+  if (isClosedNotice(cleanText(row['신청기한']))) return '빠짐: 신청기한 칸이 「마감」';
+  if (isPastYearName(name)) return '빠짐: 이름의 사업 연도가 두 해 넘게 지났다';
   if (local
       ? isCuratedCopy(name)
       : curatedPrograms.any((p) => p.matches(id, name))) {
