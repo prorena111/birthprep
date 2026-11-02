@@ -1,10 +1,10 @@
 {
-  "ran": "2026-11-01T14:59+09:00",
+  "ran": "2026-11-02T14:58+09:00",
   "bokjiro": {
     "listed": 4828,
     "added": 1173,
     "duplicates": 38,
-    "fetchedDetails": 529,
+    "fetchedDetails": 0,
     "missingDetails": 0
   },
   "seoul": {
@@ -43,6 +43,6 @@
     "missing": 0
   },
   "attention": [
-    "지원 목록이 2441개 → 1321개로 3할 넘게 줄었습니다. 정부24 쪽 사고일 수 있어 올리지 않았습니다. 정말 줄어든 것이면 Actions → Run workflow에서 allow_shrink를 켜고 돌려 주세요."
+    "지원 목록이 2348개 → 1321개로 3할 넘게 줄었습니다. 정부24 쪽 사고일 수 있어 올리지 않았습니다. 정말 줄어든 것이면 Actions → Run workflow에서 allow_shrink를 켜고 돌려 주세요."
   ]
 }

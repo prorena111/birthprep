@@ -632,14 +632,6 @@
    "phaseConf": 1.0,
    "scope": 0.84
   },
-  "307000000105": {
-   "ended": 0.05,
-   "hash": "fd3cba5559a3957f",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.03
-  },
   "307000000109": {
    "ended": 0.02,
    "hash": "26c1720e6c83cb11",
@@ -743,14 +735,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.61
-  },
-  "307000000218": {
-   "ended": 0.03,
-   "hash": "44c0e16f59914134",
-   "personal": 0.95,
-   "phase": "afterBirth",
-   "phaseConf": 0.97,
-   "scope": 0.05
   },
   "307000000219": {
    "ended": 0.03,
@@ -1464,14 +1448,6 @@
    "phaseConf": 1.0,
    "scope": 0.76
   },
-  "321000000108": {
-   "ended": 0.02,
-   "hash": "689d7f5614cae7a7",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.08
-  },
   "321000000111": {
    "ended": 0.02,
    "hash": "592ab4de03c8688f",
@@ -1735,14 +1711,6 @@
    "phase": "pregnancy",
    "phaseConf": 1.0,
    "scope": 0.98
-  },
-  "329000000106": {
-   "ended": 0.05,
-   "hash": "670e62645171fe0e",
-   "personal": 0.94,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
   },
   "329000000107": {
    "ended": 0.02,
@@ -2168,14 +2136,6 @@
    "phaseConf": 0.67,
    "scope": 0.98
   },
-  "347000000108": {
-   "ended": 0.08,
-   "hash": "0e58a2ef2a6e133f",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.06
-  },
   "347000000112": {
    "ended": 0.02,
    "hash": "83f54192c4a97466",
@@ -2367,14 +2327,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.8
-  },
-  "352000000107": {
-   "ended": 0.03,
-   "hash": "24a7237a30f2f683",
-   "personal": 0.81,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.08
   },
   "352000000115": {
    "ended": 0.02,
@@ -3480,14 +3432,6 @@
    "phaseConf": 0.99,
    "scope": 0.97
   },
-  "390000000430": {
-   "ended": 0.02,
-   "hash": "a9a3496d59fc38be",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
-  },
   "390000000436": {
    "ended": 0.02,
    "hash": "5a688314456406bf",
@@ -3495,22 +3439,6 @@
    "phase": "preconception",
    "phaseConf": 1.0,
    "scope": 0.96
-  },
-  "391000000103": {
-   "ended": 0.02,
-   "hash": "89a046080ba24be5",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.05
-  },
-  "391000000113": {
-   "ended": 0.02,
-   "hash": "197f3399f764f862",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
   },
   "391000000116": {
    "ended": 0.02,
@@ -3743,14 +3671,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.88
-  },
-  "397000000121": {
-   "ended": 0.02,
-   "hash": "53304ee262dcbaa2",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.06
   },
   "397000000124": {
    "ended": 0.02,
@@ -4095,14 +4015,6 @@
    "phase": "birthReport",
    "phaseConf": 0.96,
    "scope": 0.98
-  },
-  "403000000110": {
-   "ended": 0.02,
-   "hash": "3c643c1dbc68f85b",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.11
   },
   "403000000114": {
    "ended": 0.02,
@@ -4471,14 +4383,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.24
-  },
-  "407000000115": {
-   "ended": 0.02,
-   "hash": "d5b431852e7b2e34",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.06
   },
   "407000000118": {
    "ended": 0.02,
@@ -5456,14 +5360,6 @@
    "phaseConf": 1.0,
    "scope": 0.79
   },
-  "445000000106": {
-   "ended": 0.02,
-   "hash": "112a6ff8600487e6",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.05
-  },
   "445000000108": {
    "ended": 0.02,
    "hash": "780addf3ee4631d1",
@@ -5584,14 +5480,6 @@
    "phaseConf": 1.0,
    "scope": 0.96
   },
-  "447000000108": {
-   "ended": 0.02,
-   "hash": "a6590e01f2fc26a3",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.08
-  },
   "447000000114": {
    "ended": 0.02,
    "hash": "2cd169fb28ceeaac",
@@ -5631,14 +5519,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.9
-  },
-  "448000000122": {
-   "ended": 0.02,
-   "hash": "a57b5173737064cf",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.05
   },
   "448000000123": {
    "ended": 0.01,
@@ -5695,14 +5575,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.97
-  },
-  "449000000107": {
-   "ended": 0.02,
-   "hash": "d439da7f1165537e",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.08
   },
   "449000000108": {
    "ended": 0.02,
@@ -6168,14 +6040,6 @@
    "phaseConf": 1.0,
    "scope": 0.98
   },
-  "454000000181": {
-   "ended": 0.02,
-   "hash": "f5aa827f0c2bd43b",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
-  },
   "454000000183": {
    "ended": 0.02,
    "hash": "bf83e348c63df851",
@@ -6239,14 +6103,6 @@
    "phase": "afterBirth",
    "phaseConf": 0.67,
    "scope": 0.97
-  },
-  "457000000118": {
-   "ended": 0.02,
-   "hash": "dac61558ab631f35",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 0.85,
-   "scope": 0.03
   },
   "457000000136": {
    "ended": 0.02,
@@ -8568,14 +8424,6 @@
    "phaseConf": 0.99,
    "scope": 0.98
   },
-  "507000000750": {
-   "ended": 0.02,
-   "hash": "9c7d68545f8fe33b",
-   "personal": 0.89,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.1
-  },
   "507000000755": {
    "ended": 0.02,
    "hash": "d93ab197e684765a",
@@ -8712,14 +8560,6 @@
    "phaseConf": 1.0,
    "scope": 0.92
   },
-  "509000000115": {
-   "ended": 0.03,
-   "hash": "7f0a035cc84cf7dd",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.09
-  },
   "509000000117": {
    "ended": 0.02,
    "hash": "ff94c887a504ff82",
@@ -8840,14 +8680,6 @@
    "phaseConf": 0.97,
    "scope": 0.94
   },
-  "511000000113": {
-   "ended": 0.02,
-   "hash": "9cefa808edab338a",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.09
-  },
   "511000000116": {
    "ended": 0.03,
    "hash": "8400cb36b52c3b9b",
@@ -8959,14 +8791,6 @@
    "phase": "birthReport",
    "phaseConf": 0.56,
    "scope": 0.99
-  },
-  "515000000132": {
-   "ended": 0.02,
-   "hash": "8a09f4f8f2a1d231",
-   "personal": 0.63,
-   "phase": "afterBirth",
-   "phaseConf": 0.6,
-   "scope": 0.11
   },
   "515000000138": {
    "ended": 0.02,
@@ -9584,14 +9408,6 @@
    "phaseConf": 0.91,
    "scope": 0.98
   },
-  "534000000125": {
-   "ended": 0.02,
-   "hash": "03875b6651950324",
-   "personal": 0.93,
-   "phase": "afterBirth",
-   "phaseConf": 0.93,
-   "scope": 0.04
-  },
   "534000000131": {
    "ended": 0.02,
    "hash": "073793d625a8b4e5",
@@ -9631,14 +9447,6 @@
    "phase": "afterBirth",
    "phaseConf": 0.39,
    "scope": 0.96
-  },
-  "534000000137": {
-   "ended": 0.02,
-   "hash": "a8e0b1930e97a950",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.05
   },
   "534000000199": {
    "ended": 0.02,
@@ -9927,14 +9735,6 @@
    "phase": "pregnancy",
    "phaseConf": 1.0,
    "scope": 0.98
-  },
-  "538000000112": {
-   "ended": 0.02,
-   "hash": "6a56ae462748a5f1",
-   "personal": 0.9,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.11
   },
   "538000000113": {
    "ended": 0.02,
@@ -10360,14 +10160,6 @@
    "phaseConf": 0.96,
    "scope": 0.88
   },
-  "554000000110": {
-   "ended": 0.02,
-   "hash": "a543caaa2f94c80c",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.05
-  },
   "554000000111": {
    "ended": 0.03,
    "hash": "fe71e9a79cbb7a78",
@@ -10656,14 +10448,6 @@
    "phaseConf": 1.0,
    "scope": 0.95
   },
-  "569000000361": {
-   "ended": 0.02,
-   "hash": "a15addce903888af",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.05
-  },
   "569000000362": {
    "ended": 0.02,
    "hash": "9c764aaf1eff67e9",
@@ -10888,14 +10672,6 @@
    "phaseConf": 1.0,
    "scope": 0.97
   },
-  "611000000116": {
-   "ended": 0.02,
-   "hash": "ef0f1f5ff4eb8072",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
-  },
   "611000000123": {
    "ended": 0.02,
    "hash": "217414fde70f839d",
@@ -11096,14 +10872,6 @@
    "phaseConf": 1.0,
    "scope": 0.96
   },
-  "626000000136": {
-   "ended": 0.02,
-   "hash": "ac14e789938bd359",
-   "personal": 0.89,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
-  },
   "626000000144": {
    "ended": 0.04,
    "hash": "099b4729727d85ad",
@@ -11231,14 +10999,6 @@
    "phase": "preconception",
    "phaseConf": 1.0,
    "scope": 0.97
-  },
-  "627000000113": {
-   "ended": 0.07,
-   "hash": "e621178aebd41bd3",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.06
   },
   "627000000120": {
    "ended": 0.1,
@@ -11840,14 +11600,6 @@
    "phaseConf": 0.83,
    "scope": 0.98
   },
-  "631000000721": {
-   "ended": 0.05,
-   "hash": "8dee93588fca63b7",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
-  },
   "631000000723": {
    "ended": 0.02,
    "hash": "11b40659bb8d7540",
@@ -11887,14 +11639,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.13
-  },
-  "631000000733": {
-   "ended": 0.03,
-   "hash": "bf635561e32eafd5",
-   "personal": 0.86,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.1
   },
   "631000000741": {
    "ended": 0.05,
@@ -11983,14 +11727,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.91
-  },
-  "642000000035": {
-   "ended": 0.02,
-   "hash": "344c92e8853a2946",
-   "personal": 0.85,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.11
   },
   "642000000684": {
    "ended": 0.02,
@@ -13440,14 +13176,6 @@
    "phaseConf": 1.0,
    "scope": 0.98
   },
-  "bokjiro:WLF00000362": {
-   "ended": 0.02,
-   "hash": "6fec157d40cbe368",
-   "personal": 0.63,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.97
-  },
   "bokjiro:WLF00000385": {
    "ended": 0.03,
    "hash": "7f9b2d64fadcca82",
@@ -13471,14 +13199,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.78
-  },
-  "bokjiro:WLF00000425": {
-   "ended": 0.03,
-   "hash": "ebf446cdf8ba5a20",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.72,
-   "scope": 0.97
   },
   "bokjiro:WLF00000435": {
    "ended": 0.03,
@@ -13527,14 +13247,6 @@
    "phase": "afterBirth",
    "phaseConf": 0.99,
    "scope": 0.57
-  },
-  "bokjiro:WLF00000505": {
-   "ended": 0.03,
-   "hash": "12db61d1b461a8cb",
-   "personal": 0.05,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.21
   },
   "bokjiro:WLF00000511": {
    "ended": 0.02,
@@ -13616,14 +13328,6 @@
    "phaseConf": 1.0,
    "scope": 0.85
   },
-  "bokjiro:WLF00000726": {
-   "ended": 0.03,
-   "hash": "21b9cdea8da4285a",
-   "personal": 0.95,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.09
-  },
   "bokjiro:WLF00000727": {
    "ended": 0.03,
    "hash": "3bd4c53d0b22a823",
@@ -13631,14 +13335,6 @@
    "phase": "preconception",
    "phaseConf": 0.85,
    "scope": 0.98
-  },
-  "bokjiro:WLF00000731": {
-   "ended": 0.02,
-   "hash": "8896f6d7a9eceb2f",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.1
   },
   "bokjiro:WLF00000736": {
    "ended": 0.02,
@@ -13751,14 +13447,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.97
-  },
-  "bokjiro:WLF00000955": {
-   "ended": 0.03,
-   "hash": "ac365acfc0fc48ca",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 0.93,
-   "scope": 0.96
   },
   "bokjiro:WLF00000957": {
    "ended": 0.09,
@@ -13928,14 +13616,6 @@
    "phaseConf": 1.0,
    "scope": 0.67
   },
-  "bokjiro:WLF00001377": {
-   "ended": 0.03,
-   "hash": "091ba46ea667dfa9",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.64,
-   "scope": 0.98
-  },
   "bokjiro:WLF00001384": {
    "ended": 0.03,
    "hash": "ea99114ddd250999",
@@ -13983,22 +13663,6 @@
    "phase": "pregnancy",
    "phaseConf": 0.68,
    "scope": 0.98
-  },
-  "bokjiro:WLF00001437": {
-   "ended": 0.05,
-   "hash": "87b5507255a9116e",
-   "personal": 0.08,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.8
-  },
-  "bokjiro:WLF00001438": {
-   "ended": 0.04,
-   "hash": "8015abb1046fe131",
-   "personal": 0.06,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.97
   },
   "bokjiro:WLF00001453": {
    "ended": 0.03,
@@ -14136,14 +13800,6 @@
    "phaseConf": 1.0,
    "scope": 0.69
   },
-  "bokjiro:WLF00001629": {
-   "ended": 0.03,
-   "hash": "817738563d3377e8",
-   "personal": 0.96,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.93
-  },
   "bokjiro:WLF00001647": {
    "ended": 0.04,
    "hash": "120bfcdc76f55f53",
@@ -14236,14 +13892,6 @@
    "ended": 0.03,
    "hash": "2074af027a6ac672",
    "personal": 0.93,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.96
-  },
-  "bokjiro:WLF00001855": {
-   "ended": 0.03,
-   "hash": "483bcf867bcdc126",
-   "personal": 0.08,
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.96
@@ -14392,14 +14040,6 @@
    "phaseConf": 1.0,
    "scope": 0.96
   },
-  "bokjiro:WLF00002027": {
-   "ended": 0.03,
-   "hash": "46078124685c7136",
-   "personal": 0.02,
-   "phase": "afterBirth",
-   "phaseConf": 0.97,
-   "scope": 0.43
-  },
   "bokjiro:WLF00002034": {
    "ended": 0.03,
    "hash": "8bf6baff17ee90f2",
@@ -14496,14 +14136,6 @@
    "phaseConf": 1.0,
    "scope": 0.85
   },
-  "bokjiro:WLF00002157": {
-   "ended": 0.03,
-   "hash": "a15ba2a90b4b515a",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.9
-  },
   "bokjiro:WLF00002168": {
    "ended": 0.03,
    "hash": "67c19fc7a19ea70b",
@@ -14519,14 +14151,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.94
-  },
-  "bokjiro:WLF00002207": {
-   "ended": 0.04,
-   "hash": "af1eb5f23e4c951d",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 0.41,
-   "scope": 0.96
   },
   "bokjiro:WLF00002221": {
    "ended": 0.03,
@@ -14559,14 +14183,6 @@
    "phase": "birthReport",
    "phaseConf": 0.99,
    "scope": 0.97
-  },
-  "bokjiro:WLF00002244": {
-   "ended": 0.02,
-   "hash": "1626cd44b585707b",
-   "personal": 0.93,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.04
   },
   "bokjiro:WLF00002318": {
    "ended": 0.03,
@@ -14656,14 +14272,6 @@
    "phaseConf": 1.0,
    "scope": 0.96
   },
-  "bokjiro:WLF00002427": {
-   "ended": 0.03,
-   "hash": "a91f97228ce26f61",
-   "personal": 0.99,
-   "phase": "pregnancy",
-   "phaseConf": 1.0,
-   "scope": 0.98
-  },
   "bokjiro:WLF00002434": {
    "ended": 0.02,
    "hash": "f7a1c86366c25afc",
@@ -14704,22 +14312,6 @@
    "phaseConf": 1.0,
    "scope": 0.84
   },
-  "bokjiro:WLF00002506": {
-   "ended": 0.03,
-   "hash": "f20e06a24023f701",
-   "personal": 0.98,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.77
-  },
-  "bokjiro:WLF00002557": {
-   "ended": 0.03,
-   "hash": "2274f794e9e16f23",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.99,
-   "scope": 0.98
-  },
   "bokjiro:WLF00002558": {
    "ended": 0.03,
    "hash": "14f050bde8f6228e",
@@ -14752,14 +14344,6 @@
    "phaseConf": 0.99,
    "scope": 0.55
   },
-  "bokjiro:WLF00002609": {
-   "ended": 0.03,
-   "hash": "dbb97de7a7f2d4e3",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.91,
-   "scope": 0.97
-  },
   "bokjiro:WLF00002621": {
    "ended": 0.03,
    "hash": "c0c2aaf16cb987d4",
@@ -14767,14 +14351,6 @@
    "phase": "afterBirth",
    "phaseConf": 0.99,
    "scope": 0.85
-  },
-  "bokjiro:WLF00002626": {
-   "ended": 0.03,
-   "hash": "11b7a096e002f40e",
-   "personal": 0.96,
-   "phase": "birthReport",
-   "phaseConf": 0.59,
-   "scope": 0.98
   },
   "bokjiro:WLF00002628": {
    "ended": 0.03,
@@ -14823,14 +14399,6 @@
    "phase": "afterBirth",
    "phaseConf": 0.89,
    "scope": 0.18
-  },
-  "bokjiro:WLF00002722": {
-   "ended": 0.08,
-   "hash": "3c25d9554d482d0c",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.92,
-   "scope": 0.97
   },
   "bokjiro:WLF00002743": {
    "ended": 0.03,
@@ -15008,14 +14576,6 @@
    "phaseConf": 0.68,
    "scope": 0.97
   },
-  "bokjiro:WLF00003064": {
-   "ended": 0.03,
-   "hash": "cbec3dbaf1a0d7d1",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.73,
-   "scope": 0.98
-  },
   "bokjiro:WLF00003084": {
    "ended": 0.03,
    "hash": "d8ae1ea336ddfd08",
@@ -15152,14 +14712,6 @@
    "phaseConf": 1.0,
    "scope": 0.96
   },
-  "bokjiro:WLF00003360": {
-   "ended": 0.03,
-   "hash": "bdaa588e9e5280ac",
-   "personal": 0.96,
-   "phase": "preconception",
-   "phaseConf": 1.0,
-   "scope": 0.96
-  },
   "bokjiro:WLF00003363": {
    "ended": 0.02,
    "hash": "92661078c4e6b7ef",
@@ -15256,14 +14808,6 @@
    "phaseConf": 1.0,
    "scope": 0.97
   },
-  "bokjiro:WLF00003517": {
-   "ended": 0.04,
-   "hash": "81f130031cc5536f",
-   "personal": 0.87,
-   "phase": "afterBirth",
-   "phaseConf": 0.77,
-   "scope": 0.1
-  },
   "bokjiro:WLF00003546": {
    "ended": 0.03,
    "hash": "ead3e4cb232b7919",
@@ -15352,14 +14896,6 @@
    "phaseConf": 0.33,
    "scope": 0.98
   },
-  "bokjiro:WLF00003676": {
-   "ended": 0.03,
-   "hash": "9ed30c00b015a7ef",
-   "personal": 0.92,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.06
-  },
   "bokjiro:WLF00003724": {
    "ended": 0.03,
    "hash": "d1e6ac8ab38d34b5",
@@ -15367,14 +14903,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.95
-  },
-  "bokjiro:WLF00003726": {
-   "ended": 0.03,
-   "hash": "19581f24bc3e761d",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.88
   },
   "bokjiro:WLF00003731": {
    "ended": 0.03,
@@ -15480,14 +15008,6 @@
    "phaseConf": 0.99,
    "scope": 0.96
   },
-  "bokjiro:WLF00003854": {
-   "ended": 0.04,
-   "hash": "461b1c994793b5ee",
-   "personal": 0.04,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.73
-  },
   "bokjiro:WLF00003857": {
    "ended": 0.02,
    "hash": "227f5ae26745a6fd",
@@ -15576,14 +15096,6 @@
    "phaseConf": 0.99,
    "scope": 0.77
   },
-  "bokjiro:WLF00003968": {
-   "ended": 0.03,
-   "hash": "b24f2270fbf8556a",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 1.0,
-   "scope": 0.96
-  },
   "bokjiro:WLF00003981": {
    "ended": 0.03,
    "hash": "5334c9710f219c06",
@@ -15631,14 +15143,6 @@
    "phase": "birthReport",
    "phaseConf": 0.81,
    "scope": 0.97
-  },
-  "bokjiro:WLF00004040": {
-   "ended": 0.05,
-   "hash": "b1b664382addd7a3",
-   "personal": 0.95,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.05
   },
   "bokjiro:WLF00004045": {
    "ended": 0.03,
@@ -15727,14 +15231,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.95
-  },
-  "bokjiro:WLF00004250": {
-   "ended": 0.03,
-   "hash": "fd45bf90c6bd582d",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 0.99,
-   "scope": 0.87
   },
   "bokjiro:WLF00004254": {
    "ended": 0.03,
@@ -15838,14 +15334,6 @@
    "personal": 0.99,
    "phase": "birthReport",
    "phaseConf": 0.48,
-   "scope": 0.98
-  },
-  "bokjiro:WLF00004415": {
-   "ended": 0.03,
-   "hash": "dda42bb1d38796bd",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.87,
    "scope": 0.98
   },
   "bokjiro:WLF00004433": {
@@ -15968,22 +15456,6 @@
    "phaseConf": 0.99,
    "scope": 0.97
   },
-  "bokjiro:WLF00004574": {
-   "ended": 0.03,
-   "hash": "38aba8fa6919a36c",
-   "personal": 0.04,
-   "phase": "afterBirth",
-   "phaseConf": 0.97,
-   "scope": 0.52
-  },
-  "bokjiro:WLF00004575": {
-   "ended": 0.03,
-   "hash": "e82f292a6911283a",
-   "personal": 0.08,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.92
-  },
   "bokjiro:WLF00004576": {
    "ended": 0.04,
    "hash": "0aca69611f5a551b",
@@ -15999,14 +15471,6 @@
    "phase": "afterBirth",
    "phaseConf": 0.8,
    "scope": 0.96
-  },
-  "bokjiro:WLF00004583": {
-   "ended": 0.03,
-   "hash": "69669f318bf9b7a1",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.63,
-   "scope": 0.97
   },
   "bokjiro:WLF00004614": {
    "ended": 0.03,
@@ -16168,14 +15632,6 @@
    "phaseConf": 1.0,
    "scope": 0.96
   },
-  "bokjiro:WLF00004788": {
-   "ended": 0.04,
-   "hash": "a333978769427a9c",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.99,
-   "scope": 0.97
-  },
   "bokjiro:WLF00004790": {
    "ended": 0.03,
    "hash": "99500ad1ebd1357b",
@@ -16327,14 +15783,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.77
-  },
-  "bokjiro:WLF00004942": {
-   "ended": 0.03,
-   "hash": "4dce7011507e1590",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
   },
   "bokjiro:WLF00004944": {
    "ended": 0.03,
@@ -16527,30 +15975,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.97
-  },
-  "bokjiro:WLF00005168": {
-   "ended": 0.03,
-   "hash": "8c74d00830277069",
-   "personal": 0.98,
-   "phase": "birthReport",
-   "phaseConf": 0.68,
-   "scope": 0.94
-  },
-  "bokjiro:WLF00005178": {
-   "ended": 0.03,
-   "hash": "b9679c2afeae6e67",
-   "personal": 0.92,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.09
-  },
-  "bokjiro:WLF00005183": {
-   "ended": 0.03,
-   "hash": "97c45d6b9681c613",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.07
   },
   "bokjiro:WLF00005186": {
    "ended": 0.03,
@@ -16832,14 +16256,6 @@
    "phaseConf": 1.0,
    "scope": 0.64
   },
-  "bokjiro:WLF00005430": {
-   "ended": 0.04,
-   "hash": "76da3b038b3db3bc",
-   "personal": 0.11,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.81
-  },
   "bokjiro:WLF00005441": {
    "ended": 0.03,
    "hash": "6b047e7bc4a28b73",
@@ -16912,14 +16328,6 @@
    "phaseConf": 0.99,
    "scope": 0.95
   },
-  "bokjiro:WLF00005538": {
-   "ended": 0.04,
-   "hash": "04698e10e82d6645",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 0.96,
-   "scope": 0.98
-  },
   "bokjiro:WLF00005543": {
    "ended": 0.02,
    "hash": "f8c818cf5c0241fb",
@@ -16975,14 +16383,6 @@
    "phase": "pregnancy",
    "phaseConf": 0.97,
    "scope": 0.98
-  },
-  "bokjiro:WLF00005595": {
-   "ended": 0.03,
-   "hash": "76a8b7f24b543110",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.41
   },
   "bokjiro:WLF00005597": {
    "ended": 0.29,
@@ -17103,14 +16503,6 @@
    "phase": "afterBirth",
    "phaseConf": 0.93,
    "scope": 0.96
-  },
-  "bokjiro:WLF00005678": {
-   "ended": 0.02,
-   "hash": "11e01f0b2d0318b1",
-   "personal": 0.09,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.95
   },
   "bokjiro:WLF00005681": {
    "ended": 0.17,
@@ -17640,22 +17032,6 @@
    "phaseConf": 1.0,
    "scope": 0.96
   },
-  "bokjiro:WLF00005963": {
-   "ended": 0.04,
-   "hash": "24b06efff92686fe",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.03
-  },
-  "bokjiro:WLF00005966": {
-   "ended": 0.04,
-   "hash": "f3cbdc602d10e5e8",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.06
-  },
   "bokjiro:WLF00005978": {
    "ended": 0.03,
    "hash": "7226e6372aae1457",
@@ -17824,14 +17200,6 @@
    "phaseConf": 1.0,
    "scope": 0.95
   },
-  "bokjiro:WLF00006052": {
-   "ended": 0.03,
-   "hash": "b9a8e717a8be0327",
-   "personal": 0.08,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.96
-  },
   "bokjiro:WLF00006055": {
    "ended": 0.06,
    "hash": "4ca2a716a3cad1ba",
@@ -17936,14 +17304,6 @@
    "phaseConf": 1.0,
    "scope": 0.89
   },
-  "bokjiro:WLF00006134": {
-   "ended": 0.02,
-   "hash": "ae854b4983de445b",
-   "personal": 0.94,
-   "phase": "afterBirth",
-   "phaseConf": 0.93,
-   "scope": 0.96
-  },
   "bokjiro:WLF00006143": {
    "ended": 0.03,
    "hash": "29667dee32a107f0",
@@ -18000,14 +17360,6 @@
    "phaseConf": 1.0,
    "scope": 0.81
   },
-  "bokjiro:WLF00006230": {
-   "ended": 0.03,
-   "hash": "04626d05a5df0152",
-   "personal": 0.96,
-   "phase": "afterBirth",
-   "phaseConf": 0.95,
-   "scope": 0.11
-  },
   "bokjiro:WLF00006231": {
    "ended": 0.03,
    "hash": "6895fee0ca9312fc",
@@ -18015,14 +17367,6 @@
    "phase": "afterBirth",
    "phaseConf": 0.96,
    "scope": 0.19
-  },
-  "bokjiro:WLF00006232": {
-   "ended": 0.02,
-   "hash": "a09f713890711243",
-   "personal": 0.54,
-   "phase": "afterBirth",
-   "phaseConf": 0.91,
-   "scope": 0.08
   },
   "bokjiro:WLF00006281": {
    "ended": 0.03,
@@ -18160,14 +17504,6 @@
    "phaseConf": 1.0,
    "scope": 0.98
   },
-  "bokjiro:WLF00006418": {
-   "ended": 0.03,
-   "hash": "64b794ad1290692d",
-   "personal": 0.99,
-   "phase": "birthReport",
-   "phaseConf": 0.41,
-   "scope": 0.96
-  },
   "bokjiro:WLF00006422": {
    "ended": 0.03,
    "hash": "bdcdb170244690a5",
@@ -18244,14 +17580,6 @@
    "ended": 0.03,
    "hash": "13e57caa237a8213",
    "personal": 0.71,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.95
-  },
-  "bokjiro:WLF00006474": {
-   "ended": 0.06,
-   "hash": "60b16f6e6a366b4e",
-   "personal": 0.99,
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.95
@@ -18632,14 +17960,6 @@
    "phaseConf": 0.99,
    "scope": 0.94
   },
-  "bokjiro:WLF00006719": {
-   "ended": 0.04,
-   "hash": "a4f08a6ae9db8e06",
-   "personal": 0.99,
-   "phase": "afterBirth",
-   "phaseConf": 0.95,
-   "scope": 0.97
-  },
   "bokjiro:WLF00006724": {
    "ended": 0.03,
    "hash": "4c85f3ccbafd2d29",
@@ -18856,14 +18176,6 @@
    "phaseConf": 0.75,
    "scope": 0.98
   },
-  "seoul:2170c31db1f2": {
-   "ended": 0.06,
-   "hash": "63dfca7161e5e530",
-   "personal": 0.97,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.96
-  },
   "seoul:24bc86bbb6b7": {
    "ended": 0.02,
    "hash": "34f359b2fe3679a4",
@@ -18952,14 +18264,6 @@
    "phaseConf": 0.83,
    "scope": 0.96
   },
-  "seoul:437bd9f04c92": {
-   "ended": 0.03,
-   "hash": "4cfea25e077d5a40",
-   "personal": 0.91,
-   "phase": "preconception",
-   "phaseConf": 0.57,
-   "scope": 0.96
-  },
   "seoul:4428f1856f1f": {
    "ended": 0.02,
    "hash": "1dcf2b3034c6a8c3",
@@ -18999,14 +18303,6 @@
    "phase": "preconception",
    "phaseConf": 0.72,
    "scope": 0.97
-  },
-  "seoul:578e0cffbdc4": {
-   "ended": 0.15,
-   "hash": "1dab026507c01983",
-   "personal": 0.91,
-   "phase": "pregnancy",
-   "phaseConf": 0.84,
-   "scope": 0.94
   },
   "seoul:5b660db6ace5": {
    "ended": 0.02,
@@ -19264,14 +18560,6 @@
    "phaseConf": 0.53,
    "scope": 0.82
   },
-  "seoul:be334151f5b3": {
-   "ended": 0.06,
-   "hash": "f93da725bbe957e4",
-   "personal": 0.97,
-   "phase": "birthReport",
-   "phaseConf": 0.68,
-   "scope": 0.97
-  },
   "seoul:c35e76dbc7fa": {
    "ended": 0.02,
    "hash": "e778cc697111b9e7",
@@ -19287,14 +18575,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.96
-  },
-  "seoul:c81d5f81ec7b": {
-   "ended": 0.02,
-   "hash": "68c8b95133869457",
-   "personal": 0.76,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.69
   },
   "seoul:cd291b684a45": {
    "ended": 0.02,
@@ -19376,14 +18656,6 @@
    "phaseConf": 0.6,
    "scope": 0.98
   },
-  "seoul:d90a8d782fe1": {
-   "ended": 0.88,
-   "hash": "37fe87a6fea6e478",
-   "personal": 0.56,
-   "phase": "pregnancy",
-   "phaseConf": 0.41,
-   "scope": 0.92
-  },
   "seoul:da9595574900": {
    "ended": 0.02,
    "hash": "fcae38e6d90ad85a",
@@ -19407,14 +18679,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.93
-  },
-  "seoul:e0f9b329a5e2": {
-   "ended": 0.02,
-   "hash": "3fc742b68625c0cb",
-   "personal": 0.72,
-   "phase": "afterBirth",
-   "phaseConf": 1.0,
-   "scope": 0.06
   },
   "seoul:e22895db6608": {
    "ended": 0.02,
@@ -19447,14 +18711,6 @@
    "phase": "afterBirth",
    "phaseConf": 1.0,
    "scope": 0.97
-  },
-  "seoul:ee400a2f995b": {
-   "ended": 0.02,
-   "hash": "ba5c981c73d03d44",
-   "personal": 0.96,
-   "phase": "pregnancy",
-   "phaseConf": 0.33,
-   "scope": 0.96
   },
   "seoul:eebdc88f51e9": {
    "ended": 0.02,
@@ -19530,22 +18786,6 @@
   }
  },
  "pairs": {
-  "300000000108|bokjiro:WLF00000955": {
-   "hash": "c3b67434e7ae768c",
-   "same": 0.94
-  },
-  "303000000110|bokjiro:WLF00002157": {
-   "hash": "f5e529c51a5284c3",
-   "same": 0.89
-  },
-  "303000000114|bokjiro:WLF00005168": {
-   "hash": "753dc7c590804c7b",
-   "same": 0.95
-  },
-  "303000000346|bokjiro:WLF00002157": {
-   "hash": "8464a6433f7fda2a",
-   "same": 0.02
-  },
   "303000000346|bokjiro:WLF00005246": {
    "hash": "a268ec4dc4540eef",
    "same": 0.87
@@ -19558,33 +18798,9 @@
    "hash": "0e3f10c77c4833cb",
    "same": 0.29
   },
-  "311000000106|bokjiro:WLF00002207": {
-   "hash": "58b1cef1f83b3ad3",
-   "same": 0.01
-  },
-  "311000000117|bokjiro:WLF00002207": {
-   "hash": "5bd3fdcde26122c0",
-   "same": 0.95
-  },
   "312000000120|bokjiro:WLF00002602": {
    "hash": "83fe078cac652a38",
    "same": 0.84
-  },
-  "314000000116|bokjiro:WLF00002506": {
-   "hash": "9c62f21ca3441300",
-   "same": 0.88
-  },
-  "316000000131|bokjiro:WLF00002722": {
-   "hash": "890ff4d4b84ad542",
-   "same": 0.92
-  },
-  "316000000139|bokjiro:WLF00002722": {
-   "hash": "f040b96fd15ba05a",
-   "same": 0.02
-  },
-  "316000000140|bokjiro:WLF00002722": {
-   "hash": "77f87b92f74ea428",
-   "same": 0.02
   },
   "317000000110|bokjiro:WLF00000767": {
    "hash": "ee7d950b1c724b87",
@@ -19593,10 +18809,6 @@
   "319000000124|bokjiro:WLF00002628": {
    "hash": "f134184a43c7dd81",
    "same": 0.61
-  },
-  "319000000142|bokjiro:WLF00002626": {
-   "hash": "bf46b539dec91369",
-   "same": 0.88
   },
   "319000000164|bokjiro:WLF00002628": {
    "hash": "2b8cc6db47437c30",
@@ -19618,14 +18830,6 @@
    "hash": "fdf09d207dffdfcc",
    "same": 0.68
   },
-  "329000000106|bokjiro:WLF00005235": {
-   "hash": "7501373a514e5b52",
-   "same": 0.02
-  },
-  "330000000132|bokjiro:WLF00006474": {
-   "hash": "63352ddc1fc56fc9",
-   "same": 0.97
-  },
   "331000000115|bokjiro:WLF00002621": {
    "hash": "8561656bea82e2fa",
    "same": 0.04
@@ -19634,17 +18838,13 @@
    "hash": "d05229424b7a1e4d",
    "same": 0.86
   },
-  "347000000112|bokjiro:WLF00004415": {
-   "hash": "47ab8176ebe6e4cf",
-   "same": 0.94
-  },
   "357000000108|bokjiro:WLF00001453": {
    "hash": "d61dd9587f46da70",
    "same": 0.65
   },
-  "357000000119|bokjiro:WLF00004583": {
-   "hash": "7ed2f501500fec1f",
-   "same": 0.89
+  "358000000143|bokjiro:WLF00005721": {
+   "hash": "f156f26e8d8de97c",
+   "same": 0.11
   },
   "361000000101|bokjiro:WLF00001615": {
    "hash": "731cb615fe6b7ff1",
@@ -19653,22 +18853,6 @@
   "361000000108|bokjiro:WLF00001615": {
    "hash": "d513a8852a5ede9e",
    "same": 0.16
-  },
-  "364000000103|bokjiro:WLF00004250": {
-   "hash": "ab567c4eeb351834",
-   "same": 0.97
-  },
-  "366000000107|bokjiro:WLF00004788": {
-   "hash": "e9eb3238e358d800",
-   "same": 0.92
-  },
-  "369000000103|bokjiro:WLF00003968": {
-   "hash": "136d867be244e1a1",
-   "same": 0.05
-  },
-  "373000000131|bokjiro:WLF00006418": {
-   "hash": "0d7db743022e9078",
-   "same": 0.95
   },
   "373000000135|bokjiro:WLF00006440": {
    "hash": "3c791ad8d4421368",
@@ -19681,10 +18865,6 @@
   "373000000141|bokjiro:WLF00004267": {
    "hash": "ccb10c10265aaac6",
    "same": 0.78
-  },
-  "374000000136|bokjiro:WLF00001377": {
-   "hash": "e0e496a21bdee5bf",
-   "same": 0.98
   },
   "374000000572|bokjiro:WLF00001376": {
    "hash": "f469f9d2473c136e",
@@ -19701,10 +18881,6 @@
   "374000000575|bokjiro:WLF00001376": {
    "hash": "2b3f99c9afd40814",
    "same": 0.81
-  },
-  "378000000137|bokjiro:WLF00001629": {
-   "hash": "d8643b5034db0ce0",
-   "same": 0.89
   },
   "378000000182|bokjiro:WLF00005658": {
    "hash": "1d5972fe126e69be",
@@ -19766,10 +18942,6 @@
    "hash": "9b13ec5a1033c228",
    "same": 0.76
   },
-  "416000000117|bokjiro:WLF00002609": {
-   "hash": "783b6f6c37918b9e",
-   "same": 0.93
-  },
   "416000000117|bokjiro:WLF00006455": {
    "hash": "53ac57de2cabfc72",
    "same": 0.06
@@ -19806,17 +18978,9 @@
    "hash": "43c5c841ca6888c7",
    "same": 0.54
   },
-  "433000000136|bokjiro:WLF00003726": {
-   "hash": "0c5e1a56181a8247",
-   "same": 0.91
-  },
   "440000000106|bokjiro:WLF00000482": {
    "hash": "abd40138be519180",
    "same": 0.84
-  },
-  "445000000127|bokjiro:WLF00000362": {
-   "hash": "fcd1972ce9f3e983",
-   "same": 0.92
   },
   "445000000250|bokjiro:WLF00001698": {
    "hash": "7033b78aa898c697",
@@ -19825,10 +18989,6 @@
   "445000000250|bokjiro:WLF00005136": {
    "hash": "3748fee4e8019cac",
    "same": 0.46
-  },
-  "467000000114|bokjiro:WLF00000425": {
-   "hash": "a6e3328f5bdcf885",
-   "same": 0.95
   },
   "467000000114|bokjiro:WLF00002434": {
    "hash": "22a68566c6292d5e",
@@ -19886,25 +19046,13 @@
    "hash": "413d10529ce8303c",
    "same": 0.03
   },
-  "497000000102|bokjiro:WLF00002427": {
-   "hash": "f5cd5e90b568bf91",
-   "same": 0.96
-  },
   "497000000107|bokjiro:WLF00004433": {
    "hash": "ffe6c8aac665d4a7",
    "same": 0.29
   },
-  "507000000750|bokjiro:WLF00000499": {
-   "hash": "8066c83604bcf9ce",
-   "same": 0.56
-  },
   "508000000666|bokjiro:WLF00000532": {
    "hash": "a85bc12ec267ec49",
    "same": 0.75
-  },
-  "509000000138|bokjiro:WLF00002244": {
-   "hash": "53a47d7c5a784ae8",
-   "same": 0.01
   },
   "511000000116|bokjiro:WLF00004570": {
    "hash": "1de6309961c654de",
@@ -19913,10 +19061,6 @@
   "511000000124|bokjiro:WLF00001343": {
    "hash": "02d9baaabdb165dd",
    "same": 0.81
-  },
-  "514000000113|bokjiro:WLF00006134": {
-   "hash": "2c494bcac0a6cf0b",
-   "same": 0.89
   },
   "516000000118|bokjiro:WLF00003662": {
    "hash": "7b711edc43d3034c",
@@ -19933,10 +19077,6 @@
   "519000000157|bokjiro:WLF00002903": {
    "hash": "f8fc9646a4b7c05f",
    "same": 0.03
-  },
-  "520000000110|bokjiro:WLF00003064": {
-   "hash": "be879335c03c51a1",
-   "same": 0.93
   },
   "525000000124|bokjiro:WLF00001939": {
    "hash": "a4d49056bd27c76d",
@@ -19986,10 +19126,6 @@
    "hash": "952816de00a89774",
    "same": 0.83
   },
-  "611000000116|seoul:efcdedd2857c": {
-   "hash": "0098ca2ba8b291de",
-   "same": 0.02
-  },
   "611000000123|bokjiro:WLF00006326": {
    "hash": "0ece5a76e0100103",
    "same": 0.12
@@ -20006,17 +19142,9 @@
    "hash": "95799e86b5c60114",
    "same": 0.1
   },
-  "611000000150|seoul:c81d5f81ec7b": {
-   "hash": "da8941eb2d7dd5c3",
-   "same": 0.92
-  },
   "611000000153|seoul:3300575638ee": {
    "hash": "3683575744351c85",
    "same": 0.02
-  },
-  "611000000155|seoul:578e0cffbdc4": {
-   "hash": "4975bb4fa4b44066",
-   "same": 0.97
   },
   "611000000159|bokjiro:WLF00006697": {
    "hash": "6deed3214ee3c0b8",
@@ -20040,10 +19168,6 @@
   },
   "611000019644|seoul:1658525d9706": {
    "hash": "58a897aea9776bf1",
-   "same": 0.02
-  },
-  "611000019644|seoul:2170c31db1f2": {
-   "hash": "467ca56857571326",
    "same": 0.02
   },
   "611000019644|seoul:602c98eb25fa": {
@@ -20070,17 +19194,9 @@
    "hash": "03aa8c15cb7900cd",
    "same": 0.05
   },
-  "626000000154|bokjiro:WLF00002557": {
-   "hash": "14b98db29ed4e28c",
-   "same": 0.9
-  },
   "626000000154|bokjiro:WLF00002743": {
    "hash": "b1ce2c02475d6e08",
    "same": 0.08
-  },
-  "626000000651|bokjiro:WLF00005595": {
-   "hash": "9022f82d4b7498da",
-   "same": 0.95
   },
   "627000000108|bokjiro:WLF00002084": {
    "hash": "0b7e538add1ce807",
@@ -20105,10 +19221,6 @@
   "628000000744|bokjiro:WLF00005903": {
    "hash": "05bf8057178794dc",
    "same": 0.04
-  },
-  "628000000781|bokjiro:WLF00005538": {
-   "hash": "46ee6cf3e7254db9",
-   "same": 0.96
   },
   "629000000132|bokjiro:WLF00006189": {
    "hash": "691042cfcd4f8e6d",
@@ -20178,10 +19290,6 @@
    "hash": "edc9971be7f448ea",
    "same": 0.26
   },
-  "631000000119|bokjiro:WLF00003968": {
-   "hash": "843d2fa48a870515",
-   "same": 0.92
-  },
   "631000000139|bokjiro:WLF00006440": {
    "hash": "ce1cc18eaf520739",
    "same": 0.31
@@ -20205,10 +19313,6 @@
   "642000000685|bokjiro:WLF00004381": {
    "hash": "ffe5dcaceb7831fd",
    "same": 0.03
-  },
-  "642000000700|bokjiro:WLF00003726": {
-   "hash": "70dcfd77f04c2a2e",
-   "same": 0.14
   },
   "643000000737|bokjiro:WLF00003818": {
    "hash": "09263b76797e11f6",
@@ -20249,10 +19353,6 @@
   "645000000107|bokjiro:WLF00005794": {
    "hash": "3aab6d1cd5b3bfc5",
    "same": 0.56
-  },
-  "645000000107|bokjiro:WLF00006719": {
-   "hash": "d18f44b3a425760c",
-   "same": 0.65
   },
   "646000000114|bokjiro:WLF00000229": {
    "hash": "4f650b5a8b14d22a",
@@ -20317,10 +19417,6 @@
   "647000000193|bokjiro:WLF00004349": {
    "hash": "c68e138bfe5b712d",
    "same": 0.51
-  },
-  "648000001071|bokjiro:WLF00003360": {
-   "hash": "8ab95bf622e1efce",
-   "same": 0.93
   },
   "648000001077|bokjiro:WLF00003133": {
    "hash": "cdee6e3a9f36319e",
@@ -20398,10 +19494,6 @@
    "hash": "666e2b607915324c",
    "same": 0.04
   },
-  "bokjiro:WLF00000229|bokjiro:WLF00003517": {
-   "hash": "2f51b5ce55bdd798",
-   "same": 0.03
-  },
   "bokjiro:WLF00000256|bokjiro:WLF00006598": {
    "hash": "0b62f2a35598b53d",
    "same": 0.02
@@ -20413,10 +19505,6 @@
   "bokjiro:WLF00000875|bokjiro:WLF00002840": {
    "hash": "efa93361c9e4143d",
    "same": 0.03
-  },
-  "bokjiro:WLF00001005|bokjiro:WLF00006719": {
-   "hash": "e115a40eeb2d8630",
-   "same": 0.91
   },
   "bokjiro:WLF00001647|bokjiro:WLF00002053": {
    "hash": "4dd450ce0bb2025b",
@@ -20450,10 +19538,6 @@
    "hash": "85f8905f02b0c28e",
    "same": 0.03
   },
-  "bokjiro:WLF00003009|seoul:ee400a2f995b": {
-   "hash": "3e533492c3e6ecee",
-   "same": 0.91
-  },
   "bokjiro:WLF00004226|bokjiro:WLF00005597": {
    "hash": "a38ab30c2a6ab84d",
    "same": 0.03
@@ -20461,10 +19545,6 @@
   "bokjiro:WLF00004568|bokjiro:WLF00006733": {
    "hash": "136d95511a115ac2",
    "same": 0.25
-  },
-  "bokjiro:WLF00004574|bokjiro:WLF00004575": {
-   "hash": "e33b2d0440c93d2c",
-   "same": 0.03
   },
   "bokjiro:WLF00004614|bokjiro:WLF00005695": {
    "hash": "a52bab2467a4ac95",
@@ -20482,10 +19562,6 @@
    "hash": "4ac9fb066bb197c0",
    "same": 0.34
   },
-  "bokjiro:WLF00005678|bokjiro:WLF00006733": {
-   "hash": "c430bff4afba7917",
-   "same": 0.02
-  },
   "bokjiro:WLF00005705|bokjiro:WLF00005820": {
    "hash": "a6abc2a9f0ead548",
    "same": 0.02
@@ -20494,25 +19570,13 @@
    "hash": "b6acb3dfca2ed521",
    "same": 0.79
   },
-  "bokjiro:WLF00005794|bokjiro:WLF00006719": {
-   "hash": "1009d7c7a1d4be35",
-   "same": 0.6
-  },
   "bokjiro:WLF00005796|bokjiro:WLF00005806": {
    "hash": "49f21b7277b00efb",
    "same": 0.02
   },
-  "bokjiro:WLF00005864|seoul:be334151f5b3": {
-   "hash": "be9749d375006aa1",
-   "same": 0.9
-  },
   "bokjiro:WLF00006025|bokjiro:WLF00006026": {
    "hash": "b09b17a742ca91ba",
    "same": 0.02
-  },
-  "bokjiro:WLF00006047|bokjiro:WLF00006134": {
-   "hash": "f9d99fa9b2d7d863",
-   "same": 0.03
   },
   "bokjiro:WLF00006697|seoul:a480408f9880": {
    "hash": "d33c9b7b68304339",
@@ -20521,10 +19585,6 @@
   "seoul:112df7f0ca36|seoul:1c4cae0a810d": {
    "hash": "10289d08312e37b1",
    "same": 0.01
-  },
-  "seoul:1658525d9706|seoul:2170c31db1f2": {
-   "hash": "ec6f1aaf59599f2e",
-   "same": 0.93
   },
   "seoul:1658525d9706|seoul:d57d83d5467d": {
    "hash": "608c40912ed3493f",
@@ -20550,10 +19610,6 @@
    "hash": "b8c4accd4ad301f5",
    "same": 0.01
   },
-  "seoul:18ce54895c6d|seoul:c81d5f81ec7b": {
-   "hash": "25ae7106d1fda11d",
-   "same": 0.01
-  },
   "seoul:1922de681464|seoul:1a6f2d94a900": {
    "hash": "1b8d4b600540488d",
    "same": 0.6
@@ -20570,14 +19626,6 @@
    "hash": "5f989665998e6026",
    "same": 0.02
   },
-  "seoul:2170c31db1f2|seoul:7dbf361bc1ac": {
-   "hash": "19319ba61f622468",
-   "same": 0.02
-  },
-  "seoul:2170c31db1f2|seoul:d57d83d5467d": {
-   "hash": "4665943b2cd32798",
-   "same": 0.03
-  },
   "seoul:26ca9033570b|seoul:4428f1856f1f": {
    "hash": "c8f01a3aad997421",
    "same": 0.02
@@ -20593,10 +19641,6 @@
   "seoul:36c01d3de33b|seoul:f9cac2b0d634": {
    "hash": "0a4fe3780e81b73e",
    "same": 0.03
-  },
-  "seoul:437bd9f04c92|seoul:5748cf8d41ce": {
-   "hash": "f30dd768bb39d9a2",
-   "same": 0.96
   },
   "seoul:4428f1856f1f|seoul:eebdc88f51e9": {
    "hash": "423720bc39404bd2",
@@ -20634,25 +19678,13 @@
    "hash": "7533dcc3c59f0ecd",
    "same": 0.29
   },
-  "seoul:705ab8fe9498|seoul:c81d5f81ec7b": {
-   "hash": "bac490e24af04b64",
-   "same": 0.03
-  },
   "seoul:705ab8fe9498|seoul:d61888589ae1": {
    "hash": "190273597caad1f4",
    "same": 0.5
   },
-  "seoul:705ab8fe9498|seoul:e0f9b329a5e2": {
-   "hash": "faa1c0acd248d3ee",
-   "same": 0.32
-  },
   "seoul:705ab8fe9498|seoul:e22895db6608": {
    "hash": "e598afde67ba4659",
    "same": 0.02
-  },
-  "seoul:82903d0a8681|seoul:e0f9b329a5e2": {
-   "hash": "1f97c7001e7297fc",
-   "same": 0.77
   },
   "seoul:8c4f8e371eaa|seoul:bdf28c759444": {
    "hash": "9742ee087bd498fd",
@@ -20690,25 +19722,9 @@
    "hash": "f0649b96fe3d1a51",
    "same": 0.57
   },
-  "seoul:b63c7ff8b4bf|seoul:e0f9b329a5e2": {
-   "hash": "1702f0fa1fad4d0c",
-   "same": 0.24
-  },
-  "seoul:bdf28c759444|seoul:c81d5f81ec7b": {
-   "hash": "ef6b040903c20e4a",
-   "same": 0.01
-  },
   "seoul:bdf28c759444|seoul:f9cac2b0d634": {
    "hash": "287904e736f47149",
    "same": 0.06
-  },
-  "seoul:c81d5f81ec7b|seoul:e22895db6608": {
-   "hash": "3da09fe1501cff53",
-   "same": 0.02
-  },
-  "seoul:d61888589ae1|seoul:e0f9b329a5e2": {
-   "hash": "4f6809ede11d38c4",
-   "same": 0.27
   },
   "seoul:eebdc88f51e9|seoul:fb05e82e83d7": {
    "hash": "a180525f67fd146b",
