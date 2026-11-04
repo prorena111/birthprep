@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>출산펭귄 받기</title>
+<meta property="og:title" content="출산펭귄 — 출산 준비물·지원금 정리">
+<meta property="og:description" content="시기별로 뭘 사고 뭘 안 사도 되는지, 지원금까지 한 번에 챙겨요.">
+<!--
+  앱의 공유 글·카카오톡 단추에 붙는 설치 링크(share_card.dart kInstallUrl).
+  받는 사람의 폰을 보고 맞는 스토어로 보낸다. 앱은 스토어 주소를 직접 갖지 않는다 —
+  주소가 바뀌어도 이 파일만 고친다. 꼬리표(utm_source·utm_medium)는 Play 주소의 referrer로 옮긴다.
+  APP_STORE: App Store Connect에 앱을 만든 뒤 https://apps.apple.com/kr/app/id숫자 를 넣는다.
+  **앱 +32를 내기 전에 공개 저장소에 올린다** — 없으면 공유 링크가 404가 된다.
+  GitHub Pages: https://prorena111.github.io/birthprep/app.html
+  원본은 앱 저장소 docs/pages/app.html.
+-->
+<style>
+  :root { --ink: #1a1a1a; --soft: #666; --bg: #fffdf2; --yellow: #ffe500; --red: #e8412c; --line: #1a1a1a; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif; line-height: 1.7; }
+  header { background: var(--yellow); border-bottom: 2.5px solid var(--line); padding: 20px 16px; }
+  header h1 { margin: 0 auto; max-width: 640px; font-size: 22px; }
+  main { max-width: 640px; margin: 0 auto; padding: 16px; }
+  .btn { display: block; text-align: center; background: #fff; color: var(--ink); font-weight: 800; font-size: 17px; text-decoration: none; border: 2px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+  .soft { color: var(--soft); font-size: 14px; }
+</style>
+</head>
+<body>
+<header><h1>출산펭귄 받기</h1></header>
+<main>
+  <p>시기별로 뭘 사고 뭘 안 사도 되는지, 지원금까지 한 번에 챙겨요.</p>
+  <a id="play" class="btn" href="https://play.google.com/store/apps/details?id=kr.birthprep.allinone">Google Play에서 받기</a>
+  <a id="ios" class="btn" href="#" hidden>App Store에서 받기</a>
+  <p id="soon" class="soft" hidden>아이폰 앱은 곧 나와요.</p>
+  <p class="soft"><a href="./">출산펭귄 홈</a> · <a href="privacy.html">개인정보처리방침</a></p>
+</main>
+<script>
+  var APP_STORE = '';
+  var q = new URLSearchParams(location.search);
+  var clean = function (v) { return /^[a-z_]{1,20}$/.test(v || '') ? v : ''; };
+  var source = clean(q.get('utm_source')), medium = clean(q.get('utm_medium'));
+  var play = 'https://play.google.com/store/apps/details?id=kr.birthprep.allinone';
+  if (source) play += '&referrer=' + encodeURIComponent('utm_source=' + source + '&utm_medium=' + (medium || 'web'));
+  document.getElementById('play').href = play;
+
+  var ua = navigator.userAgent;
+  var iphone = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (APP_STORE) {
+    var ios = document.getElementById('ios');
+    ios.href = APP_STORE;
+    ios.hidden = false;
+  } else if (iphone) {
+    document.getElementById('soon').hidden = false;
+  }
+  // 폰을 알면 바로 보낸다. 못 넘어가는 브라우저를 위해 단추는 그대로 둔다.
+  if (/android/i.test(ua)) location.replace(play);
+  else if (iphone && APP_STORE) location.replace(APP_STORE);
+</script>
+</body>
+</html>
