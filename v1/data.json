@@ -2,6 +2,7 @@
   "schema": 1,
   "updated": "2026-11-04",
   "minBuild": 1,
+  "minAppBuild": 31,
   "support": {
     "programs": {
       "S01": {
