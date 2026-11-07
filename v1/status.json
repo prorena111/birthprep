@@ -1,10 +1,10 @@
 {
-  "ran": "2026-11-03T15:45+09:00",
+  "ran": "2026-11-07T21:05+09:00",
   "bokjiro": {
     "listed": 4828,
     "added": 1173,
     "duplicates": 38,
-    "fetchedDetails": 0,
+    "fetchedDetails": 3,
     "missingDetails": 0
   },
   "seoul": {
