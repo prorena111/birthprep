@@ -638,10 +638,19 @@ Map<String, String>? _field(String name, Object? v) {
 }
 
 /// 정부24 원문만. http는 https로 올린다.
+///
+/// 2026-11부터 목록의 상세조회URL이 모두 `plus.gov.kr/…?svcId=번호`로 왔다(그달
+/// 정부24 항목이 통째로 빠져 안전장치가 막았다). 앱의 출처 목록과 스토어 설명은
+/// `www.gov.kr`이고 이미 나간 앱은 그 주소만 받으니, 서비스 번호로 옛 주소를
+/// 만든다. 표본 40곳이 그 주소로 열리는 것을 확인했다.
 String? govUrl(String? url) {
   if (url == null) return null;
   final u = url.replaceFirst(RegExp(r'^http://'), 'https://');
-  return u.startsWith('https://www.gov.kr/') ? u : null;
+  if (u.startsWith('https://www.gov.kr/')) return u;
+  if (!u.startsWith('https://plus.gov.kr/')) return null;
+  final id = Uri.tryParse(u)?.queryParameters['svcId'];
+  if (id == null || id.isEmpty) return null;
+  return 'https://www.gov.kr/portal/rcvfvrSvc/dtlEx/$id';
 }
 
 /// 한국 시각의 오늘 — GitHub의 컴퓨터는 세계 표준시로 돈다. 매달 1일
