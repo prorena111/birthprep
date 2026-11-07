@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-04",
+  "updated": "2026-11-07",
   "minBuild": 1,
   "minAppBuild": 31,
   "support": {
@@ -909,9 +909,9 @@
     "C13-09": "https://link.coupang.com/a/hGxjAyow2e"
   },
   "local": {
-    "checked": "2026-10-01",
-    "rev": "825b579e5781e1e0",
-    "count": 2348,
+    "checked": "2026-11-07",
+    "rev": "0f3937e5f140c67a",
+    "count": 2285,
     "nation": 68
   },
   "links": {

@@ -1,28 +1,44 @@
 {
-  "ran": "2026-11-07T21:05+09:00",
+  "ran": "2026-11-07T21:11+09:00",
   "bokjiro": {
     "listed": 4828,
-    "added": 1173,
-    "duplicates": 38,
-    "fetchedDetails": 3,
+    "added": 618,
+    "duplicates": 593,
+    "fetchedDetails": 0,
     "missingDetails": 0
   },
   "seoul": {
     "listed": 326,
-    "added": 136
+    "added": 94
   },
   "gg": {
     "listed": 48,
-    "added": 13
+    "added": 6
   },
   "supports": {
     "fetched": 10942,
-    "count": 1321,
-    "nation": 0,
-    "perSido": {},
+    "count": 2332,
+    "nation": 68,
+    "perSido": {
+      "서울특별시": 197,
+      "부산광역시": 72,
+      "대구광역시": 41,
+      "인천광역시": 52,
+      "전남광주통합특별시": 185,
+      "대전광역시": 19,
+      "울산광역시": 42,
+      "경기도": 270,
+      "강원특별자치도": 74,
+      "충청북도": 75,
+      "충청남도": 120,
+      "전북특별자치도": 103,
+      "경상북도": 153,
+      "경상남도": 117,
+      "세종특별자치시": 10,
+      "제주특별자치도": 17
+    },
     "curated": 17,
-    "noUrl": 1615,
-    "skipped": true
+    "noUrl": 0
   },
   "central": {
     "S01": "same",
@@ -42,7 +58,5 @@
     "added": 0,
     "missing": 0
   },
-  "attention": [
-    "지원 목록이 2348개 → 1321개로 3할 넘게 줄었습니다. 정부24 쪽 사고일 수 있어 올리지 않았습니다. 정말 줄어든 것이면 Actions → Run workflow에서 allow_shrink를 켜고 돌려 주세요."
-  ]
+  "attention": []
 }
