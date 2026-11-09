@@ -9,6 +9,7 @@
 #      저장소 주인에게 메일이 가게 한다.
 #   3) tool/coupang_urls.tsv에 있는데 파트너스 링크가 없는 품목을 바꿔
 #      v1/data.json에 넣는다(한 번 만든 링크는 기한이 없다).
+#   4) 제품안전정보센터 국내리콜 공표에서 육아 품목과 짝이 되는 것만 v1/data.json의 recalls로.
 #
 # 코드는 tool/*.dart — 원본은 앱 저장소의 tool/monthly/이고 여기는 사본이다.
 # 키는 Settings → Secrets and variables → Actions에 넣는다(코드에 적지 않는다):
@@ -17,6 +18,7 @@
 #   COUPANG_SECRET_KEY   쿠팡 파트너스 Secret Key
 #   SEOUL_OPENAPI_KEY    서울 열린데이터광장 인증키(탄생육아 몽땅정보통)
 #   GG_OPENAPI_KEY       경기데이터드림 인증키(시군별 출산장려금)
+#   SAFETYKOREA_KEY      제품안전정보센터 Open API 인증키(리콜 — 공공데이터포털 키와 다르다)
 name: 매달 데이터 갱신
 
 on:
@@ -77,6 +79,7 @@ jobs:
           COUPANG_SECRET_KEY: ${{ secrets.COUPANG_SECRET_KEY }}
           SEOUL_OPENAPI_KEY: ${{ secrets.SEOUL_OPENAPI_KEY }}
           GG_OPENAPI_KEY: ${{ secrets.GG_OPENAPI_KEY }}
+          SAFETYKOREA_KEY: ${{ secrets.SAFETYKOREA_KEY }}
           ACCEPT: ${{ github.event.inputs.accept }}
           ALLOW_SHRINK: ${{ github.event.inputs.allow_shrink == 'true' }}
           ONLY_COUPANG: ${{ github.event_name == 'push' }}

@@ -14,11 +14,15 @@
 //      다르면 tool/central_changes.md에 전·후를 적고 알린다.
 //   3) tool/coupang_urls.tsv에 있는데 파트너스 링크가 없는 품목을 바꿔
 //      data.json의 coupang에 넣는다(한 번 만든 링크는 기한이 없다).
+//   4) 제품안전정보센터 국내리콜 공표에서 육아 품목과 짝이 되는 것만 골라
+//      data.json의 recalls에 넣는다(recall_pick.dart, 2026-11-08). 못 받으면
+//      지난 값을 그대로 둔다. 키(SAFETYKOREA_KEY)가 없으면 조용히 건너뛴다.
 //
 // 사람이 볼 것이 있으면 GITHUB_OUTPUT에 attention=true를 적는다 — 워크플로가
 // 파일을 올린 뒤 실패로 끝나 저장소 주인에게 메일이 간다.
 //
-// 키는 환경변수로만: DATA_GO_KR_KEY, COUPANG_ACCESS_KEY, COUPANG_SECRET_KEY
+// 키는 환경변수로만: DATA_GO_KR_KEY, COUPANG_ACCESS_KEY, COUPANG_SECRET_KEY,
+// SAFETYKOREA_KEY(제품안전정보센터 Open API 서비스 ID — 공공데이터포털 키와 다르다)
 // (GitHub 저장소 Settings → Secrets에 사장님이 넣는다. Claude는 키를 다루지
 // 않는다).
 //
@@ -42,6 +46,8 @@ import 'central_watch.dart';
 import 'coupang_api.dart';
 import 'gov24_client.dart';
 import 'gov24_pick.dart';
+import 'recall_client.dart';
+import 'recall_pick.dart';
 
 /// 파일 자리(저장소 뿌리 기준).
 const dataPath = 'v1/data.json';
@@ -67,6 +73,10 @@ typedef FetchServices = Future<List<Map<String, Object?>>> Function();
 typedef FetchRows = Future<List<Map<String, String>>> Function();
 typedef ConvertLinks = Future<CoupangRun> Function(Map<String, String> todo);
 
+/// 리콜 받기 — 검색어를 받아 국내리콜 조회 줄(칸 이름 그대로)을 돌려준다.
+typedef FetchRecalls =
+    Future<List<Map<String, Object?>>> Function(List<String> terms);
+
 class MonthlyResult {
   MonthlyResult(this.attention, this.summary);
 
@@ -89,6 +99,7 @@ Future<MonthlyResult> runMonthly({
   FetchRows? fetchSeoul,
   FetchRows? fetchGyeonggi,
   ConvertLinks? convertLinks,
+  FetchRecalls? fetchRecalls,
   Set<String> accept = const {},
   bool onlyCoupang = false,
   bool allowShrink = false,
@@ -371,6 +382,19 @@ Future<MonthlyResult> runMonthly({
     };
   }
 
+  // ── 4) 리콜 ─────────────────────────────────────────────────────
+  if (!onlyCoupang) {
+    await _recalls(
+      data: data,
+      now: now,
+      fetch: fetchRecalls,
+      status: status,
+      summary: summary,
+      attention: attention,
+      safe: safe,
+    );
+  }
+
   // 확인 시점이 5개월을 넘긴 제도 — 6개월이면 앱이 금액을 숨긴다. 자동으로
   // 못 지켜보는 제도(부모급여)나 글이 바뀐 채 멈춘 제도가 여기서 걸린다.
   if (!onlyCoupang) {
@@ -411,6 +435,73 @@ Future<MonthlyResult> runMonthly({
       ..addAll(attention.map((a) => '- $a'));
   }
   return MonthlyResult(attention, summary);
+}
+
+/// 리콜 받기·고르기 — 못 받거나 이상하면 **지난 값을 그대로 둔다**(다른 묶음과
+/// 같은 규칙). 키가 없으면 알림 없이 건너뛴다: 사장님이 제품안전정보센터 키를
+/// 받기 전에는 매달 메일이 가면 안 된다.
+Future<void> _recalls({
+  required Map<String, Object?> data,
+  required DateTime now,
+  required FetchRecalls? fetch,
+  required Map<String, Object?> status,
+  required List<String> summary,
+  required List<String> attention,
+  required String Function(Object) safe,
+}) async {
+  final previous = recallCountOf(data['recalls']);
+  if (fetch == null) {
+    status['recalls'] = {'noKey': true, 'count': previous};
+    summary.add(
+      '- 리콜: 제품안전정보센터 키(SAFETYKOREA_KEY)가 없어 건너뜀'
+      '(지난 값 $previous건 그대로)',
+    );
+    return;
+  }
+  try {
+    final rows = await fetch(recallSearchTerms);
+    final pick = pickRecalls(rows, now);
+    final section = recallsSection(pick.items, dayOf(now));
+    final problems = validateRecalls(section);
+    if (problems.isNotEmpty) {
+      attention.add(
+        '리콜 묶음이 검사에 걸려 지난 값($previous건)을 그대로 두었습니다: '
+        '${problems.take(5).join(' / ')}',
+      );
+      status['recalls'] = {'fetched': rows.length, 'skipped': true};
+      return;
+    }
+    // 지난달에 있던 리콜이 통째로 사라지면 받는 쪽 사고로 본다.
+    if (pick.items.isEmpty && previous >= 3) {
+      attention.add(
+        '리콜이 $previous건 → 0건이 됐습니다. 제품안전정보센터 쪽 사고일 수 있어 '
+        '지난 값을 그대로 두었습니다.',
+      );
+      status['recalls'] = {'fetched': rows.length, 'skipped': true};
+      return;
+    }
+    data['recalls'] = section;
+    status['recalls'] = {
+      'fetched': rows.length,
+      'count': pick.items.length,
+      'items': pick.subCount,
+      'unmatched': pick.unmatched,
+      'tooOld': pick.tooOld,
+    };
+    summary.add(
+      '- 리콜: 받은 ${rows.length}건 중 육아 품목과 짝 지은 ${pick.items.length}건'
+      '(품목 ${pick.subCount}개, 지난번 $previous건)',
+    );
+  } on RecallKeyRejected catch (e) {
+    attention.add(
+      '제품안전정보센터 키가 거절됐습니다(${e.code}). 승인 메일의 서비스 ID를 '
+      'SAFETYKOREA_KEY에 넣었는지 봐 주세요 — 리콜은 지난 값 그대로입니다.',
+    );
+    status['recalls'] = {'error': 'key ${e.code}'};
+  } catch (e) {
+    attention.add('제품안전정보센터에서 리콜을 받다가 멈췄습니다(지난 값 그대로): ${safe(e)}');
+    status['recalls'] = {'error': safe(e)};
+  }
 }
 
 /// 사람이 확인한 뒤 바뀐 글(pending)을 새 기준으로 받아들인다 — 키가 필요
@@ -498,6 +589,10 @@ Map<String, Object?> mergeData(
   if (published['minAppBuild'] != null && fresh['minAppBuild'] == null) {
     out['minAppBuild'] = published['minAppBuild'];
   }
+  // 리콜(매달 작업이 적는다) — 앱에서 뽑은 파일에는 없다.
+  if (published['recalls'] != null && fresh['recalls'] == null) {
+    out['recalls'] = published['recalls'];
+  }
   final pubLinks = (published['coupang'] as Map?) ?? const {};
   final myLinks = (out['coupang'] as Map?) ?? const {};
   if (pubLinks.isNotEmpty) out['coupang'] = {...pubLinks, ...myLinks};
@@ -536,13 +631,15 @@ Future<void> main(List<String> args) async {
   final secret = env['COUPANG_SECRET_KEY']?.trim() ?? '';
   final seoulKey = env['SEOUL_OPENAPI_KEY']?.trim() ?? '';
   final ggKey = env['GG_OPENAPI_KEY']?.trim() ?? '';
+  final recallKey = env['SAFETYKOREA_KEY']?.trim() ?? '';
   final gov = key.isEmpty ? null : Gov24Client(key);
+  final safety = recallKey.isEmpty ? null : SafetyKoreaClient(recallKey);
   // 복지로도 같은 공공데이터포털 키다(포털에서 활용신청이 되어 있어야 받힌다).
   final bok = key.isEmpty ? null : BokjiroClient(key);
   // 오류 글에서 키를 모두 가린다(정부24·쿠팡).
   String hideAll(Object e) {
     var text = gov?.hide(e) ?? '$e';
-    for (final k in [access, secret, seoulKey, ggKey]) {
+    for (final k in [access, secret, seoulKey, ggKey, recallKey]) {
       if (k.isNotEmpty) text = text.replaceAll(k, '***');
     }
     return text;
@@ -599,6 +696,7 @@ Future<void> main(List<String> args) async {
               secretKey: secret,
               log: stdout.writeln,
             ),
+      fetchRecalls: safety?.fetch,
       accept: _ids(opts['accept'] ?? env['ACCEPT'] ?? ''),
       onlyCoupang:
           opts.containsKey('only-coupang') || env['ONLY_COUPANG'] == 'true',
@@ -621,6 +719,7 @@ Future<void> main(List<String> args) async {
   } finally {
     gov?.close();
     bok?.close();
+    safety?.close();
   }
 }
 
@@ -732,6 +831,7 @@ List<String> validateRemoteData(Map<String, Object?> data, DateTime now) {
       }
     }
   }
+  problems.addAll(validateRecalls(data['recalls']));
   final local = data['local'];
   if (local != null) {
     final checked = local is Map ? local['checked'] : null;
