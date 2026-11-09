@@ -1,5 +1,5 @@
 {
-  "ran": "2026-11-07T21:11+09:00",
+  "ran": "2026-11-09T20:00+09:00",
   "bokjiro": {
     "listed": 4828,
     "added": 618,
@@ -57,6 +57,13 @@
     "items": 263,
     "added": 0,
     "missing": 0
+  },
+  "recalls": {
+    "fetched": 4299,
+    "count": 86,
+    "items": 23,
+    "unmatched": 4067,
+    "tooOld": 119
   },
   "attention": []
 }
