@@ -404,6 +404,15 @@ Future<MonthlyResult> runMonthly({
         '숨깁니다. 원문과 대조해 앱·data.json을 고치고 확인 시점을 올려 주세요.',
       );
     }
+    // 앱 한도에 가까운 글 — 막지 않고 Summary·status에만(메일은 안 간다).
+    final warnings = remoteDataWarnings(data);
+    if (warnings.isNotEmpty) {
+      status['warnings'] = warnings;
+      summary
+        ..add('')
+        ..add('### 살펴볼 것(올리기는 막지 않음)')
+        ..addAll(warnings.map((w) => '- $w'));
+    }
   }
 
   final changed = jsonEncode(data) != before || supports != null;
@@ -593,6 +602,18 @@ Map<String, Object?> mergeData(
   if (published['recalls'] != null && fresh['recalls'] == null) {
     out['recalls'] = published['recalls'];
   }
+  // 베이비페어 일정(2026-11-10) — 손으로 고쳐 올린 것이 앱 값보다 늦게 확인됐으면
+  // 그쪽을 지킨다(같은 날이면 앱에서 뽑은 것). 「checked」는 `2026-11-10` 모양이라
+  // 글자 비교가 곧 날짜 비교다.
+  final pubFairs = published['fairs'];
+  if (pubFairs is Map && pubFairs['checked'] is String) {
+    final mine = out['fairs'];
+    final myChecked = mine is Map ? mine['checked'] : null;
+    if (myChecked is! String ||
+        (pubFairs['checked'] as String).compareTo(myChecked) > 0) {
+      out['fairs'] = pubFairs;
+    }
+  }
   final pubLinks = (published['coupang'] as Map?) ?? const {};
   final myLinks = (out['coupang'] as Map?) ?? const {};
   if (pubLinks.isNotEmpty) out['coupang'] = {...pubLinks, ...myLinks};
@@ -612,6 +633,13 @@ Future<void> main(List<String> args) async {
     );
     _writeJson(dataFile, merged);
     stdout.writeln('합쳤습니다 → ${dataFile.path}');
+    // 손으로 합친 파일은 매달 작업처럼 막아 주지 않는다 — 올리기 전에 읽는다.
+    for (final p in validateRemoteData(merged, now)) {
+      stdout.writeln('앱 검사에 걸림(앱이 그 묶음을 버림): $p');
+    }
+    for (final w in remoteDataWarnings(merged)) {
+      stdout.writeln('살펴볼 것: $w');
+    }
     return;
   }
 
@@ -746,6 +774,112 @@ List<(String, String, int)> staleChecks(
   return out;
 }
 
+/// 원격 지원금 글(amount·deadline·note)의 앱 한도는 400자(`RemoteData._isText`) —
+/// 넘으면 앱이 **지원금 묶음을 통째로** 버린다. 그 전에 알린다(2026-11-11 출시 전
+/// 검사 G8: S06 안내 글이 365자였다).
+const remoteTextWarnAt = 350;
+
+/// 막지는 않고 알리기만 할 것 — 앱 한도에 가까운 지원금 글.
+List<String> remoteDataWarnings(Map<String, Object?> data) {
+  final warnings = <String>[];
+  final support = data['support'];
+  final programs = support is Map ? support['programs'] : null;
+  if (programs is! Map) return warnings;
+  for (final e in programs.entries) {
+    final v = e.value;
+    if (v is! Map) continue;
+    for (final k in ['amount', 'deadline', 'note']) {
+      final t = v[k];
+      if (t is String && t.length > remoteTextWarnAt && t.length <= 400) {
+        warnings.add(
+          '${e.key} $k ${t.length}자 — 앱 한도 400자에 가깝습니다'
+          '(넘으면 지원금 묶음이 통째로 버려집니다)',
+        );
+      }
+    }
+  }
+  return warnings;
+}
+
+/// 베이비페어 주최 누리집 — 앱 `BabyFairList.organizerHosts`와 같아야 한다
+/// (`test/monthly_test.dart`가 대조). 새 주최는 앱을 고친 빌드가 퍼진 뒤에.
+const fairOrganizerHosts = {
+  'www.befe.co.kr',
+  'www.cobe.co.kr',
+  'www.momnbabyexpo.co.kr',
+};
+
+/// 값·권유로 읽히는 말 — 앱 `BabyFairList.pitchWords`와 같다.
+final fairPitchWords = RegExp(
+  r'싸|저렴|할인|특가|최저|득템|혜택|경품|꼭\s?가|놓치|추천|필수|무조건|대박|반값|공짜',
+);
+
+/// 베이비페어 일정(`fairs`) — 앱 `BabyFairList.read`(`lib/data/remote/baby_fair_list.dart`)와
+/// 같은 규칙. 앱은 깨진 행사 한 건만 버리지만 손으로 올리는 묶음이라 한 건이라도 걸리면
+/// 알린다(2026-11-11 G4 — 공개 저장소에 `fairs`를 올리기 전에 이 판을 복사).
+List<String> validateFairs(Object? section) {
+  if (section == null) return const [];
+  if (section is! Map) return ['fairs 모양'];
+  DateTime? day(Object? v) {
+    final m = v is String
+        ? RegExp(r'^(\d{4})-(\d{2})-(\d{2})$').firstMatch(v)
+        : null;
+    if (m == null) return null;
+    final y = int.parse(m.group(1)!);
+    final mo = int.parse(m.group(2)!);
+    final d = int.parse(m.group(3)!);
+    final date = DateTime(y, mo, d);
+    if (y < 2020 || y > 2100 || date.month != mo || date.day != d) return null;
+    return date;
+  }
+
+  bool text(Object? v) => v is String && v.trim().isNotEmpty && v.length <= 40;
+
+  final problems = <String>[];
+  if (day(section['checked']) == null) problems.add('fairs checked');
+  final items = section['items'];
+  if (items is! List) return [...problems, 'fairs items'];
+  if (items.length > 60) problems.add('fairs 60곳 초과');
+  final ids = <String>{};
+  for (final i in items) {
+    final id = i is Map ? i['id'] : null;
+    if (i is! Map ||
+        id is! String ||
+        !RegExp(r'^[a-z0-9-]{3,40}$').hasMatch(id)) {
+      problems.add('fair id');
+      continue;
+    }
+    String where(String what) => 'fair $id $what';
+    if (!ids.add(id)) problems.add(where('id 겹침'));
+    for (final k in ['name', 'host', 'city', 'venue']) {
+      if (!text(i[k])) problems.add(where(k));
+    }
+    if (i['entry'] != null && !text(i['entry'])) problems.add(where('entry'));
+    final start = day(i['start']);
+    final end = day(i['end']);
+    if (start == null || end == null) {
+      problems.add(where('날짜 모양'));
+    } else if (end.isBefore(start) || end.difference(start).inDays > 14) {
+      problems.add(where('날짜 차례·길이'));
+    }
+    final url = i['url'];
+    final uri = url is String ? Uri.tryParse(url) : null;
+    if (uri == null ||
+        uri.scheme != 'https' ||
+        !fairOrganizerHosts.contains(uri.host) ||
+        (url as String).length > 300) {
+      problems.add(where('주소(주최 누리집만)'));
+    }
+    for (final k in ['name', 'venue', 'entry']) {
+      final t = i[k];
+      if (t is String && fairPitchWords.hasMatch(t)) {
+        problems.add(where('$k 파는 말'));
+      }
+    }
+  }
+  return problems;
+}
+
 /// 앱(`RemoteData.parse`)과 같은 규칙으로 data.json을 본다. 문제가 없으면 빈 목록.
 ///
 /// 앱은 한 칸만 틀려도 그 묶음(지원금·쿠팡·시세·지역)을 통째로 버린다.
@@ -832,6 +966,7 @@ List<String> validateRemoteData(Map<String, Object?> data, DateTime now) {
     }
   }
   problems.addAll(validateRecalls(data['recalls']));
+  problems.addAll(validateFairs(data['fairs']));
   final local = data['local'];
   if (local != null) {
     final checked = local is Map ? local['checked'] : null;
