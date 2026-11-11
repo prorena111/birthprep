@@ -12,7 +12,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 SRC = ROOT / "build" / "district_links"
 OUT_JSON = ROOT / "tool" / "district_links" / "links.json"
 OUT_DART = ROOT / "lib" / "data" / "catalog" / "district_links.dart"
-NATIONAL_ID = {**{f"S{n:02d}": f"S{n:02d}" for n in range(1, 12)}, **{f"H{n}": f"HC{n}" for n in range(1, 7)}}
+# S08(출산가구 도시가스 경감)은 없는 제도라 앱에서 뺐다(2026-10-05 — 한국가스공사 대상에 출산가구가 없다).
+NATIONAL_ID = {**{f"S{n:02d}": f"S{n:02d}" for n in range(1, 12) if n != 8}, **{f"H{n}": f"HC{n}" for n in range(1, 7)}}
 
 def site_key(url):
     host = urlparse(url).hostname or ""
@@ -41,6 +42,15 @@ def load_existing():
     if OUT_JSON.exists():
         return json.loads(OUT_JSON.read_text(encoding="utf-8"))
     return {"checked": {}, "links": []}
+
+# 누리집이 고치지 않고 둔 옛 세법 줄(2026-11-01 쇼츠 조사에서 찾음 — 전주·제주). 글자 그대로 옮기는 표라
+# 줄을 고치지 않고 뺀다. 지금 세법과 다른 줄을 더 찾으면 여기에 낱말을 더한다.
+STALE_NOTES = ("6세 이하이면 100만원 추가공제", "만 7세 이상 자녀 15만원 추가공제", "2명을 초과하는 1명당 연 30만원")
+
+
+def stale_note(text):
+    return any(s in text for s in STALE_NOTES)
+
 
 def collect(files, old_rows):
     """판정 결과에서 앱에 넣을 줄을 고른다. 이번에 **제대로 돈 곳**(출발 쪽이 열리고 링크 후보가
@@ -73,13 +83,15 @@ def collect(files, old_rows):
                     if url and site_key(url) in SITES.get(place, set()):
                         found.setdefault(place, {}).setdefault(url, clean_label(l["text"]))
                         # 누리집이 태그를 글자로 내보낸 줄(「<p class=…>」)은 뺀다.
-                        kept = [n for n in l.get("notes") or [] if not re.search(r"<[a-zA-Z/]", n[1])]
+                        kept = [n for n in l.get("notes") or [] if not re.search(r"<[a-zA-Z/]", n[1]) and not stale_note(n[1])]
                         if kept:
                             notes.setdefault(url, kept)
                     continue
                 if l.get("cls") not in ("match", "national"):
                     continue
                 m = l["match"]
+                if m["level"] == "나라 제도" and m["key"] not in NATIONAL_ID:
+                    continue
                 ids = [NATIONAL_ID[m["key"]]] if m["level"] == "나라 제도" else m["ids"]
                 url = as_https(l["final"])
                 # 그 구·군 자기 누리집 안의 쪽만 — 「동래구 안내 보기」가 부산시 쪽을 열면 안 된다.
@@ -137,6 +149,7 @@ def merge_notes(old_notes, new_notes, links_rows, found, runs):
     place_of.update({u: p for p, items in found.items() for _, u in items})
     out = {u: v for u, v in old_notes.items() if place_of.get(u) not in runs}
     out.update(new_notes)
+    out = {u: [n for n in v if not stale_note(n[1])] for u, v in out.items()}
     return {u: v for u, v in sorted(out.items()) if u in place_of and v}
 
 def clean_label(t):
