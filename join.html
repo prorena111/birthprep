@@ -14,8 +14,9 @@
   플레이 스토어로 넘어간다.
   GitHub Pages: https://prorena111.github.io/birthprep/join.html?c=ABCD2345
   가족 초대는 회원만 된다(2026-09-25) — 「로그인 없이 함께」라고 쓰지 않는다(2026-11-03 고침).
-  Play는 설치 뒤 코드를 앱에 넘겨주지 않는다 — 처음 받은 사람은 이 화면으로 돌아와 한 번 더 눌러야 한다.
-  설치 링크에 출처 꼬리표(Play referrer → utm_source=web_invite).
+  설치 링크(Play referrer)에 출처 꼬리표 utm_source=web_invite와 초대 코드 invite=ABCD2345를 싣는다 —
+  앱이 첫 실행 때 한 번 읽어(InstallReferrer, 서버로 안 보냄) 홈에 「받은 초대 코드가 있어요」를 띄운다(+32부터, 안드로이드).
+  옛 앱·아이폰·카톡 안 브라우저에서 값이 안 넘어오면 이 화면으로 돌아와 한 번 더 누르는 길이 그대로 받친다.
   원본은 앱 저장소 docs/pages/join.html.
 -->
 <style>
@@ -38,18 +39,18 @@
 <main>
   <section>
     <p style="margin-top:0"><b>가족이 출산펭귄 「함께 쓰기」에 초대했어요.</b>
-    함께 쓰기는 회원만 돼요. <b>카카오·네이버·구글로 한 번 가입</b>하면 돼요(비밀번호는 만들지 않아요).</p>
+    함께 쓰기는 회원만 돼요. <b>소셜 계정(카카오·네이버·구글, 아이폰은 애플도)으로 한 번 가입</b>하면 돼요(비밀번호는 만들지 않아요).</p>
     <p>아래 버튼을 누르면 앱이 열리고 코드가 채워져 있어요. 가입한 뒤 「함께 쓰기 시작」을 누르면 연결돼요.</p>
     <a id="open" class="btn" href="#">출산펭귄 앱에서 열기</a>
-    <a id="store" class="btn sub" href="https://play.google.com/store/apps/details?id=kr.birthprep.allinone&amp;referrer=utm_source%3Dweb_invite%26utm_medium%3Dweb">앱이 없어요 — Google Play에서 받기</a>
-    <p class="soft">앱을 처음 받으셨다면 설치한 뒤 <b>이 화면으로 돌아와 「출산펭귄 앱에서 열기」를 한 번 더</b> 눌러 주세요. 그래야 코드가 채워져요.</p>
+    <a id="store" class="btn sub" href="app.html?utm_source=web_invite&amp;utm_medium=web">앱이 없어요 — 스토어에서 받기</a>
+    <p class="soft">안드로이드는 새 버전(1.10.1)부터 스토어에서 받으면 코드도 같이 넘어가요. 앱 첫 화면에 「받은 초대 코드가 있어요」가 안 보이면 <b>이 화면으로 돌아와 「출산펭귄 앱에서 열기」를 한 번 더</b> 눌러 주세요.</p>
   </section>
 
   <section id="manual">
     <p style="margin-top:0"><b>버튼이 안 되면</b> 이 코드를 넣어 주세요.</p>
     <div id="code" class="code">—</div>
     <ol class="soft">
-      <li>출산펭귄 앱 → 아래 <b>마이페이지</b> 탭 → <b>회원가입 · 로그인</b>(카카오·네이버·구글 중 하나로 가입)</li>
+      <li>출산펭귄 앱 → 아래 <b>마이페이지</b> 탭 → <b>회원가입 · 로그인</b>(소셜 계정 중 하나로 가입)</li>
       <li><b>가족에게 받은 코드 넣기</b></li>
       <li>위 여덟 글자를 넣고 <b>함께 쓰기 시작</b></li>
     </ol>
@@ -63,10 +64,13 @@
   // 코드는 서버가 헷갈리는 글자(0·O·1·I)를 빼고 뽑는다. 모양이 다르면 쓰지 않는다.
   var raw = (new URLSearchParams(location.search).get('c') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   var ok = /^[A-HJ-NP-Z2-9]{8}$/.test(raw);
-  var store = 'https://play.google.com/store/apps/details?id=kr.birthprep.allinone&referrer=utm_source%3Dweb_invite%26utm_medium%3Dweb';
+  // 코드 모양을 통과한 것만 설치 링크에 싣는다 — 앱이 첫 실행 때 읽는다.
+  var store = 'https://play.google.com/store/apps/details?id=kr.birthprep.allinone&referrer=' +
+    encodeURIComponent('utm_source=web_invite&utm_medium=web' + (ok ? '&invite=' + raw : ''));
   var open = document.getElementById('open');
   if (ok) {
     document.getElementById('code').textContent = raw.slice(0, 4) + '-' + raw.slice(4);
+    document.getElementById('store').href = 'app.html?utm_source=web_invite&utm_medium=web&invite=' + raw;
     var deep = 'kr.birthprep.allinone://join?c=' + raw;
     var android = /android/i.test(navigator.userAgent);
     // 안드로이드는 intent:// — 앱이 없으면 브라우저가 플레이 스토어로 보낸다.
@@ -75,7 +79,7 @@
       : deep;
   } else {
     document.getElementById('code').textContent = '코드 없음';
-    open.href = store;
+    open.href = 'app.html?utm_source=web_invite&utm_medium=web';
     open.textContent = '출산펭귄 받기';
   }
 </script>

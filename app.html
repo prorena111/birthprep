@@ -9,7 +9,7 @@
 <!--
   앱의 공유 글·카카오톡 단추에 붙는 설치 링크(share_card.dart kInstallUrl).
   받는 사람의 폰을 보고 맞는 스토어로 보낸다. 앱은 스토어 주소를 직접 갖지 않는다 —
-  주소가 바뀌어도 이 파일만 고친다. 꼬리표(utm_source·utm_medium)는 Play 주소의 referrer로 옮긴다.
+  주소가 바뀌어도 이 파일만 고친다. 꼬리표(utm_source·utm_medium)와 초대 코드(invite)는 Play 주소의 referrer로 옮긴다.
   APP_STORE: App Store Connect에 앱을 만든 뒤 https://apps.apple.com/kr/app/id숫자 를 넣는다.
   **앱 +32를 내기 전에 공개 저장소에 올린다** — 없으면 공유 링크가 404가 된다.
   GitHub Pages: https://prorena111.github.io/birthprep/app.html
@@ -40,7 +40,13 @@
   var clean = function (v) { return /^[a-z_]{1,20}$/.test(v || '') ? v : ''; };
   var source = clean(q.get('utm_source')), medium = clean(q.get('utm_medium'));
   var play = 'https://play.google.com/store/apps/details?id=kr.birthprep.allinone';
-  if (source) play += '&referrer=' + encodeURIComponent('utm_source=' + source + '&utm_medium=' + (medium || 'web'));
+  // 초대 코드 — 코드 모양을 통과한 것만 옮긴다(앱이 첫 실행 때 읽는다, InstallReferrer).
+  var inviteRaw = (q.get('invite') || '').toUpperCase();
+  var invite = /^[A-HJ-NP-Z2-9]{8}$/.test(inviteRaw) ? inviteRaw : '';
+  var referrer = [];
+  if (source) referrer.push('utm_source=' + source, 'utm_medium=' + (medium || 'web'));
+  if (invite) referrer.push('invite=' + invite);
+  if (referrer.length) play += '&referrer=' + encodeURIComponent(referrer.join('&'));
   document.getElementById('play').href = play;
 
   var ua = navigator.userAgent;

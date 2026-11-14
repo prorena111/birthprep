@@ -57,7 +57,7 @@
   <p class="how" id="how">하나씩 눌러 쿠팡에서 「장바구니 담기」를 누르고, 뒤로 돌아오면 다음 것이 보여요.</p>
   <ul id="list"><li class="empty">불러오는 중…</li></ul>
 
-  <a class="app" id="app" href="https://play.google.com/store/apps/details?id=kr.birthprep.allinone&amp;referrer=utm_source%3Dweb_list%26utm_medium%3Dweb">출산펭귄 받기 — 시기별로 뭘 사고 뭘 안 사도 되는지</a>
+  <a class="app" id="app" href="app.html?utm_source=web_list&amp;utm_medium=web">출산펭귄 받기 — 시기별로 뭘 사고 뭘 안 사도 되는지</a>
   <p class="soft">값과 상품은 쿠팡에서 확인해 주세요. 출산펭귄이 고른 상품이 아니라 쿠팡의 검색 결과(많이 팔린 순·랭킹순)로 열려요.
   <a href="privacy.html">개인정보처리방침</a> · <a href="./">출산펭귄 홈</a></p>
 </main>
@@ -72,8 +72,7 @@
     document.getElementById('how').textContent =
       '마음에 드는 것 하나를 골라 쿠팡에서 보세요. 고르시면 보낸 사람에게 알려 주세요. 다른 분과 겹치지 않게요.';
     // 설치가 어디서 왔는지(Play 콘솔 「획득 보고서」의 utm_source).
-    document.getElementById('app').href =
-      'https://play.google.com/store/apps/details?id=kr.birthprep.allinone&referrer=utm_source%3Dweb_gift%26utm_medium%3Dweb';
+    document.getElementById('app').href = 'app.html?utm_source=web_gift&utm_medium=web';
   }
   var seen = {};
   var ids = [];
